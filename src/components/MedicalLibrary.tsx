@@ -45,7 +45,7 @@ const categories = [
 
 export const MedicalLibrary = () => {
   return (
-    <div className="p-4 bg-medical-bg min-h-screen">
+    <div className="p-4 bg-gradient-medical min-h-screen animate-fade-in">
       <div className="mb-6">
         <h1 className="text-2xl font-bold mb-2">Medical Library</h1>
         <p className="text-muted-foreground">
@@ -57,21 +57,21 @@ export const MedicalLibrary = () => {
         <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
         <Input 
           placeholder="Search medical articles..."
-          className="pl-10 bg-white border-border"
+          className="pl-10 bg-gradient-card shadow-soft border-border/50 hover-glow"
         />
       </div>
 
       <Tabs defaultValue="trending" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-3 bg-white">
-          <TabsTrigger value="trending" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+        <TabsList className="grid w-full grid-cols-3 bg-gradient-card shadow-soft">
+          <TabsTrigger value="trending" className="data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground hover-glow">
             <TrendingUp className="w-4 h-4 mr-2" />
             Trending Articles
           </TabsTrigger>
-          <TabsTrigger value="favorites" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+          <TabsTrigger value="favorites" className="data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground hover-glow">
             <Star className="w-4 h-4 mr-2" />
             Favorites
           </TabsTrigger>
-          <TabsTrigger value="recent" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+          <TabsTrigger value="recent" className="data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground hover-glow">
             <Clock className="w-4 h-4 mr-2" />
             Burns
           </TabsTrigger>
@@ -80,17 +80,17 @@ export const MedicalLibrary = () => {
         <TabsContent value="trending" className="space-y-4">
           <div className="flex flex-wrap gap-2 mb-4">
             {categories.map((category) => (
-              <Badge key={category.name} variant="secondary" className="cursor-pointer hover:bg-primary hover:text-primary-foreground">
+              <Badge key={category.name} variant="secondary" className="medical-badge cursor-pointer hover:bg-gradient-primary hover:text-primary-foreground hover-glow">
                 {category.name} ({category.count})
               </Badge>
             ))}
           </div>
 
-          {trendingArticles.map((article) => (
-            <Card key={article.id} className="border-0 shadow-sm cursor-pointer hover:shadow-md transition-shadow">
+          {trendingArticles.map((article, index) => (
+            <Card key={article.id} className="medical-card cursor-pointer animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
               <CardContent className="p-4">
                 <div className="flex justify-between items-start mb-2">
-                  <Badge variant="outline" className="text-xs">
+                  <Badge variant="outline" className="text-xs medical-badge">
                     {article.category}
                   </Badge>
                   <div className="flex items-center space-x-1 text-xs text-muted-foreground">
@@ -117,14 +117,14 @@ export const MedicalLibrary = () => {
         </TabsContent>
 
         <TabsContent value="favorites">
-          <div className="text-center py-8">
+          <div className="text-center py-8 animate-fade-in">
             <Star className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
             <p className="text-muted-foreground">No favorite articles yet</p>
           </div>
         </TabsContent>
 
         <TabsContent value="recent">
-          <div className="text-center py-8">
+          <div className="text-center py-8 animate-fade-in">
             <Clock className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
             <p className="text-muted-foreground">No recent articles</p>
           </div>

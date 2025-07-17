@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 220 15% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -17,28 +17,35 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Medical app primary - professional blue */
-    --primary: 220 91% 50%;
+    /* Enhanced medical primary - vibrant blue gradient */
+    --primary: 220 91% 55%;
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 210 100% 70%;
     --primary-muted: 220 50% 85%;
+    --primary-dark: 220 91% 45%;
 
-    /* Medical secondary - soft blue */
-    --secondary: 210 25% 95%;
+    /* Enhanced secondary - gradient blue */
+    --secondary: 210 40% 94%;
     --secondary-foreground: 220 91% 50%;
+    --secondary-glow: 200 80% 90%;
 
     --muted: 210 20% 96%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 200 100% 96%;
+    --accent: 180 100% 94%;
     --accent-foreground: 220 91% 50%;
+    --accent-glow: 180 80% 85%;
 
-    /* Medical alert colors */
+    /* Enhanced medical alert colors */
     --medical-urgent: 0 84% 60%;
     --medical-urgent-foreground: 0 0% 100%;
+    --medical-urgent-glow: 0 100% 85%;
     --medical-warning: 43 96% 56%;
     --medical-warning-foreground: 0 0% 100%;
+    --medical-warning-glow: 43 100% 85%;
     --medical-success: 142 71% 45%;
     --medical-success-foreground: 0 0% 100%;
+    --medical-success-glow: 142 80% 75%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -47,11 +54,26 @@ All colors MUST be HSL.
     --input: 214.3 31.8% 91.4%;
     --ring: 220 91% 50%;
 
-    /* Medical app specific colors */
+    /* Enhanced medical app specific colors */
     --chat-bubble: 220 91% 50%;
     --chat-bubble-foreground: 0 0% 100%;
+    --chat-bubble-glow: 220 100% 80%;
     --news-badge: 0 84% 60%;
-    --medical-bg: 210 25% 98%;
+    --medical-bg: 220 25% 97%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(220 91% 55%), hsl(210 100% 70%));
+    --gradient-secondary: linear-gradient(135deg, hsl(210 40% 94%), hsl(200 80% 90%));
+    --gradient-accent: linear-gradient(135deg, hsl(180 100% 94%), hsl(180 80% 85%));
+    --gradient-medical: linear-gradient(135deg, hsl(220 25% 97%), hsl(210 40% 95%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(220 15% 98%));
+    
+    /* Shadows */
+    --shadow-soft: 0 2px 8px hsl(220 91% 55% / 0.08);
+    --shadow-medium: 0 4px 16px hsl(220 91% 55% / 0.12);
+    --shadow-strong: 0 8px 32px hsl(220 91% 55% / 0.16);
+    --shadow-glow: 0 0 20px hsl(220 100% 70% / 0.2);
+    --shadow-colored: 0 4px 20px hsl(220 91% 55% / 0.15);
 
     --radius: 0.5rem;
 
@@ -118,5 +140,112 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Gradient utilities */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .bg-gradient-secondary {
+    background: var(--gradient-secondary);
+  }
+  
+  .bg-gradient-accent {
+    background: var(--gradient-accent);
+  }
+  
+  .bg-gradient-medical {
+    background: var(--gradient-medical);
+  }
+  
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+
+  /* Shadow utilities */
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .shadow-medium {
+    box-shadow: var(--shadow-medium);
+  }
+  
+  .shadow-strong {
+    box-shadow: var(--shadow-strong);
+  }
+  
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .shadow-colored {
+    box-shadow: var(--shadow-colored);
+  }
+
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-medium;
+  }
+  
+  .hover-glow {
+    @apply transition-all duration-300 hover:shadow-glow;
+  }
+
+  /* Interactive card */
+  .medical-card {
+    @apply bg-gradient-card shadow-soft hover-lift rounded-lg border border-border/50;
+  }
+  
+  .medical-badge {
+    @apply px-3 py-1 rounded-full text-xs font-medium shadow-soft;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }

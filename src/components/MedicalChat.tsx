@@ -86,11 +86,11 @@ export const MedicalChat = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-medical-bg">
+    <div className="flex flex-col h-screen bg-gradient-medical animate-fade-in">
       {/* Header */}
-      <div className="flex items-center p-4 bg-white border-b">
-        <Avatar className="w-10 h-10 mr-3">
-          <AvatarFallback className="bg-primary text-primary-foreground">A</AvatarFallback>
+      <div className="flex items-center p-4 bg-gradient-card shadow-soft border-b">
+        <Avatar className="w-10 h-10 mr-3 shadow-medium">
+          <AvatarFallback className="bg-gradient-primary text-primary-foreground">A</AvatarFallback>
         </Avatar>
         <div>
           <h2 className="font-semibold">Amal</h2>
@@ -100,16 +100,17 @@ export const MedicalChat = () => {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
+        {messages.map((message, index) => (
           <div
             key={message.id}
-            className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
+            className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"} animate-slide-up`}
+            style={{ animationDelay: `${index * 0.05}s` }}
           >
             <div
-              className={`max-w-[75%] p-3 rounded-2xl ${
+              className={`max-w-[75%] p-3 rounded-2xl shadow-soft ${
                 message.sender === "user"
-                  ? "bg-chat-bubble text-chat-bubble-foreground ml-4"
-                  : "bg-white text-foreground mr-4 border"
+                  ? "bg-gradient-primary text-chat-bubble-foreground ml-4 shadow-colored"
+                  : "bg-gradient-card text-foreground mr-4 border hover-glow"
               }`}
             >
               <p className="text-sm whitespace-pre-wrap">{message.text}</p>
@@ -123,43 +124,49 @@ export const MedicalChat = () => {
             Frequently asked questions:
           </div>
           <div className="space-y-2">
-            <Card className="p-3 cursor-pointer hover:bg-muted/50 transition-colors">
-              <p className="text-sm">Are hospitals still operating?</p>
+            <Card className="medical-card cursor-pointer animate-scale-in">
+              <div className="p-3">
+                <p className="text-sm">Are hospitals still operating?</p>
+              </div>
             </Card>
-            <Card className="p-3 cursor-pointer hover:bg-muted/50 transition-colors">
-              <p className="text-sm">How can I treat a wound?</p>
+            <Card className="medical-card cursor-pointer animate-scale-in" style={{ animationDelay: '0.1s' }}>
+              <div className="p-3">
+                <p className="text-sm">How can I treat a wound?</p>
+              </div>
             </Card>
-            <Card className="p-3 cursor-pointer hover:bg-muted/50 transition-colors">
-              <p className="text-sm">What if I can't get medication?</p>
+            <Card className="medical-card cursor-pointer animate-scale-in" style={{ animationDelay: '0.2s' }}>
+              <div className="p-3">
+                <p className="text-sm">What if I can't get medication?</p>
+              </div>
             </Card>
           </div>
         </div>
       </div>
 
       {/* Input */}
-      <div className="p-4 bg-white border-t">
+      <div className="p-4 bg-gradient-card shadow-strong border-t">
         <div className="flex items-center space-x-2">
           <div className="flex-1 relative">
             <Input
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               placeholder="Message..."
-              className="pr-12 bg-muted/30 border-0"
+              className="pr-12 bg-white/50 border-0 shadow-soft hover-glow"
               onKeyPress={(e) => e.key === "Enter" && sendMessage()}
             />
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center space-x-1">
-              <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+              <Button size="sm" variant="ghost" className="h-8 w-8 p-0 hover-glow">
                 <Paperclip className="w-4 h-4" />
               </Button>
             </div>
           </div>
-          <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+          <Button size="sm" variant="ghost" className="h-8 w-8 p-0 hover-glow">
             <Mic className="w-4 h-4" />
           </Button>
-          <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+          <Button size="sm" variant="ghost" className="h-8 w-8 p-0 hover-glow">
             <Camera className="w-4 h-4" />
           </Button>
-          <Button onClick={sendMessage} size="sm" className="h-8 w-8 p-0">
+          <Button onClick={sendMessage} size="sm" className="h-8 w-8 p-0 bg-gradient-primary shadow-colored hover-glow">
             <Send className="w-4 h-4" />
           </Button>
         </div>

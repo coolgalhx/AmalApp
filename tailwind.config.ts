@@ -27,11 +27,14 @@ export default {
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
-					muted: 'hsl(var(--primary-muted))'
+					muted: 'hsl(var(--primary-muted))',
+					glow: 'hsl(var(--primary-glow))',
+					dark: 'hsl(var(--primary-dark))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					foreground: 'hsl(var(--secondary-foreground))',
+					glow: 'hsl(var(--secondary-glow))'
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
@@ -43,7 +46,8 @@ export default {
 				},
 				accent: {
 					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					foreground: 'hsl(var(--accent-foreground))',
+					glow: 'hsl(var(--accent-glow))'
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
@@ -56,15 +60,19 @@ export default {
 				medical: {
 					urgent: 'hsl(var(--medical-urgent))',
 					'urgent-foreground': 'hsl(var(--medical-urgent-foreground))',
+					'urgent-glow': 'hsl(var(--medical-urgent-glow))',
 					warning: 'hsl(var(--medical-warning))',
 					'warning-foreground': 'hsl(var(--medical-warning-foreground))',
+					'warning-glow': 'hsl(var(--medical-warning-glow))',
 					success: 'hsl(var(--medical-success))',
 					'success-foreground': 'hsl(var(--medical-success-foreground))',
+					'success-glow': 'hsl(var(--medical-success-glow))',
 					bg: 'hsl(var(--medical-bg))'
 				},
 				chat: {
 					bubble: 'hsl(var(--chat-bubble))',
-					'bubble-foreground': 'hsl(var(--chat-bubble-foreground))'
+					'bubble-foreground': 'hsl(var(--chat-bubble-foreground))',
+					'bubble-glow': 'hsl(var(--chat-bubble-glow))'
 				},
 				news: {
 					badge: 'hsl(var(--news-badge))'

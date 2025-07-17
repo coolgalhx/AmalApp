@@ -38,17 +38,17 @@ const mockNews: NewsItem[] = [
 
 export const LiveAlertsFeed = () => {
   return (
-    <div className="space-y-4 p-4 bg-medical-bg min-h-screen">
+    <div className="space-y-4 p-4 bg-gradient-medical min-h-screen animate-fade-in">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-foreground">Live Alerts Feed</h1>
       </div>
       
-      {mockNews.map((item) => (
-        <Card key={item.id} className="border-0 shadow-sm">
+      {mockNews.map((item, index) => (
+        <Card key={item.id} className="medical-card animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
           <CardContent className="p-4">
             <div className="flex items-start space-x-3">
-              <Avatar className="w-8 h-8">
-                <AvatarFallback className="text-xs bg-primary text-primary-foreground">
+              <Avatar className="w-8 h-8 shadow-soft">
+                <AvatarFallback className="text-xs bg-gradient-primary text-primary-foreground">
                   {item.source.split(' ').map(word => word[0]).join('').slice(0, 2)}
                 </AvatarFallback>
               </Avatar>
@@ -59,13 +59,13 @@ export const LiveAlertsFeed = () => {
                     <span className="font-medium text-sm">{item.source}</span>
                     <span className="text-muted-foreground text-xs">{item.time}</span>
                   </div>
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" className="hover-glow">
                     <MoreHorizontal className="w-4 h-4" />
                   </Button>
                 </div>
                 
                 {item.isBreaking && (
-                  <Badge className="bg-news-badge text-white text-xs font-bold">
+                  <Badge className="bg-gradient-primary medical-badge text-white shadow-colored animate-scale-in">
                     LIVE BREAKING NEWS
                   </Badge>
                 )}
@@ -79,23 +79,23 @@ export const LiveAlertsFeed = () => {
                     <img 
                       src={item.image} 
                       alt="News" 
-                      className="w-full rounded-lg max-h-48 object-cover"
+                      className="w-full rounded-lg max-h-48 object-cover shadow-medium hover-lift"
                     />
                   </div>
                 )}
                 
                 <div className="flex items-center space-x-4 pt-2">
-                  <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-muted-foreground">
+                  <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-muted-foreground hover-glow">
                     <Heart className="w-4 h-4" />
                     <span className="text-xs">{item.likes} likes</span>
                   </Button>
                   
-                  <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-muted-foreground">
+                  <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-muted-foreground hover-glow">
                     <MessageCircle className="w-4 h-4" />
                     <span className="text-xs">{item.comments} comments</span>
                   </Button>
                   
-                  <Button variant="ghost" size="sm" className="text-muted-foreground">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground hover-glow">
                     <Share className="w-4 h-4" />
                   </Button>
                 </div>
