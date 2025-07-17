@@ -1,135 +1,107 @@
-import { Search, TrendingUp, Star, Clock } from "lucide-react";
+import { Search, Eye, MessageCircle, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Article {
   id: string;
   title: string;
-  excerpt: string;
   category: string;
-  readTime: string;
-  rating: number;
   views: string;
+  comments: string;
+  author: string;
+  date: string;
+  readTime: string;
 }
 
-const trendingArticles: Article[] = [
+const searchResults: Article[] = [
   {
     id: "1",
     title: "How to Treat Wounds and Further Steps due to Severity",
-    excerpt: "Complete guide on wound care and treatment protocols",
     category: "Wounds",
-    readTime: "5 min read",
-    rating: 4.8,
-    views: "2.1k"
+    views: "16.1k",
+    comments: "193",
+    author: "Dr. Kevin Gilbert",
+    date: "Aug 1, 2021",
+    readTime: "3 mins read"
   },
   {
-    id: "2", 
-    title: "Emergency Response Protocols for Severe Injuries",
-    excerpt: "Step-by-step emergency care procedures",
-    category: "Emergency",
-    readTime: "8 min read", 
-    rating: 4.9,
-    views: "3.2k"
+    id: "2",
+    title: "How to Treat Wound and Further Steps due to Severity",
+    category: "Wounds",
+    views: "27.3k",
+    comments: "817",
+    author: "Dr. Kevin Gilbert",
+    date: "Aug 1, 2021",
+    readTime: "3 mins read"
+  },
+  {
+    id: "3",
+    title: "How to Treat Wounds and Further Steps due to Severity",
+    category: "Wounds",
+    views: "26.3k",
+    comments: "867",
+    author: "Dr. Kevin Gilbert",
+    date: "Aug 1, 2021",
+    readTime: "3 mins read"
   }
-];
-
-const categories = [
-  { name: "All", count: 245 },
-  { name: "Wounds", count: 67 },
-  { name: "Burns", count: 34 },
-  { name: "Infections", count: 89 }
 ];
 
 export const MedicalLibrary = () => {
   return (
-    <div className="p-4 bg-gradient-medical min-h-screen animate-fade-in">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-2">Medical Library</h1>
-        <p className="text-muted-foreground">
-          Browse a dedicated library of articles written by doctors for your medical symptoms. Enter keywords to get started.
-        </p>
+    <div className="p-4 bg-background min-h-screen">
+      {/* Header */}
+      <div className="mb-4">
+        <h1 className="text-lg font-semibold">Results for: Treat Wounds</h1>
       </div>
 
+      {/* Search Bar */}
       <div className="relative mb-6">
         <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
         <Input 
-          placeholder="Search medical articles..."
-          className="pl-10 bg-gradient-card shadow-soft border-border/50 hover-glow"
+          value="Treat Wounds"
+          className="pl-10 bg-muted/50 border-border rounded-lg"
         />
       </div>
 
-      <Tabs defaultValue="trending" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-3 bg-gradient-card shadow-soft">
-          <TabsTrigger value="trending" className="data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground hover-glow">
-            <TrendingUp className="w-4 h-4 mr-2" />
-            Trending Articles
-          </TabsTrigger>
-          <TabsTrigger value="favorites" className="data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground hover-glow">
-            <Star className="w-4 h-4 mr-2" />
-            Favorites
-          </TabsTrigger>
-          <TabsTrigger value="recent" className="data-[state=active]:bg-gradient-primary data-[state=active]:text-primary-foreground hover-glow">
-            <Clock className="w-4 h-4 mr-2" />
-            Burns
-          </TabsTrigger>
-        </TabsList>
+      {/* Top Results Header */}
+      <div className="mb-4">
+        <h2 className="text-sm font-medium text-muted-foreground">Top Results</h2>
+      </div>
 
-        <TabsContent value="trending" className="space-y-4">
-          <div className="flex flex-wrap gap-2 mb-4">
-            {categories.map((category) => (
-              <Badge key={category.name} variant="secondary" className="medical-badge cursor-pointer hover:bg-gradient-primary hover:text-primary-foreground hover-glow">
-                {category.name} ({category.count})
+      {/* Results List */}
+      <div className="space-y-4">
+        {searchResults.map((article) => (
+          <div key={article.id} className="bg-card rounded-lg border border-border/50 p-4 hover:bg-muted/30 transition-colors cursor-pointer">
+            <h3 className="font-medium text-base mb-3 leading-tight">
+              {article.title}
+            </h3>
+            
+            <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
+              <div className="flex items-center gap-1">
+                <Eye className="w-3 h-3" />
+                <span>{article.views}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <MessageCircle className="w-3 h-3" />
+                <span>{article.comments} Comments</span>
+              </div>
+              <Badge variant="secondary" className="text-xs px-2 py-0.5">
+                {article.category}
               </Badge>
-            ))}
+            </div>
+            
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <User className="w-3 h-3" />
+              <span>{article.author}</span>
+              <span>•</span>
+              <span>{article.date}</span>
+              <span>•</span>
+              <span>{article.readTime}</span>
+            </div>
           </div>
-
-          {trendingArticles.map((article, index) => (
-            <Card key={article.id} className="medical-card cursor-pointer animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-              <CardContent className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <Badge variant="outline" className="text-xs medical-badge">
-                    {article.category}
-                  </Badge>
-                  <div className="flex items-center space-x-1 text-xs text-muted-foreground">
-                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                    <span>{article.rating}</span>
-                  </div>
-                </div>
-                
-                <h3 className="font-semibold text-base mb-2 line-clamp-2">
-                  {article.title}
-                </h3>
-                
-                <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-                  {article.excerpt}
-                </p>
-                
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <span>{article.readTime}</span>
-                  <span>{article.views} views</span>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </TabsContent>
-
-        <TabsContent value="favorites">
-          <div className="text-center py-8 animate-fade-in">
-            <Star className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-            <p className="text-muted-foreground">No favorite articles yet</p>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="recent">
-          <div className="text-center py-8 animate-fade-in">
-            <Clock className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-            <p className="text-muted-foreground">No recent articles</p>
-          </div>
-        </TabsContent>
-      </Tabs>
+        ))}
+      </div>
     </div>
   );
 };
