@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { LiveAlertsFeed } from "@/components/LiveAlertsFeed";
 import { MedicalLibrary } from "@/components/MedicalLibrary";
-import { MedicalChat } from "@/components/MedicalChat";
+import { TriageApp } from "@/components/TriageApp";
 import { SignIn } from "@/components/SignIn";
 import { MedicalArticle } from "@/components/MedicalArticle";
 import { MedicalSearch } from "@/components/MedicalSearch";
@@ -47,7 +47,7 @@ const Index = () => {
       case "library":
         return <MedicalLibrary />;
       case "chat":
-        return <MedicalChat />;
+        return <TriageApp />;
       default:
         return <LiveAlertsFeed />;
     }

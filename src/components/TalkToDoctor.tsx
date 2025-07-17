@@ -1,0 +1,248 @@
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Phone, Video, MessageSquare, Clock, MapPin, AlertTriangle, ArrowLeft } from 'lucide-react';
+import { PrimaryCause, Severity } from './TriageApp';
+
+interface TalkToDoctorProps {
+  primaryCause: PrimaryCause;
+  severity: Severity;
+  onBack: () => void;
+}
+
+export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorProps) {
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
+  const getSeverityColor = (severity: Severity) => {
+    switch (severity) {
+      case 'low': return 'bg-secondary';
+      case 'medium': return 'bg-warning';
+      case 'high': return 'bg-destructive';
+      case 'emergency': return 'bg-destructive animate-pulse';
+      default: return 'bg-muted';
+    }
+  };
+
+  const getWaitTime = () => {
+    switch (severity) {
+      case 'emergency': return 'Immediate';
+      case 'high': return '5-15 min';
+      case 'medium': return '15-30 min';
+      case 'low': return '30-60 min';
+      default: return '30-60 min';
+    }
+  };
+
+  const consultationOptions = [
+    {
+      id: 'emergency',
+      title: 'Emergency Services',
+      description: 'Call 911 for immediate emergency care',
+      icon: Phone,
+      waitTime: 'Immediate',
+      cost: 'Emergency rate',
+      availability: 'Always available',
+      recommended: severity === 'emergency'
+    },
+    {
+      id: 'urgent-care',
+      title: 'Urgent Care Center',
+      description: 'Visit nearest urgent care facility',
+      icon: MapPin,
+      waitTime: '30-90 min',
+      cost: 'Standard urgent care',
+      availability: 'Most locations 8am-10pm',
+      recommended: severity === 'high'
+    },
+    {
+      id: 'telemedicine',
+      title: 'Telemedicine Consultation',
+      description: 'Video call with licensed physician',
+      icon: Video,
+      waitTime: getWaitTime(),
+      cost: '$49-89',
+      availability: 'Available now',
+      recommended: severity === 'medium' || severity === 'low'
+    },
+    {
+      id: 'chat',
+      title: 'Medical Chat Support',
+      description: 'Text-based consultation with medical professional',
+      icon: MessageSquare,
+      waitTime: '5-10 min',
+      cost: '$25-45',
+      availability: 'Available now',
+      recommended: severity === 'low'
+    }
+  ];
+
+  const handleOptionSelect = (optionId: string) => {
+    setSelectedOption(optionId);
+    
+    // Simulate action based on selection
+    switch (optionId) {
+      case 'emergency':
+        // In real app, this would initiate emergency call
+        alert('In a real emergency, this would connect you to 911 services.');
+        break;
+      case 'urgent-care':
+        // In real app, this would show nearby locations
+        alert('In a real app, this would show nearby urgent care locations.');
+        break;
+      case 'telemedicine':
+        // In real app, this would start video consultation flow
+        alert('In a real app, this would connect you to a telemedicine platform.');
+        break;
+      case 'chat':
+        // In real app, this would start chat consultation
+        alert('In a real app, this would start a medical chat consultation.');
+        break;
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="text-center">
+        <Badge className={`${getSeverityColor(severity)} text-background mb-4`}>
+          {severity.toUpperCase()} PRIORITY
+        </Badge>
+        <h2 className="text-2xl font-bold mb-2">Consult a Medical Professional</h2>
+        <p className="text-muted-foreground">
+          Based on your {primaryCause} assessment, here are your consultation options
+        </p>
+      </div>
+
+      {severity === 'emergency' && (
+        <Card className="border-destructive">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-4 mb-4">
+              <AlertTriangle className="h-8 w-8 text-destructive" />
+              <div>
+                <h3 className="font-bold text-lg text-destructive">Emergency Situation Detected</h3>
+                <p className="text-sm text-muted-foreground">
+                  Your symptoms indicate a potential emergency requiring immediate medical attention.
+                </p>
+              </div>
+            </div>
+            <Button 
+              onClick={() => handleOptionSelect('emergency')}
+              className="w-full bg-destructive hover:bg-destructive/90"
+              size="lg"
+            >
+              <Phone className="h-5 w-5 mr-2" />
+              Call Emergency Services (911)
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="space-y-4">
+        {consultationOptions
+          .filter(option => severity !== 'emergency' || option.id === 'emergency')
+          .map((option) => {
+            const Icon = option.icon;
+            return (
+              <Card 
+                key={option.id}
+                className={`cursor-pointer transition-all ${
+                  option.recommended ? 'border-primary bg-primary/5' : ''
+                } ${selectedOption === option.id ? 'ring-2 ring-primary' : ''}`}
+                onClick={() => handleOptionSelect(option.id)}
+              >
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Icon className="h-6 w-6 text-primary" />
+                      <span>{option.title}</span>
+                    </div>
+                    {option.recommended && (
+                      <Badge variant="default" className="text-xs">
+                        Recommended
+                      </Badge>
+                    )}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <p className="text-muted-foreground mb-4">{option.description}</p>
+                  
+                  <div className="grid grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <div className="flex items-center gap-1 mb-1">
+                        <Clock className="h-3 w-3" />
+                        <span className="font-medium">Wait Time</span>
+                      </div>
+                      <p className="text-muted-foreground">{option.waitTime}</p>
+                    </div>
+                    
+                    <div>
+                      <div className="font-medium mb-1">Cost</div>
+                      <p className="text-muted-foreground">{option.cost}</p>
+                    </div>
+                    
+                    <div>
+                      <div className="font-medium mb-1">Availability</div>
+                      <p className="text-muted-foreground">{option.availability}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>What to Prepare</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex items-start gap-3">
+            <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+            <div>
+              <p className="font-medium">Medical History</p>
+              <p className="text-sm text-muted-foreground">
+                Current medications, allergies, and relevant medical conditions
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+            <div>
+              <p className="font-medium">Symptom Details</p>
+              <p className="text-sm text-muted-foreground">
+                When symptoms started, what triggers them, and severity level
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex items-start gap-3">
+            <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
+            <div>
+              <p className="font-medium">Insurance Information</p>
+              <p className="text-sm text-muted-foreground">
+                Insurance card and identification ready
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="bg-muted p-4 rounded-lg">
+        <div className="flex items-center gap-2 mb-2">
+          <AlertTriangle className="h-4 w-4 text-warning" />
+          <span className="font-medium text-sm">Disclaimer</span>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          This assessment is for informational purposes only and does not replace professional medical advice. 
+          Always consult with healthcare professionals for proper diagnosis and treatment.
+        </p>
+      </div>
+
+      <Button variant="outline" onClick={onBack} className="w-full">
+        <ArrowLeft className="h-4 w-4 mr-2" />
+        Back to Recommendations
+      </Button>
+    </div>
+  );
+}
