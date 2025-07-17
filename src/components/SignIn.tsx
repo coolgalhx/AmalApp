@@ -11,10 +11,12 @@ export const SignIn = () => {
     <div className="min-h-screen bg-medical-bg flex items-center justify-center p-4">
       <Card className="w-full max-w-md border-0 shadow-lg">
         <CardHeader className="text-center pb-6">
-          <Avatar className="w-20 h-20 mx-auto mb-4 bg-primary">
-            <AvatarFallback className="text-2xl text-primary-foreground">A</AvatarFallback>
-          </Avatar>
-          <CardTitle className="text-2xl font-bold">Amal</CardTitle>
+          <img 
+            src="/lovable-uploads/956ef608-57d9-4264-a562-d9fd9f259607.png" 
+            alt="Hope Logo" 
+            className="w-20 h-20 mx-auto mb-4"
+          />
+          <CardTitle className="text-2xl font-bold">Hope</CardTitle>
           <p className="text-muted-foreground">Create an account</p>
           <p className="text-sm text-muted-foreground mt-2">
             Enter your email to sign up for this app as a Patient.
