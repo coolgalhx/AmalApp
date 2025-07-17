@@ -26,7 +26,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					muted: 'hsl(var(--primary-muted))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -51,6 +52,22 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
+				},
+				medical: {
+					urgent: 'hsl(var(--medical-urgent))',
+					'urgent-foreground': 'hsl(var(--medical-urgent-foreground))',
+					warning: 'hsl(var(--medical-warning))',
+					'warning-foreground': 'hsl(var(--medical-warning-foreground))',
+					success: 'hsl(var(--medical-success))',
+					'success-foreground': 'hsl(var(--medical-success-foreground))',
+					bg: 'hsl(var(--medical-bg))'
+				},
+				chat: {
+					bubble: 'hsl(var(--chat-bubble))',
+					'bubble-foreground': 'hsl(var(--chat-bubble-foreground))'
+				},
+				news: {
+					badge: 'hsl(var(--news-badge))'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
