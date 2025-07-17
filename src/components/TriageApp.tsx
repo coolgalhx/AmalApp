@@ -155,8 +155,13 @@ export function TriageApp() {
       case 'chat-intro':
         return (
           <div className="space-y-6">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold mb-2">Welcome to AI Triage</h2>
+             <div className="text-center">
+              <img 
+                src="/lovable-uploads/956ef608-57d9-4264-a562-d9fd9f259607.png" 
+                alt="Hope Logo" 
+                className="w-20 h-20 mx-auto mb-4"
+              />
+              <h2 className="text-2xl font-bold mb-2">Welcome to Hope AI Triage</h2>
               <p className="text-muted-foreground mb-6">
                 Choose how you'd like to get medical guidance
               </p>
@@ -337,7 +342,12 @@ export function TriageApp() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-6 max-w-md">
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold mb-2">Medical Triage</h1>
+          <img 
+            src="/lovable-uploads/956ef608-57d9-4264-a562-d9fd9f259607.png" 
+            alt="Hope Logo" 
+            className="w-24 h-24 mx-auto mb-4"
+          />
+          <h1 className="text-3xl font-bold mb-2">Hope Triage</h1>
           <p className="text-muted-foreground">
             Answer the questions below to assess your condition
           </p>
