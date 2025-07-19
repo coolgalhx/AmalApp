@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Phone, Video, MessageSquare, Clock, MapPin, AlertTriangle, ArrowLeft, Users } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Phone, Video, MessageSquare, Clock, MapPin, AlertTriangle, ArrowLeft, Users, Stethoscope } from 'lucide-react';
 import { PrimaryCause, Severity } from './TriageApp';
+import { InternalPhoneCallButton } from './InternalPhoneCallButton';
 
 interface TalkToDoctorProps {
   primaryCause: PrimaryCause;
@@ -13,6 +15,46 @@ interface TalkToDoctorProps {
 
 export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [showDoctorList, setShowDoctorList] = useState(false);
+
+  // Mock doctor data
+  const localDoctors = [
+    {
+      id: '1',
+      name: 'Dr. Sarah Johnson',
+      specialty: 'Emergency Medicine',
+      phone: '0594149120',
+      available: true
+    },
+    {
+      id: '2',
+      name: 'Dr. Michael Chen',
+      specialty: 'Internal Medicine',
+      phone: '0595474936',
+      available: true
+    },
+    {
+      id: '3',
+      name: 'Dr. Emily Rodriguez',
+      specialty: 'Family Medicine',
+      phone: '0594149120',
+      available: true
+    },
+    {
+      id: '4',
+      name: 'Dr. David Thompson',
+      specialty: 'Emergency Medicine',
+      phone: '0595474936',
+      available: false
+    },
+    {
+      id: '5',
+      name: 'Dr. Lisa Wang',
+      specialty: 'General Practice',
+      phone: '0594149120',
+      available: true
+    }
+  ];
 
   const getSeverityColor = (severity: Severity) => {
     switch (severity) {
@@ -124,8 +166,8 @@ export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorPro
     
     switch (option.action) {
       case 'call':
-        // Open native phone dialer
-        window.location.href = `tel:${option.phoneNumber}`;
+        // Show doctor list modal instead of direct call
+        setShowDoctorList(true);
         break;
       case 'whatsapp':
         // Open WhatsApp chat
@@ -136,6 +178,12 @@ export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorPro
         window.open(option.groupLink, '_blank');
         break;
     }
+  };
+
+  const handleDoctorSelect = (doctor: any) => {
+    // Close modal and trigger phone call
+    setShowDoctorList(false);
+    window.location.href = `tel:${doctor.phone}`;
   };
 
   const handleOptionSelect = (optionId: string) => {
@@ -211,6 +259,15 @@ export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorPro
         </CardHeader>
         <CardContent className="space-y-4">
           {escalationOptions.map((option) => {
+            if (option.id === 'internal-call') {
+              return (
+                <InternalPhoneCallButton 
+                  key={option.id}
+                  onClick={() => handleEscalationSelect(option)}
+                />
+              );
+            }
+            
             const Icon = option.icon;
             return (
               <Card 
@@ -317,6 +374,74 @@ export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorPro
         <ArrowLeft className="h-4 w-4 mr-2" />
         Back to Recommendations
       </Button>
+
+      {/* Doctor List Modal */}
+      <Dialog open={showDoctorList} onOpenChange={setShowDoctorList}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Stethoscope className="h-5 w-5 text-primary" />
+              Select a Local Doctor
+            </DialogTitle>
+            <p className="text-sm text-muted-foreground">
+              Choose from our network of available on-call doctors
+            </p>
+          </DialogHeader>
+          
+          <div className="space-y-3 mt-4">
+            {localDoctors.map((doctor) => (
+              <Card 
+                key={doctor.id}
+                className={`cursor-pointer transition-all border-2 hover:border-primary/50 ${
+                  !doctor.available ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                onClick={() => doctor.available && handleDoctorSelect(doctor)}
+              >
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-full bg-primary/10">
+                        <Stethoscope className="h-4 w-4 text-primary" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold">{doctor.name}</h4>
+                        <p className="text-sm text-muted-foreground">{doctor.specialty}</p>
+                        <p className="text-xs text-muted-foreground">{doctor.phone}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      {doctor.available ? (
+                        <Badge variant="default" className="text-xs bg-green-100 text-green-800">
+                          Available
+                        </Badge>
+                      ) : (
+                        <Badge variant="secondary" className="text-xs">
+                          Busy
+                        </Badge>
+                      )}
+                      <div className="flex items-center gap-1 mt-1">
+                        <Phone className="h-3 w-3 text-primary" />
+                        <span className="text-xs text-primary">Tap to call</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          
+          <div className="mt-4 p-3 bg-muted rounded-lg">
+            <div className="flex items-center gap-2 mb-1">
+              <AlertTriangle className="h-3 w-3 text-warning" />
+              <span className="text-xs font-medium">Note</span>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              These are partner network doctors available for immediate consultation.
+              Calling will connect you directly to the selected doctor.
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
