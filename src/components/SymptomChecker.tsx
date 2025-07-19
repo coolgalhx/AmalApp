@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -21,8 +21,8 @@ interface SymptomCheckerProps {
 }
 
 export function SymptomChecker({ primaryCause, onComplete, onBack }: SymptomCheckerProps) {
-  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [selectedSymptoms, setSelectedSymptoms] = React.useState<string[]>([]);
+  const [currentStep, setCurrentStep] = React.useState(0);
 
   const symptomSets = {
     injury: [

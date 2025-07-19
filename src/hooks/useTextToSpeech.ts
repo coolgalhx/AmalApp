@@ -1,9 +1,9 @@
-import { useCallback, useState, useEffect } from 'react';
+import React from 'react';
 
 export const useTextToSpeech = () => {
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isSpeaking, setIsSpeaking] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleSpeechEnd = () => setIsSpeaking(false);
     const handleSpeechStart = () => setIsSpeaking(true);
 
@@ -18,7 +18,7 @@ export const useTextToSpeech = () => {
     };
   }, []);
 
-  const speak = useCallback((text: string) => {
+  const speak = React.useCallback((text: string) => {
     if ('speechSynthesis' in window) {
       speechSynthesis.cancel(); // Cancel any ongoing speech
       const utterance = new SpeechSynthesisUtterance(text);
@@ -35,14 +35,14 @@ export const useTextToSpeech = () => {
     }
   }, []);
 
-  const stop = useCallback(() => {
+  const stop = React.useCallback(() => {
     if ('speechSynthesis' in window) {
       speechSynthesis.cancel();
       setIsSpeaking(false);
     }
   }, []);
 
-  const handleClick = useCallback((text: string, clickCount: number) => {
+  const handleClick = React.useCallback((text: string, clickCount: number) => {
     if (clickCount === 2) {
       // Double click - stop speech
       stop();

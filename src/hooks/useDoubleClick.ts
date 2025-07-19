@@ -1,14 +1,14 @@
-import { useCallback, useRef } from 'react';
+import React from 'react';
 
 export const useDoubleClick = (
   onSingleClick: () => void,
   onDoubleClick: () => void,
   delay = 300
 ) => {
-  const clickCount = useRef(0);
-  const clickTimer = useRef<NodeJS.Timeout | null>(null);
+  const clickCount = React.useRef(0);
+  const clickTimer = React.useRef<NodeJS.Timeout | null>(null);
 
-  const handleClick = useCallback(() => {
+  const handleClick = React.useCallback(() => {
     clickCount.current += 1;
 
     if (clickCount.current === 1) {

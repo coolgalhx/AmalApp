@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React from "react";
 import { Send, Mic, Camera, Paperclip, AlertTriangle, Clock, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -90,10 +90,10 @@ const initialMessages: ChatMessage[] = [
 ];
 
 export const MedicalChat = () => {
-  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
-  const [inputMessage, setInputMessage] = useState("");
-  const [currentTriage, setCurrentTriage] = useState<TriageData | null>(null);
-  const [isTriageActive, setIsTriageActive] = useState(false);
+  const [messages, setMessages] = React.useState<ChatMessage[]>(initialMessages);
+  const [inputMessage, setInputMessage] = React.useState("");
+  const [currentTriage, setCurrentTriage] = React.useState<TriageData | null>(null);
+  const [isTriageActive, setIsTriageActive] = React.useState(false);
 
   const determineUrgency = (responses: Record<string, string>): "emergency" | "urgent" | "routine" => {
     // Check for emergency triggers
