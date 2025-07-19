@@ -2,7 +2,7 @@
 // import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
+// import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { AlertTriangle, Check, ArrowLeft, Wifi, WifiOff } from 'lucide-react';
@@ -79,11 +79,13 @@ export function OfflineSymptomChecker({ primaryCause, onComplete, onBack }: Offl
             <div className="grid gap-3">
               {availableSymptoms.map((symptom) => (
                 <div key={symptom} className="flex items-center space-x-3">
-                  {/* Temporarily remove state management */}
-                  <Checkbox
+                  {/* Temporarily replace Checkbox with simple input to fix React initialization issue */}
+                  <input
+                    type="checkbox"
                     id={symptom}
+                    className="w-4 h-4 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2"
                     // checked={selectedSymptoms.includes(symptom)}
-                    // onCheckedChange={() => handleSymptomToggle(symptom)}
+                    // onChange={() => handleSymptomToggle(symptom)}
                   />
                   <label
                     htmlFor={symptom}
