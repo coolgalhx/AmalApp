@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 // import { Progress } from '@/components/ui/progress';
@@ -31,16 +31,16 @@ interface TriageState {
 }
 
 export function TriageApp() {
-  const [state, setState] = React.useState<TriageState>({
+  const [state, setState] = useState<TriageState>({
     step: 'chat-intro',
     symptoms: [],
     progress: 0
   });
-  const [isOnline, setIsOnline] = React.useState(navigator.onLine);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   // Temporarily comment out to fix React initialization issue
   // const { isOffline: hookIsOffline } = useOfflineAssessment();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
     
