@@ -1,24 +1,11 @@
-// Temporarily comment out to fix React initialization issue
-// import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Volume2 } from "lucide-react";
-// import { useTextToSpeech } from "@/hooks/useTextToSpeech";
-// import { useDoubleClick } from "@/hooks/useDoubleClick";
+import { TextToSpeech } from "@/components/TextToSpeech";
 
 export const SignIn = () => {
-  // Temporarily comment out to fix React initialization issue
-  // const [email, setEmail] = useState("");
-  // const { speak, stop, isSpeaking } = useTextToSpeech();
-
-  // const pageText = `Welcome to Hope. Create an account. Enter your email to sign up for this app as a Patient. Email input field. Continue button. Continue with Google button. Continue with Apple button. By clicking continue, you agree to our Terms of Service and Privacy Policy.`;
-
-  // const handleDoubleClick = useDoubleClick(
-  //   () => speak(pageText),
-  //   () => stop()
-  // );
+  const pageText = `Welcome to Hope. Create an account. Enter your email to sign up for this app as a Patient. Email input field. Continue button. Continue with Google button. Continue with Apple button. By clicking continue, you agree to our Terms of Service and Privacy Policy.`;
 
   return (
     <div className="min-h-screen bg-medical-bg flex items-center justify-center p-4">
@@ -31,19 +18,9 @@ export const SignIn = () => {
               alt="Hope Logo" 
               className="w-20 h-20"
             />
-            {/* Temporarily remove text-to-speech to fix React initialization issue */}
-            {/* <div className="flex-1 flex justify-end">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleDoubleClick}
-                className={`text-muted-foreground hover:text-foreground ${isSpeaking ? 'bg-primary/20 text-primary' : ''}`}
-                aria-label={isSpeaking ? "Double-click to stop reading" : "Click to read page content aloud, double-click to stop"}
-                title={isSpeaking ? "Double-click to stop" : "Click to read aloud, double-click to stop"}
-              >
-                <Volume2 className={`h-5 w-5 ${isSpeaking ? 'animate-pulse' : ''}`} />
-              </Button>
-            </div> */}
+            <div className="flex-1 flex justify-end">
+              <TextToSpeech text={pageText} />
+            </div>
           </div>
           <CardTitle className="text-2xl font-bold">Hope</CardTitle>
           <p className="text-muted-foreground">Create an account</p>

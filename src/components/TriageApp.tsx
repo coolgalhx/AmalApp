@@ -10,6 +10,7 @@ import { SymptomChecker } from './SymptomChecker';
 import { OfflineSymptomChecker } from './OfflineSymptomChecker';
 import { TalkToDoctor } from './TalkToDoctor';
 import { EnhancedOfflineLibrary } from './EnhancedOfflineLibrary';
+import { TextToSpeech } from './TextToSpeech';
 // Temporarily comment out to fix React initialization issue
 // import { useTextToSpeech } from '@/hooks/useTextToSpeech';
 // import { useOfflineAssessment } from '@/hooks/useOfflineAssessment';
@@ -367,17 +368,7 @@ export function TriageApp() {
               className="w-24 h-24"
             />
             <div className="flex-1 flex justify-end">
-              {/* Temporarily remove text-to-speech to fix React initialization issue */}
-              {/* <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleDoubleClick}
-                className={`text-muted-foreground hover:text-foreground ${isSpeaking ? 'bg-primary/20 text-primary' : ''}`}
-                aria-label={isSpeaking ? "Double-click to stop reading" : "Click to read page content aloud, double-click to stop"}
-                title={isSpeaking ? "Double-click to stop" : "Click to read aloud, double-click to stop"}
-              >
-                <Volume2 className={`h-5 w-5 ${isSpeaking ? 'animate-pulse' : ''}`} />
-              </Button> */}
+              <TextToSpeech text={getPageText()} />
             </div>
           </div>
           <h1 className="text-3xl font-bold mb-2">Hope Triage</h1>

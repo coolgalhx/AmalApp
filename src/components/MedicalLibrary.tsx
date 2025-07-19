@@ -1,11 +1,9 @@
-import { Search, Eye, MessageCircle, User, Volume2 } from "lucide-react";
+import { Search, Eye, MessageCircle, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-// Temporarily comment out to fix React initialization issue
-// import { useTextToSpeech } from "@/hooks/useTextToSpeech";
-// import { useDoubleClick } from "@/hooks/useDoubleClick";
+import { TextToSpeech } from "@/components/TextToSpeech";
 
 interface Article {
   id: string;
@@ -52,38 +50,20 @@ const searchResults: Article[] = [
 ];
 
 export const MedicalLibrary = () => {
-  // Temporarily comment out to fix React initialization issue
-  // const { speak, stop, isSpeaking } = useTextToSpeech();
-
-  // const getPageText = () => {
-  //   const articlesText = searchResults.map(article => 
-  //     `${article.title} by ${article.author}, ${article.category} category. ${article.views} views, ${article.comments} comments. ${article.readTime}.`
-  //   ).join(' ');
-  //   
-  //   return `Medical Library. Results for Treat Wounds. ${articlesText}`;
-  // };
-
-  // const handleDoubleClick = useDoubleClick(
-  //   () => speak(getPageText()),
-  //   () => stop()
-  // );
+  const getPageText = () => {
+    const articlesText = searchResults.map(article => 
+      `${article.title} by ${article.author}, ${article.category} category. ${article.views} views, ${article.comments} comments. ${article.readTime}.`
+    ).join(' ');
+    
+    return `Medical Library. Results for Treat Wounds. ${articlesText}`;
+  };
 
   return (
     <div className="p-4 bg-background min-h-screen">
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-lg font-semibold">Results for: Treat Wounds</h1>
-        {/* Temporarily remove text-to-speech to fix React initialization issue */}
-        {/* <Button
-          variant="ghost"
-          size="icon"
-          onClick={handleDoubleClick}
-          className={`text-muted-foreground hover:text-foreground ${isSpeaking ? 'bg-primary/20 text-primary' : ''}`}
-          aria-label={isSpeaking ? "Double-click to stop reading" : "Click to read page content aloud, double-click to stop"}
-          title={isSpeaking ? "Double-click to stop" : "Click to read aloud, double-click to stop"}
-        >
-          <Volume2 className={`h-5 w-5 ${isSpeaking ? 'animate-pulse' : ''}`} />
-        </Button> */}
+        <TextToSpeech text={getPageText()} />
       </div>
 
       {/* Search Bar */}
@@ -108,19 +88,10 @@ export const MedicalLibrary = () => {
               <h3 className="font-medium text-base leading-tight flex-1">
                 {article.title}
               </h3>
-              {/* Temporarily remove text-to-speech to fix React initialization issue */}
-              {/* <Button 
-                variant="ghost" 
-                size="sm" 
+              <TextToSpeech 
+                text={`${article.title} by ${article.author}, ${article.category} category. ${article.views} views, ${article.comments} comments. ${article.readTime}.`}
                 className="ml-2 p-1"
-                onClick={() => {
-                  const articleText = `${article.title} by ${article.author}, ${article.category} category. ${article.views} views, ${article.comments} comments. ${article.readTime}.`;
-                  speak(articleText);
-                }}
-                aria-label="Read this article summary aloud"
-              >
-                <Volume2 className="w-3 h-3" />
-              </Button> */}
+              />
             </div>
             
             <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
