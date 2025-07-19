@@ -45,7 +45,7 @@ export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorPro
       cost: 'Free',
       availability: '24/7 Available',
       recommended: severity === 'emergency' || severity === 'high',
-      phoneNumber: '+1-555-DOCTOR', // Replace with actual number
+      phoneNumber: '+1-555-123-4567', // Dummy test number
       action: 'call'
     },
     {
@@ -58,7 +58,7 @@ export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorPro
       cost: 'Low cost',
       availability: 'International coverage',
       recommended: severity === 'medium' || severity === 'low',
-      whatsappNumber: '+1234567890', // Replace with actual WhatsApp number
+      whatsappNumber: '+1234567890', // Dummy WhatsApp number
       action: 'whatsapp'
     },
     {
@@ -71,7 +71,7 @@ export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorPro
       cost: 'Community rate',
       availability: 'Active community',
       recommended: severity === 'medium',
-      groupLink: 'https://chat.whatsapp.com/medical-group', // Replace with actual group
+      groupLink: 'https://chat.whatsapp.com/BQcD9VA2lQ73VeHjixClHl', // Dummy WhatsApp group link
       action: 'group'
     }
   ];
