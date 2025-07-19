@@ -1,13 +1,21 @@
-import { ArrowLeft, Share2, Eye, MessageCircle, Facebook, Twitter, Linkedin } from "lucide-react";
+import { ArrowLeft, Share2, Eye, MessageCircle, Facebook, Twitter, Linkedin, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useTextToSpeech } from "@/hooks/useTextToSpeech";
 
 interface MedicalArticleProps {
   onBack: () => void;
 }
 
 export const MedicalArticle = ({ onBack }: MedicalArticleProps) => {
+  const { speak } = useTextToSpeech();
+
+  const readArticleContent = () => {
+    const text = `Medical Article: How to Treat Wound and Further Steps due to Severity. 25.9k views, 657 comments. By Dr. Kevin Gilbert, August 3, 2021. Article content: Identify the degree of the burn. Donec at elit a enim tincidunt ullamcorper in sed quam. In tempus, massa quis sagittis viverra, sapien tellus mollis libero, nec ullamcorper purus quam et tortor.`;
+    speak(text);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -15,9 +23,19 @@ export const MedicalArticle = ({ onBack }: MedicalArticleProps) => {
         <Button variant="ghost" size="sm" onClick={onBack}>
           <ArrowLeft className="w-4 h-4" />
         </Button>
-        <Button variant="ghost" size="sm">
-          <Share2 className="w-4 h-4" />
-        </Button>
+        <div className="flex items-center space-x-2">
+          <Button 
+            variant="ghost" 
+            size="sm"
+            onClick={readArticleContent}
+            aria-label="Read article aloud"
+          >
+            <Volume2 className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" size="sm">
+            <Share2 className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
 
       <div className="p-4 space-y-6">

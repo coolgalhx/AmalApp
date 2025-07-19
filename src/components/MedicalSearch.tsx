@@ -1,9 +1,10 @@
-import { ArrowLeft, Search, User } from "lucide-react";
+import { ArrowLeft, Search, User, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useTextToSpeech } from "@/hooks/useTextToSpeech";
 
 interface SearchResult {
   id: string;
@@ -51,6 +52,17 @@ interface MedicalSearchProps {
 }
 
 export const MedicalSearch = ({ onBack, searchQuery = "Treat Wounds" }: MedicalSearchProps) => {
+  const { speak } = useTextToSpeech();
+
+  const readPageContent = () => {
+    const resultsText = searchResults.map(result => 
+      `${result.title} in ${result.category} category. ${result.views} views, ${result.comments} comments. ${result.readTime}.`
+    ).join(' ');
+    
+    const text = `Medical Library Search. Results for ${searchQuery}. ${resultsText} Frequently asked questions include: Are hospitals still operating? How can I treat a wound? What if I can't get medication?`;
+    speak(text);
+  };
+
   return (
     <div className="min-h-screen bg-medical-bg">
       {/* Header */}
@@ -59,7 +71,15 @@ export const MedicalSearch = ({ onBack, searchQuery = "Treat Wounds" }: MedicalS
           <ArrowLeft className="w-4 h-4" />
         </Button>
         <h1 className="font-semibold">Medical Library Search</h1>
-        <div className="w-8" />
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={readPageContent}
+          className="text-muted-foreground hover:text-foreground"
+          aria-label="Read page content aloud"
+        >
+          <Volume2 className="h-5 w-5" />
+        </Button>
       </div>
 
       <div className="p-4 space-y-4">

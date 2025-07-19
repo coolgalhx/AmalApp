@@ -4,22 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Volume2 } from "lucide-react";
+import { useTextToSpeech } from "@/hooks/useTextToSpeech";
 
 export const SignIn = () => {
   const [email, setEmail] = useState("");
+  const { speak } = useTextToSpeech();
 
   const readAloud = () => {
     const text = `Welcome to Hope. Create an account. Enter your email to sign up for this app as a Patient. Email input field. Continue button. Continue with Google button. Continue with Apple button. By clicking continue, you agree to our Terms of Service and Privacy Policy.`;
-    
-    if ('speechSynthesis' in window) {
-      speechSynthesis.cancel(); // Cancel any ongoing speech
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.8;
-      utterance.pitch = 1;
-      speechSynthesis.speak(utterance);
-    } else {
-      alert("Text-to-speech is not supported in your browser.");
-    }
+    speak(text);
   };
 
   return (

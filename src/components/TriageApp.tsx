@@ -3,12 +3,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { AlertTriangle, Heart, Phone, FileText, ArrowLeft, Bot, Wifi, WifiOff } from 'lucide-react';
+import { AlertTriangle, Heart, Phone, FileText, ArrowLeft, Bot, Wifi, WifiOff, Volume2 } from 'lucide-react';
 import { ImageUpload } from './ImageUpload';
 import { LightweightChat } from './LightweightChat';
 import { SymptomChecker } from './SymptomChecker';
 import { TalkToDoctor } from './TalkToDoctor';
 import { EnhancedOfflineLibrary } from './EnhancedOfflineLibrary';
+import { useTextToSpeech } from '@/hooks/useTextToSpeech';
 
 export type TriageStep = 'chat-intro' | 'primary-cause' | 'image-upload' | 'lightweight-chat' | 'symptoms' | 'recommendations' | 'doctor' | 'library';
 export type PrimaryCause = 'injury' | 'burn' | 'trauma' | 'infection';
@@ -31,6 +32,7 @@ export function TriageApp() {
     progress: 0
   });
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const { speak } = useTextToSpeech();
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -44,6 +46,24 @@ export function TriageApp() {
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
+
+  const readPageContent = () => {
+    let text = '';
+    switch (state.step) {
+      case 'chat-intro':
+        text = 'Welcome to Hope AI Triage. Choose how you would like to get medical guidance. AI-Powered Assessment with image analysis and AI chat, or Manual Assessment with step-by-step triage and offline medical library.';
+        break;
+      case 'primary-cause':
+        text = `${state.useAI ? 'AI Assessment' : 'Manual Assessment'}. What is the primary cause? Select the main reason for seeking help. Options are: Injury, Burn, Trauma, or Infection.`;
+        break;
+      case 'recommendations':
+        text = `Assessment Complete. ${state.severity} priority condition. Based on your symptoms, here are our recommendations. You can talk to a doctor or access the medical library.`;
+        break;
+      default:
+        text = 'Hope Triage application. Use the interface to navigate through your medical assessment.';
+    }
+    speak(text);
+  };
 
   const startAITriage = () => {
     setState({ ...state, step: 'primary-cause', progress: 10, useAI: true });
@@ -342,11 +362,25 @@ export function TriageApp() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-6 max-w-md">
         <div className="text-center mb-6">
-          <img 
-            src="/lovable-uploads/956ef608-57d9-4264-a562-d9fd9f259607.png" 
-            alt="Hope Logo" 
-            className="w-24 h-24 mx-auto mb-4"
-          />
+          <div className="flex justify-between items-start mb-4">
+            <div className="flex-1"></div>
+            <img 
+              src="/lovable-uploads/956ef608-57d9-4264-a562-d9fd9f259607.png" 
+              alt="Hope Logo" 
+              className="w-24 h-24"
+            />
+            <div className="flex-1 flex justify-end">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={readPageContent}
+                className="text-muted-foreground hover:text-foreground"
+                aria-label="Read page content aloud"
+              >
+                <Volume2 className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
           <h1 className="text-3xl font-bold mb-2">Hope Triage</h1>
           <p className="text-muted-foreground">
             Answer the questions below to assess your condition

@@ -1,7 +1,9 @@
-import { Search, Eye, MessageCircle, User } from "lucide-react";
+import { Search, Eye, MessageCircle, User, Volume2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useTextToSpeech } from "@/hooks/useTextToSpeech";
 
 interface Article {
   id: string;
@@ -48,11 +50,31 @@ const searchResults: Article[] = [
 ];
 
 export const MedicalLibrary = () => {
+  const { speak } = useTextToSpeech();
+
+  const readPageContent = () => {
+    const articlesText = searchResults.map(article => 
+      `${article.title} by ${article.author}, ${article.category} category. ${article.views} views, ${article.comments} comments. ${article.readTime}.`
+    ).join(' ');
+    
+    const text = `Medical Library. Results for Treat Wounds. ${articlesText}`;
+    speak(text);
+  };
+
   return (
     <div className="p-4 bg-background min-h-screen">
       {/* Header */}
-      <div className="mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <h1 className="text-lg font-semibold">Results for: Treat Wounds</h1>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={readPageContent}
+          className="text-muted-foreground hover:text-foreground"
+          aria-label="Read page content aloud"
+        >
+          <Volume2 className="h-5 w-5" />
+        </Button>
       </div>
 
       {/* Search Bar */}

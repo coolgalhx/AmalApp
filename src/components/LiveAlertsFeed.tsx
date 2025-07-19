@@ -1,8 +1,9 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Heart, MessageCircle, Share, MoreHorizontal } from "lucide-react";
+import { Heart, MessageCircle, Share, MoreHorizontal, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTextToSpeech } from "@/hooks/useTextToSpeech";
 
 interface NewsItem {
   id: string;
@@ -37,10 +38,30 @@ const mockNews: NewsItem[] = [
 ];
 
 export const LiveAlertsFeed = () => {
+  const { speak } = useTextToSpeech();
+
+  const readPageContent = () => {
+    const newsText = mockNews.map(item => 
+      `${item.isBreaking ? 'Breaking news: ' : ''}${item.title} from ${item.source}, ${item.time}. ${item.likes} likes, ${item.comments} comments.`
+    ).join(' ');
+    
+    const text = `Live Alerts Feed. ${newsText}`;
+    speak(text);
+  };
+
   return (
     <div className="space-y-4 p-4 bg-gradient-medical min-h-screen animate-fade-in">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-foreground">Live Alerts Feed</h1>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={readPageContent}
+          className="text-muted-foreground hover:text-foreground"
+          aria-label="Read page content aloud"
+        >
+          <Volume2 className="h-5 w-5" />
+        </Button>
       </div>
       
       {mockNews.map((item, index) => (
