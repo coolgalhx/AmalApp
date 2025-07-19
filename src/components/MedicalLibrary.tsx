@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { TextToSpeech } from "@/components/TextToSpeech";
 import { useTranslation } from "@/contexts/TranslationContext";
 
 interface Article {
@@ -65,7 +64,6 @@ export const MedicalLibrary = () => {
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-lg font-semibold">Results for: Treat Wounds</h1>
-        <TextToSpeech text={getPageText()} />
       </div>
 
       {/* Search Bar */}
@@ -90,10 +88,6 @@ export const MedicalLibrary = () => {
               <h3 className="font-medium text-base leading-tight flex-1">
                 {article.title}
               </h3>
-              <TextToSpeech 
-                text={`${article.title} by ${article.author}, ${article.category} category. ${article.views} views, ${article.comments} comments. ${article.readTime}.`}
-                className="ml-2 p-1"
-              />
             </div>
             
             <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">

@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, MessageCircle, Share, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { TextToSpeech } from "@/components/TextToSpeech";
 import { useTranslation } from "@/contexts/TranslationContext";
 
 interface NewsItem {
@@ -53,7 +52,6 @@ export const LiveAlertsFeed = () => {
     <div className="space-y-4 p-4 bg-gradient-medical min-h-screen animate-fade-in">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-foreground">{translate("Live Alerts")}</h1>
-        <TextToSpeech text={getPageText()} />
       </div>
       
       {mockNews.map((item, index) => (
@@ -72,10 +70,6 @@ export const LiveAlertsFeed = () => {
                     <span className="text-muted-foreground text-xs">{item.time}</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <TextToSpeech 
-                      text={`${item.isBreaking ? 'Breaking news: ' : ''}${item.title} from ${item.source}, ${item.time}`}
-                      className="hover-glow p-1"
-                    />
                     <Button variant="ghost" size="sm" className="hover-glow">
                       <MoreHorizontal className="w-4 h-4" />
                     </Button>
