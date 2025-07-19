@@ -1,0 +1,197 @@
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '@/components/ui/badge';
+import { Textarea } from '@/components/ui/textarea';
+import { AlertTriangle, Check, ArrowLeft, Wifi, WifiOff } from 'lucide-react';
+import { PrimaryCause } from './TriageApp';
+import { useOfflineAssessment } from '@/hooks/useOfflineAssessment';
+
+interface OfflineSymptomCheckerProps {
+  primaryCause: PrimaryCause;
+  onComplete: (symptoms: string[], severity: 'low' | 'medium' | 'high' | 'emergency') => void;
+  onBack: () => void;
+}
+
+export function OfflineSymptomChecker({ primaryCause, onComplete, onBack }: OfflineSymptomCheckerProps) {
+  const { isOffline, getSymptomsForCause, assessSeverity, saveAssessment } = useOfflineAssessment();
+  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
+  const [additionalNotes, setAdditionalNotes] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const availableSymptoms = getSymptomsForCause(primaryCause);
+
+  const handleSymptomToggle = (symptom: string) => {
+    setSelectedSymptoms(prev => 
+      prev.includes(symptom)
+        ? prev.filter(s => s !== symptom)
+        : [...prev, symptom]
+    );
+  };
+
+  const handleComplete = async () => {
+    if (selectedSymptoms.length === 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      const allSymptoms = [...selectedSymptoms];
+      if (additionalNotes.trim()) {
+        allSymptoms.push(additionalNotes.trim());
+      }
+
+      const severity = assessSeverity(primaryCause, allSymptoms);
+
+      // Save assessment offline
+      await saveAssessment({
+        primaryCause,
+        symptoms: allSymptoms,
+        severity,
+        notes: additionalNotes
+      });
+
+      onComplete(allSymptoms, severity);
+    } catch (error) {
+      console.error('Failed to save assessment:', error);
+      // Continue with assessment even if save fails
+      const allSymptoms = [...selectedSymptoms];
+      if (additionalNotes.trim()) {
+        allSymptoms.push(additionalNotes.trim());
+      }
+      const severity = assessSeverity(primaryCause, allSymptoms);
+      onComplete(allSymptoms, severity);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="text-center">
+        <div className="flex items-center justify-center gap-2 mb-4">
+          {isOffline ? (
+            <WifiOff className="h-5 w-5 text-orange-600" />
+          ) : (
+            <Wifi className="h-5 w-5 text-green-600" />
+          )}
+          <Badge variant={isOffline ? "destructive" : "secondary"}>
+            {isOffline ? 'Offline Mode' : 'Online Mode'}
+          </Badge>
+        </div>
+        <h2 className="text-2xl font-bold mb-2">Symptom Assessment</h2>
+        <p className="text-muted-foreground">
+          Select the symptoms you're experiencing for <strong>{primaryCause}</strong>
+        </p>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Check className="h-5 w-5 text-primary" />
+            Common Symptoms for {primaryCause}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {availableSymptoms.length > 0 ? (
+            <div className="grid gap-3">
+              {availableSymptoms.map((symptom) => (
+                <div key={symptom} className="flex items-center space-x-3">
+                  <Checkbox
+                    id={symptom}
+                    checked={selectedSymptoms.includes(symptom)}
+                    onCheckedChange={() => handleSymptomToggle(symptom)}
+                  />
+                  <label
+                    htmlFor={symptom}
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer capitalize"
+                  >
+                    {symptom}
+                  </label>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <AlertTriangle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <p className="text-muted-foreground">
+                No symptoms data available for {primaryCause}. Please describe your symptoms below.
+              </p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Additional Information</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Textarea
+            placeholder="Describe any additional symptoms, when they started, severity, or other relevant information..."
+            value={additionalNotes}
+            onChange={(e) => setAdditionalNotes(e.target.value)}
+            className="min-h-[100px]"
+          />
+        </CardContent>
+      </Card>
+
+      {selectedSymptoms.length > 0 && (
+        <Card className="border-primary/20 bg-primary/5">
+          <CardHeader>
+            <CardTitle className="text-primary">Selected Symptoms</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-2">
+              {selectedSymptoms.map((symptom) => (
+                <Badge key={symptom} variant="secondary">
+                  {symptom}
+                </Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="bg-muted p-4 rounded-lg">
+        <div className="flex items-center gap-2 mb-2">
+          <AlertTriangle className="h-4 w-4 text-warning" />
+          <span className="font-medium text-sm">Emergency Warning</span>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          If you're experiencing severe symptoms such as difficulty breathing, severe bleeding, 
+          chest pain, or loss of consciousness, call emergency services (911) immediately.
+        </p>
+      </div>
+
+      <div className="flex gap-3">
+        <Button variant="outline" onClick={onBack} className="flex-1">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back
+        </Button>
+        <Button 
+          onClick={handleComplete} 
+          disabled={selectedSymptoms.length === 0 || isSubmitting}
+          className="flex-1"
+        >
+          {isSubmitting ? 'Saving...' : 'Complete Assessment'}
+        </Button>
+      </div>
+
+      {isOffline && (
+        <div className="bg-orange-50 border border-orange-200 p-4 rounded-lg">
+          <div className="flex items-center gap-2 mb-2">
+            <WifiOff className="h-4 w-4 text-orange-600" />
+            <span className="font-medium text-sm text-orange-800">Offline Mode Active</span>
+          </div>
+          <p className="text-sm text-orange-700">
+            Your assessment will be saved locally and synced when you reconnect to the internet.
+            All medical guidance is available offline for your safety.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}

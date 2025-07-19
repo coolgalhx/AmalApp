@@ -1,0 +1,32 @@
+{
+  "name": "Hope Medical Triage",
+  "short_name": "Hope Triage",
+  "description": "Offline-capable medical triage and assessment application",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/lovable-uploads/956ef608-57d9-4264-a562-d9fd9f259607.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/lovable-uploads/956ef608-57d9-4264-a562-d9fd9f259607.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["medical", "health", "utility"],
+  "screenshots": [
+    {
+      "src": "/lovable-uploads/956ef608-57d9-4264-a562-d9fd9f259607.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false
+}

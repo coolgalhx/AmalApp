@@ -7,9 +7,11 @@ import { AlertTriangle, Heart, Phone, FileText, ArrowLeft, Bot, Wifi, WifiOff, V
 import { ImageUpload } from './ImageUpload';
 import { LightweightChat } from './LightweightChat';
 import { SymptomChecker } from './SymptomChecker';
+import { OfflineSymptomChecker } from './OfflineSymptomChecker';
 import { TalkToDoctor } from './TalkToDoctor';
 import { EnhancedOfflineLibrary } from './EnhancedOfflineLibrary';
 import { useTextToSpeech } from '@/hooks/useTextToSpeech';
+import { useOfflineAssessment } from '@/hooks/useOfflineAssessment';
 import { useDoubleClick } from '@/hooks/useDoubleClick';
 
 export type TriageStep = 'chat-intro' | 'primary-cause' | 'image-upload' | 'lightweight-chat' | 'symptoms' | 'recommendations' | 'doctor' | 'library';
@@ -34,6 +36,7 @@ export function TriageApp() {
   });
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const { speak, stop, isSpeaking } = useTextToSpeech();
+  const { isOffline: hookIsOffline } = useOfflineAssessment();
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -41,6 +44,17 @@ export function TriageApp() {
     
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
+
+    // Register service worker for offline functionality
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+          console.log('Service Worker registered successfully:', registration);
+        })
+        .catch((error) => {
+          console.log('Service Worker registration failed:', error);
+        });
+    }
     
     return () => {
       window.removeEventListener('online', handleOnline);
@@ -261,7 +275,7 @@ export function TriageApp() {
 
       case 'symptoms':
         return (
-          <SymptomChecker
+          <OfflineSymptomChecker
             primaryCause={state.primaryCause!}
             onComplete={handleSymptomsComplete}
             onBack={goBack}
