@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, MessageCircle, Share, MoreHorizontal } from "lucide-react";
@@ -40,12 +40,12 @@ const mockNews: NewsItem[] = [
 export const LiveAlertsFeed = () => {
   const { translate } = useTranslation();
   
-  const getPageText = () => {
+  const getPageText = useMemo(() => {
     const newsText = mockNews.map(item => 
       `${item.isBreaking ? translate('Breaking news') : translate('News')}: ${translate(item.title)} ${translate('from')} ${item.source}, ${item.time}. ${item.likes} ${translate('likes')}, ${item.comments} ${translate('comments')}.`
     ).join(' ');
     return `${translate('Live Alerts')} ${translate('feed')}. ${newsText}`;
-  };
+  }, [translate]);
 
   return (
     <div className="space-y-4 p-4 bg-gradient-medical min-h-screen animate-fade-in">

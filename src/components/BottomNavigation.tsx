@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Home, Search, MessageCircle, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/contexts/TranslationContext";
@@ -11,12 +11,12 @@ interface NavigationProps {
 export const BottomNavigation = ({ activeTab, onTabChange }: NavigationProps) => {
   const { translate } = useTranslation();
   
-  const navItems = [
+  const navItems = useMemo(() => [
     { id: "alerts", icon: Home, label: translate("Home") },
     { id: "library", icon: Search, label: translate("Library") }, 
     { id: "chat", icon: MessageCircle, label: translate("Chat") },
     { id: "profile", icon: User, label: translate("Profile") }
-  ];
+  ], [translate]);
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-border px-4 py-2 safe-area-pb">

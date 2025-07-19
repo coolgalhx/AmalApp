@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Search, Eye, MessageCircle, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -51,13 +51,15 @@ const searchResults: Article[] = [
 ];
 
 export const MedicalLibrary = () => {
-  const getPageText = () => {
+  const { translate } = useTranslation();
+  
+  const getPageText = useMemo(() => {
     const articlesText = searchResults.map(article => 
       `${article.title} by ${article.author}, ${article.category} category. ${article.views} views, ${article.comments} comments. ${article.readTime}.`
     ).join(' ');
     
     return `Medical Library. Results for Treat Wounds. ${articlesText}`;
-  };
+  }, []);
 
   return (
     <div className="p-4 bg-background min-h-screen">
