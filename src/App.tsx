@@ -26,8 +26,6 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-        <Toaster />
-        <Sonner />
       </TranslationProvider>
     </ThemeProvider>
   </QueryClientProvider>
