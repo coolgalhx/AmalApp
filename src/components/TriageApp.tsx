@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+// import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, Heart, Phone, FileText, ArrowLeft, Bot, Wifi, WifiOff, Volume2 } from 'lucide-react';
 import { ImageUpload } from './ImageUpload';
@@ -387,7 +387,13 @@ export function TriageApp() {
         </div>
 
         <div className="mb-6">
-          <Progress value={state.progress} className="h-2" />
+          {/* Temporarily replace Progress component to fix React initialization issue */}
+          <div className="w-full bg-muted rounded-full h-2">
+            <div 
+              className="bg-primary h-2 rounded-full transition-all duration-300" 
+              style={{ width: `${state.progress}%` }}
+            />
+          </div>
           <p className="text-sm text-muted-foreground text-center mt-2">
             Progress: {state.progress}%
           </p>
