@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -14,8 +14,8 @@ interface TalkToDoctorProps {
 }
 
 export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorProps) {
-  const [selectedOption, setSelectedOption] = React.useState<string | null>(null);
-  const [showDoctorList, setShowDoctorList] = React.useState(false);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [showDoctorList, setShowDoctorList] = useState(false);
 
   // Mock doctor data
   const localDoctors = [

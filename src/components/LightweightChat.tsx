@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -20,12 +20,12 @@ interface LightweightChatProps {
 }
 
 export function LightweightChat({ primaryCause, onTriageComplete, onBack }: LightweightChatProps) {
-  const [messages, setMessages] = React.useState<Message[]>([]);
-  const [inputValue, setInputValue] = React.useState('');
-  const [isTyping, setIsTyping] = React.useState(false);
-  const [questionIndex, setQuestionIndex] = React.useState(0);
-  const [responses, setResponses] = React.useState<string[]>([]);
-  const messagesEndRef = React.useRef<HTMLDivElement>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [responses, setResponses] = useState<string[]>([]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const questions = {
     injury: [
@@ -54,7 +54,7 @@ export function LightweightChat({ primaryCause, onTriageComplete, onBack }: Ligh
     ]
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const initialMessage: Message = {
       id: '1',
       content: `I'm here to help assess your ${primaryCause}. I'll ask you a few quick questions to understand your condition better. Let's start:`,
@@ -68,7 +68,7 @@ export function LightweightChat({ primaryCause, onTriageComplete, onBack }: Ligh
     }, 1000);
   }, [primaryCause]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
