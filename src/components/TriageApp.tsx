@@ -189,26 +189,6 @@ export function TriageApp() {
             </div>
             
             <div className="space-y-4">
-              <Card className="border-primary">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <Bot className="h-6 w-6 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold mb-2">AI-Powered Assessment</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        Get personalized guidance with image analysis and AI chat
-                      </p>
-                      <Badge variant="secondary" className="mr-2">Image Upload</Badge>
-                      <Badge variant="secondary">AI Chat</Badge>
-                    </div>
-                  </div>
-                  <Button onClick={startAITriage} className="w-full mt-4">
-                    Start AI Assessment
-                  </Button>
-                </CardContent>
-              </Card>
 
               <Card>
                 <CardContent className="p-6">
