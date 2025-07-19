@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Heart, MessageCircle, Share, MoreHorizontal, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTextToSpeech } from "@/hooks/useTextToSpeech";
+import { useDoubleClick } from "@/hooks/useDoubleClick";
 
 interface NewsItem {
   id: string;
@@ -38,16 +39,20 @@ const mockNews: NewsItem[] = [
 ];
 
 export const LiveAlertsFeed = () => {
-  const { speak } = useTextToSpeech();
+  const { speak, stop, isSpeaking } = useTextToSpeech();
 
-  const readPageContent = () => {
+  const getPageText = () => {
     const newsText = mockNews.map(item => 
       `${item.isBreaking ? 'Breaking news: ' : ''}${item.title} from ${item.source}, ${item.time}. ${item.likes} likes, ${item.comments} comments.`
     ).join(' ');
     
-    const text = `Live Alerts Feed. ${newsText}`;
-    speak(text);
+    return `Live Alerts Feed. ${newsText}`;
   };
+
+  const handleDoubleClick = useDoubleClick(
+    () => speak(getPageText()),
+    () => stop()
+  );
 
   return (
     <div className="space-y-4 p-4 bg-gradient-medical min-h-screen animate-fade-in">
@@ -56,11 +61,12 @@ export const LiveAlertsFeed = () => {
         <Button
           variant="ghost"
           size="icon"
-          onClick={readPageContent}
-          className="text-muted-foreground hover:text-foreground"
-          aria-label="Read page content aloud"
+          onClick={handleDoubleClick}
+          className={`text-muted-foreground hover:text-foreground ${isSpeaking ? 'bg-primary/20 text-primary' : ''}`}
+          aria-label={isSpeaking ? "Double-click to stop reading" : "Click to read page content aloud, double-click to stop"}
+          title={isSpeaking ? "Double-click to stop" : "Click to read aloud, double-click to stop"}
         >
-          <Volume2 className="h-5 w-5" />
+          <Volume2 className={`h-5 w-5 ${isSpeaking ? 'animate-pulse' : ''}`} />
         </Button>
       </div>
       

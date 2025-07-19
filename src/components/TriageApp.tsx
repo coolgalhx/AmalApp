@@ -10,6 +10,7 @@ import { SymptomChecker } from './SymptomChecker';
 import { TalkToDoctor } from './TalkToDoctor';
 import { EnhancedOfflineLibrary } from './EnhancedOfflineLibrary';
 import { useTextToSpeech } from '@/hooks/useTextToSpeech';
+import { useDoubleClick } from '@/hooks/useDoubleClick';
 
 export type TriageStep = 'chat-intro' | 'primary-cause' | 'image-upload' | 'lightweight-chat' | 'symptoms' | 'recommendations' | 'doctor' | 'library';
 export type PrimaryCause = 'injury' | 'burn' | 'trauma' | 'infection';
@@ -32,7 +33,7 @@ export function TriageApp() {
     progress: 0
   });
   const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const { speak } = useTextToSpeech();
+  const { speak, stop, isSpeaking } = useTextToSpeech();
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -47,23 +48,23 @@ export function TriageApp() {
     };
   }, []);
 
-  const readPageContent = () => {
-    let text = '';
+  const getPageText = () => {
     switch (state.step) {
       case 'chat-intro':
-        text = 'Welcome to Hope AI Triage. Choose how you would like to get medical guidance. AI-Powered Assessment with image analysis and AI chat, or Manual Assessment with step-by-step triage and offline medical library.';
-        break;
+        return 'Welcome to Hope AI Triage. Choose how you would like to get medical guidance. AI-Powered Assessment with image analysis and AI chat, or Manual Assessment with step-by-step triage and offline medical library.';
       case 'primary-cause':
-        text = `${state.useAI ? 'AI Assessment' : 'Manual Assessment'}. What is the primary cause? Select the main reason for seeking help. Options are: Injury, Burn, Trauma, or Infection.`;
-        break;
+        return `${state.useAI ? 'AI Assessment' : 'Manual Assessment'}. What is the primary cause? Select the main reason for seeking help. Options are: Injury, Burn, Trauma, or Infection.`;
       case 'recommendations':
-        text = `Assessment Complete. ${state.severity} priority condition. Based on your symptoms, here are our recommendations. You can talk to a doctor or access the medical library.`;
-        break;
+        return `Assessment Complete. ${state.severity} priority condition. Based on your symptoms, here are our recommendations. You can talk to a doctor or access the medical library.`;
       default:
-        text = 'Hope Triage application. Use the interface to navigate through your medical assessment.';
+        return 'Hope Triage application. Use the interface to navigate through your medical assessment.';
     }
-    speak(text);
   };
+
+  const handleDoubleClick = useDoubleClick(
+    () => speak(getPageText()),
+    () => stop()
+  );
 
   const startAITriage = () => {
     setState({ ...state, step: 'primary-cause', progress: 10, useAI: true });
@@ -373,11 +374,12 @@ export function TriageApp() {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={readPageContent}
-                className="text-muted-foreground hover:text-foreground"
-                aria-label="Read page content aloud"
+                onClick={handleDoubleClick}
+                className={`text-muted-foreground hover:text-foreground ${isSpeaking ? 'bg-primary/20 text-primary' : ''}`}
+                aria-label={isSpeaking ? "Double-click to stop reading" : "Click to read page content aloud, double-click to stop"}
+                title={isSpeaking ? "Double-click to stop" : "Click to read aloud, double-click to stop"}
               >
-                <Volume2 className="h-5 w-5" />
+                <Volume2 className={`h-5 w-5 ${isSpeaking ? 'animate-pulse' : ''}`} />
               </Button>
             </div>
           </div>

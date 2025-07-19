@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTextToSpeech } from "@/hooks/useTextToSpeech";
+import { useDoubleClick } from "@/hooks/useDoubleClick";
 
 interface Article {
   id: string;
@@ -50,16 +51,20 @@ const searchResults: Article[] = [
 ];
 
 export const MedicalLibrary = () => {
-  const { speak } = useTextToSpeech();
+  const { speak, stop, isSpeaking } = useTextToSpeech();
 
-  const readPageContent = () => {
+  const getPageText = () => {
     const articlesText = searchResults.map(article => 
       `${article.title} by ${article.author}, ${article.category} category. ${article.views} views, ${article.comments} comments. ${article.readTime}.`
     ).join(' ');
     
-    const text = `Medical Library. Results for Treat Wounds. ${articlesText}`;
-    speak(text);
+    return `Medical Library. Results for Treat Wounds. ${articlesText}`;
   };
+
+  const handleDoubleClick = useDoubleClick(
+    () => speak(getPageText()),
+    () => stop()
+  );
 
   return (
     <div className="p-4 bg-background min-h-screen">
@@ -69,11 +74,12 @@ export const MedicalLibrary = () => {
         <Button
           variant="ghost"
           size="icon"
-          onClick={readPageContent}
-          className="text-muted-foreground hover:text-foreground"
-          aria-label="Read page content aloud"
+          onClick={handleDoubleClick}
+          className={`text-muted-foreground hover:text-foreground ${isSpeaking ? 'bg-primary/20 text-primary' : ''}`}
+          aria-label={isSpeaking ? "Double-click to stop reading" : "Click to read page content aloud, double-click to stop"}
+          title={isSpeaking ? "Double-click to stop" : "Click to read aloud, double-click to stop"}
         >
-          <Volume2 className="h-5 w-5" />
+          <Volume2 className={`h-5 w-5 ${isSpeaking ? 'animate-pulse' : ''}`} />
         </Button>
       </div>
 

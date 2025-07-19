@@ -3,18 +3,23 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useTextToSpeech } from "@/hooks/useTextToSpeech";
+import { useDoubleClick } from "@/hooks/useDoubleClick";
 
 interface MedicalArticleProps {
   onBack: () => void;
 }
 
 export const MedicalArticle = ({ onBack }: MedicalArticleProps) => {
-  const { speak } = useTextToSpeech();
+  const { speak, stop, isSpeaking } = useTextToSpeech();
 
-  const readArticleContent = () => {
-    const text = `Medical Article: How to Treat Wound and Further Steps due to Severity. 25.9k views, 657 comments. By Dr. Kevin Gilbert, August 3, 2021. Article content: Identify the degree of the burn. Donec at elit a enim tincidunt ullamcorper in sed quam. In tempus, massa quis sagittis viverra, sapien tellus mollis libero, nec ullamcorper purus quam et tortor.`;
-    speak(text);
+  const getArticleText = () => {
+    return `Medical Article: How to Treat Wound and Further Steps due to Severity. 25.9k views, 657 comments. By Dr. Kevin Gilbert, August 3, 2021. Article content: Identify the degree of the burn. Donec at elit a enim tincidunt ullamcorper in sed quam. In tempus, massa quis sagittis viverra, sapien tellus mollis libero, nec ullamcorper purus quam et tortor.`;
   };
+
+  const handleDoubleClick = useDoubleClick(
+    () => speak(getArticleText()),
+    () => stop()
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -27,10 +32,12 @@ export const MedicalArticle = ({ onBack }: MedicalArticleProps) => {
           <Button 
             variant="ghost" 
             size="sm"
-            onClick={readArticleContent}
-            aria-label="Read article aloud"
+            onClick={handleDoubleClick}
+            className={isSpeaking ? 'bg-primary/20 text-primary' : ''}
+            aria-label={isSpeaking ? "Double-click to stop reading" : "Click to read article aloud, double-click to stop"}
+            title={isSpeaking ? "Double-click to stop" : "Click to read aloud, double-click to stop"}
           >
-            <Volume2 className="w-4 h-4" />
+            <Volume2 className={`w-4 h-4 ${isSpeaking ? 'animate-pulse' : ''}`} />
           </Button>
           <Button variant="ghost" size="sm">
             <Share2 className="w-4 h-4" />

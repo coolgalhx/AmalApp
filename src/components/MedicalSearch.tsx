@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useTextToSpeech } from "@/hooks/useTextToSpeech";
+import { useDoubleClick } from "@/hooks/useDoubleClick";
 
 interface SearchResult {
   id: string;
@@ -52,16 +53,20 @@ interface MedicalSearchProps {
 }
 
 export const MedicalSearch = ({ onBack, searchQuery = "Treat Wounds" }: MedicalSearchProps) => {
-  const { speak } = useTextToSpeech();
+  const { speak, stop, isSpeaking } = useTextToSpeech();
 
-  const readPageContent = () => {
+  const getPageText = () => {
     const resultsText = searchResults.map(result => 
       `${result.title} in ${result.category} category. ${result.views} views, ${result.comments} comments. ${result.readTime}.`
     ).join(' ');
     
-    const text = `Medical Library Search. Results for ${searchQuery}. ${resultsText} Frequently asked questions include: Are hospitals still operating? How can I treat a wound? What if I can't get medication?`;
-    speak(text);
+    return `Medical Library Search. Results for ${searchQuery}. ${resultsText} Frequently asked questions include: Are hospitals still operating? How can I treat a wound? What if I can't get medication?`;
   };
+
+  const handleDoubleClick = useDoubleClick(
+    () => speak(getPageText()),
+    () => stop()
+  );
 
   return (
     <div className="min-h-screen bg-medical-bg">
@@ -74,11 +79,12 @@ export const MedicalSearch = ({ onBack, searchQuery = "Treat Wounds" }: MedicalS
         <Button
           variant="ghost"
           size="icon"
-          onClick={readPageContent}
-          className="text-muted-foreground hover:text-foreground"
-          aria-label="Read page content aloud"
+          onClick={handleDoubleClick}
+          className={`text-muted-foreground hover:text-foreground ${isSpeaking ? 'bg-primary/20 text-primary' : ''}`}
+          aria-label={isSpeaking ? "Double-click to stop reading" : "Click to read page content aloud, double-click to stop"}
+          title={isSpeaking ? "Double-click to stop" : "Click to read aloud, double-click to stop"}
         >
-          <Volume2 className="h-5 w-5" />
+          <Volume2 className={`h-5 w-5 ${isSpeaking ? 'animate-pulse' : ''}`} />
         </Button>
       </div>
 
