@@ -52,7 +52,7 @@ export function useOfflineAssessment() {
       const data = await response.json();
       setOfflineData(data);
     } catch (error) {
-      console.error('Failed to load offline data:', error);
+      console.warn('Failed to load offline data:', error);
       // Fallback data if service worker isn't available
       setOfflineData({
         primaryCauses: ['injury', 'burn', 'trauma', 'infection'],
@@ -109,7 +109,7 @@ export function useOfflineAssessment() {
         return savedAssessment;
       }
     } catch (error) {
-      console.error('Failed to save assessment:', error);
+      console.warn('Failed to save assessment:', error);
       // Fallback to local storage if service worker fails
       const id = Date.now();
       const savedAssessment = { ...assessmentData, id };

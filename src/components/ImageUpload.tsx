@@ -29,7 +29,7 @@ export function ImageUpload({ primaryCause, onImageCapture, onBack }: ImageUploa
         setIsCameraActive(true);
       }
     } catch (error) {
-      console.error('Error accessing camera:', error);
+      console.warn('Camera access denied or unavailable:', error);
     }
   };
 

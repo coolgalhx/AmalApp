@@ -51,10 +51,10 @@ export function TriageApp() {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js')
         .then((registration) => {
-          console.log('Service Worker registered successfully:', registration);
+          console.info('Service Worker registered successfully:', registration);
         })
         .catch((error) => {
-          console.log('Service Worker registration failed:', error);
+          console.warn('Service Worker registration failed:', error);
         });
     }
     

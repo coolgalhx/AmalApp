@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useToast } from "./use-toast";
 
 export const useTextToSpeech = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const handleSpeechEnd = () => setIsSpeaking(false);
@@ -31,7 +33,11 @@ export const useTextToSpeech = () => {
       
       speechSynthesis.speak(utterance);
     } else {
-      alert("Text-to-speech is not supported in your browser.");
+      toast({
+        title: "Text-to-speech not supported",
+        description: "Your browser doesn't support text-to-speech functionality.",
+        variant: "destructive"
+      });
     }
   }, []);
 

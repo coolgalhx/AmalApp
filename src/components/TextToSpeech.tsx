@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { useToast } from "@/hooks/use-toast";
 import { Button } from '@/components/ui/button';
 import { Volume2, VolumeX } from 'lucide-react';
 
@@ -9,10 +10,15 @@ interface TextToSpeechProps {
 
 export const TextToSpeech: React.FC<TextToSpeechProps> = ({ text, className = '' }) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const { toast } = useToast();
 
   const speak = useCallback(() => {
     if (!('speechSynthesis' in window)) {
-      alert('Text-to-speech is not supported in your browser.');
+      toast({
+        title: "Text-to-speech not supported",
+        description: "Your browser doesn't support text-to-speech functionality.",
+        variant: "destructive"
+      });
       return;
     }
 

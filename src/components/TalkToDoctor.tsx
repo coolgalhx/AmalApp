@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useToast } from "@/hooks/use-toast";
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +17,7 @@ interface TalkToDoctorProps {
 export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showDoctorList, setShowDoctorList] = useState(false);
+  const { toast } = useToast();
 
   // Mock doctor data
   const localDoctors = [
@@ -192,20 +194,29 @@ export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorPro
     // Simulate action based on selection
     switch (optionId) {
       case 'emergency':
-        // In real app, this would initiate emergency call
-        alert('In a real emergency, this would connect you to 911 services.');
+        toast({
+          title: "Emergency Services",
+          description: "In a real emergency, this would connect you to 911 services.",
+          variant: "destructive"
+        });
         break;
       case 'urgent-care':
-        // In real app, this would show nearby locations
-        alert('In a real app, this would show nearby urgent care locations.');
+        toast({
+          title: "Urgent Care",
+          description: "In a real app, this would show nearby urgent care locations.",
+        });
         break;
       case 'telemedicine':
-        // In real app, this would start video consultation flow
-        alert('In a real app, this would connect you to a telemedicine platform.');
+        toast({
+          title: "Telemedicine",
+          description: "In a real app, this would connect you to a telemedicine platform.",
+        });
         break;
       case 'chat':
-        // In real app, this would start chat consultation
-        alert('In a real app, this would start a medical chat consultation.');
+        toast({
+          title: "Medical Chat",
+          description: "In a real app, this would start a medical chat consultation.",
+        });
         break;
     }
   };

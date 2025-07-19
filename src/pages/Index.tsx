@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { LiveAlertsFeed } from "@/components/LiveAlertsFeed";
 import { MedicalLibrary } from "@/components/MedicalLibrary";
 import { TriageApp } from "@/components/TriageApp";
@@ -9,8 +9,8 @@ import { BottomNavigation } from "@/components/BottomNavigation";
 import { LanguageToggle } from "@/components/LanguageToggle";
 
 const Index = () => {
-  const [activeTab, setActiveTab] = React.useState("alerts");
-  const [currentView, setCurrentView] = React.useState<"main" | "signin" | "article" | "search">("main");
+  const [activeTab, setActiveTab] = useState("alerts");
+  const [currentView, setCurrentView] = useState<"main" | "signin" | "article" | "search">("main");
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
