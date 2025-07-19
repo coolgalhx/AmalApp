@@ -1,3 +1,4 @@
+import React from "react";
 import { Search, Eye, MessageCircle, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
