@@ -1,13 +1,12 @@
-// Temporarily comment out to fix React initialization issue
-// import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-// import { Checkbox } from '@/components/ui/checkbox';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { AlertTriangle, Check, ArrowLeft, Wifi, WifiOff } from 'lucide-react';
 import { PrimaryCause } from './TriageApp';
-// import { useOfflineAssessment } from '@/hooks/useOfflineAssessment';
+import { useOfflineAssessment } from '@/hooks/useOfflineAssessment';
 
 interface OfflineSymptomCheckerProps {
   primaryCause: PrimaryCause;
@@ -16,27 +15,24 @@ interface OfflineSymptomCheckerProps {
 }
 
 export function OfflineSymptomChecker({ primaryCause, onComplete, onBack }: OfflineSymptomCheckerProps) {
-  // Temporarily comment out to fix React initialization issue
-  // const { isOffline, getSymptomsForCause, assessSeverity, saveAssessment } = useOfflineAssessment();
-  // const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
-  // const [additionalNotes, setAdditionalNotes] = useState('');
-  // const [isSubmitting, setIsSubmitting] = useState(false);
+  const { isOffline, getSymptomsForCause, assessSeverity, saveAssessment } = useOfflineAssessment();
+  const [selectedSymptoms, setSelectedSymptoms] = React.useState<string[]>([]);
+  const [additionalNotes, setAdditionalNotes] = React.useState('');
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   // Fallback data for offline functionality
-  const isOffline = !navigator.onLine;
   const availableSymptoms = ['pain', 'swelling', 'bleeding', 'bruising', 'difficulty moving'];
 
-  // Temporarily comment out state management to fix React initialization issue
-  // const handleSymptomToggle = (symptom: string) => {
-  //   setSelectedSymptoms(prev => 
-  //     prev.includes(symptom)
-  //       ? prev.filter(s => s !== symptom)
-  //       : [...prev, symptom]
-  //   );
-  // };
+  const handleSymptomToggle = (symptom: string) => {
+    setSelectedSymptoms(prev => 
+      prev.includes(symptom)
+        ? prev.filter(s => s !== symptom)
+        : [...prev, symptom]
+    );
+  };
 
   // Implement assessment logic directly to fix triage priority issue
-  const assessSeverity = (primaryCause: string, symptoms: string[]): 'low' | 'medium' | 'high' | 'emergency' => {
+  const localAssessSeverity = (primaryCause: string, symptoms: string[]): 'low' | 'medium' | 'high' | 'emergency' => {
     // Emergency keywords that trigger immediate emergency classification
     const emergencyKeywords = ['unconscious', 'severe bleeding', 'difficulty breathing', 'chest pain', 'severe burns', 'head trauma'];
     const highKeywords = ['bleeding', 'severe pain', 'fever', 'infection signs'];
@@ -84,7 +80,7 @@ export function OfflineSymptomChecker({ primaryCause, onComplete, onBack }: Offl
     }
 
     // Use proper assessment logic instead of hardcoded 'low'
-    const severity = assessSeverity(primaryCause, selectedSymptoms);
+    const severity = localAssessSeverity(primaryCause, selectedSymptoms);
     onComplete(selectedSymptoms.length > 0 ? selectedSymptoms : ['basic assessment'], severity);
   };
 
@@ -119,13 +115,10 @@ export function OfflineSymptomChecker({ primaryCause, onComplete, onBack }: Offl
             <div className="grid gap-3">
               {availableSymptoms.map((symptom) => (
                 <div key={symptom} className="flex items-center space-x-3">
-                  {/* Temporarily replace Checkbox with simple input to fix React initialization issue */}
-                  <input
-                    type="checkbox"
+                  <Checkbox
                     id={symptom}
-                    className="w-4 h-4 text-primary bg-background border-border rounded focus:ring-primary focus:ring-2"
-                    // checked={selectedSymptoms.includes(symptom)}
-                    // onChange={() => handleSymptomToggle(symptom)}
+                    checked={selectedSymptoms.includes(symptom)}
+                    onCheckedChange={() => handleSymptomToggle(symptom)}
                   />
                   <label
                     htmlFor={symptom}
@@ -154,8 +147,8 @@ export function OfflineSymptomChecker({ primaryCause, onComplete, onBack }: Offl
         <CardContent>
           <Textarea
             placeholder="Describe any additional symptoms, when they started, severity, or other relevant information..."
-            // value={additionalNotes}
-            // onChange={(e) => setAdditionalNotes(e.target.value)}
+            value={additionalNotes}
+            onChange={(e) => setAdditionalNotes(e.target.value)}
             className="min-h-[100px]"
           />
         </CardContent>
