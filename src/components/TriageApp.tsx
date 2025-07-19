@@ -7,7 +7,7 @@ import { AlertTriangle, Heart, Phone, FileText, ArrowLeft, Bot, Wifi, WifiOff, V
 import { ImageUpload } from './ImageUpload';
 import { LightweightChat } from './LightweightChat';
 import { SymptomChecker } from './SymptomChecker';
-import { OfflineSymptomChecker } from './OfflineSymptomChecker';
+
 import { TalkToDoctor } from './TalkToDoctor';
 import { EnhancedOfflineLibrary } from './EnhancedOfflineLibrary';
 
@@ -278,7 +278,7 @@ export function TriageApp() {
 
       case 'symptoms':
         return (
-          <OfflineSymptomChecker
+          <SymptomChecker
             primaryCause={state.primaryCause!}
             onComplete={handleSymptomsComplete}
             onBack={goBack}
