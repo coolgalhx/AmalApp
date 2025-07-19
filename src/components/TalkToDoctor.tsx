@@ -264,59 +264,6 @@ export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorPro
         </CardContent>
       </Card>
 
-      <div className="space-y-4">
-        {consultationOptions
-          .filter(option => severity !== 'emergency' || option.id === 'emergency')
-          .map((option) => {
-            const Icon = option.icon;
-            return (
-              <Card 
-                key={option.id}
-                className={`cursor-pointer transition-all ${
-                  option.recommended ? 'border-primary bg-primary/5' : ''
-                } ${selectedOption === option.id ? 'ring-2 ring-primary' : ''}`}
-                onClick={() => handleOptionSelect(option.id)}
-              >
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <Icon className="h-6 w-6 text-primary" />
-                      <span>{option.title}</span>
-                    </div>
-                    {option.recommended && (
-                      <Badge variant="default" className="text-xs">
-                        Recommended
-                      </Badge>
-                    )}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <p className="text-muted-foreground mb-4">{option.description}</p>
-                  
-                  <div className="grid grid-cols-3 gap-4 text-sm">
-                    <div>
-                      <div className="flex items-center gap-1 mb-1">
-                        <Clock className="h-3 w-3" />
-                        <span className="font-medium">Wait Time</span>
-                      </div>
-                      <p className="text-muted-foreground">{option.waitTime}</p>
-                    </div>
-                    
-                    <div>
-                      <div className="font-medium mb-1">Cost</div>
-                      <p className="text-muted-foreground">{option.cost}</p>
-                    </div>
-                    
-                    <div>
-                      <div className="font-medium mb-1">Availability</div>
-                      <p className="text-muted-foreground">{option.availability}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-      </div>
 
       <Card>
         <CardHeader>
