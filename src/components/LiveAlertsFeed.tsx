@@ -39,7 +39,8 @@ const mockNews: NewsItem[] = [
 ];
 
 export const LiveAlertsFeed = () => {
-  const { speak, stop, isSpeaking } = useTextToSpeech();
+  // Temporarily remove hooks to isolate React initialization issue
+  // const { speak, stop, isSpeaking } = useTextToSpeech();
 
   const getPageText = () => {
     const newsText = mockNews.map(item => 
@@ -49,10 +50,14 @@ export const LiveAlertsFeed = () => {
     return `Live Alerts Feed. ${newsText}`;
   };
 
-  const handleDoubleClick = useDoubleClick(
-    () => speak(getPageText()),
-    () => stop()
-  );
+  // const handleDoubleClick = useDoubleClick(
+  //   () => speak(getPageText()),
+  //   () => stop()
+  // );
+
+  const handleDoubleClick = () => {
+    console.log('Double click detected');
+  };
 
   return (
     <div className="space-y-4 p-4 bg-gradient-medical min-h-screen animate-fade-in">
@@ -62,11 +67,11 @@ export const LiveAlertsFeed = () => {
           variant="ghost"
           size="icon"
           onClick={handleDoubleClick}
-          className={`text-muted-foreground hover:text-foreground ${isSpeaking ? 'bg-primary/20 text-primary' : ''}`}
-          aria-label={isSpeaking ? "Double-click to stop reading" : "Click to read page content aloud, double-click to stop"}
-          title={isSpeaking ? "Double-click to stop" : "Click to read aloud, double-click to stop"}
+          className="text-muted-foreground hover:text-foreground"
+          aria-label="Click to read page content aloud"
+          title="Click to read aloud"
         >
-          <Volume2 className={`h-5 w-5 ${isSpeaking ? 'animate-pulse' : ''}`} />
+          <Volume2 className="h-5 w-5" />
         </Button>
       </div>
       
@@ -92,8 +97,7 @@ export const LiveAlertsFeed = () => {
                       size="sm" 
                       className="hover-glow p-1"
                       onClick={() => {
-                        const newsText = `${item.isBreaking ? 'Breaking news: ' : ''}${item.title} from ${item.source}, ${item.time}. ${item.likes} likes, ${item.comments} comments.`;
-                        speak(newsText);
+                        console.log('News item clicked');
                       }}
                       aria-label="Read this news item aloud"
                     >
