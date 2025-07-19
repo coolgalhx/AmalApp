@@ -35,17 +35,57 @@ export function OfflineSymptomChecker({ primaryCause, onComplete, onBack }: Offl
   //   );
   // };
 
-  // const handleComplete = async () => {
-  //   if (selectedSymptoms.length === 0) {
-  //     return;
-  //   }
-  //   // Simplified completion for now
-  //   onComplete(['basic assessment'], 'low');
-  // };
+  // Implement assessment logic directly to fix triage priority issue
+  const assessSeverity = (primaryCause: string, symptoms: string[]): 'low' | 'medium' | 'high' | 'emergency' => {
+    // Emergency keywords that trigger immediate emergency classification
+    const emergencyKeywords = ['unconscious', 'severe bleeding', 'difficulty breathing', 'chest pain', 'severe burns', 'head trauma'];
+    const highKeywords = ['bleeding', 'severe pain', 'fever', 'infection signs'];
+    const mediumKeywords = ['pain', 'swelling', 'redness'];
+
+    const symptomText = symptoms.join(' ').toLowerCase();
+
+    if (emergencyKeywords.some(keyword => symptomText.includes(keyword))) {
+      return 'emergency';
+    }
+
+    if (primaryCause === 'trauma' && symptoms.length > 2) {
+      return 'high';
+    }
+
+    if (highKeywords.some(keyword => symptomText.includes(keyword))) {
+      return 'high';
+    }
+
+    if (mediumKeywords.some(keyword => symptomText.includes(keyword))) {
+      return 'medium';
+    }
+
+    return 'low';
+  };
 
   const handleComplete = () => {
-    // Simplified completion for React initialization fix
-    onComplete(['basic assessment'], 'low');
+    // Get checked symptoms from the checkboxes
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    const selectedSymptoms: string[] = [];
+    
+    checkboxes.forEach((checkbox) => {
+      const label = document.querySelector(`label[for="${checkbox.id}"]`);
+      if (label) {
+        selectedSymptoms.push(label.textContent || '');
+      }
+    });
+
+    // Get additional notes from textarea
+    const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
+    const additionalNotes = textarea?.value || '';
+    
+    if (additionalNotes.trim()) {
+      selectedSymptoms.push(additionalNotes.trim());
+    }
+
+    // Use proper assessment logic instead of hardcoded 'low'
+    const severity = assessSeverity(primaryCause, selectedSymptoms);
+    onComplete(selectedSymptoms.length > 0 ? selectedSymptoms : ['basic assessment'], severity);
   };
 
   return (
