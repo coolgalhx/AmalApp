@@ -1,11 +1,11 @@
+import React from "react";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
 import { TextToSpeech } from "@/components/TextToSpeech";
 
 const NotFound = () => {
   const location = useLocation();
 
-  useEffect(() => {
+  React.useEffect(() => {
     console.error(
       "404 Error: User attempted to access non-existent route:",
       location.pathname
