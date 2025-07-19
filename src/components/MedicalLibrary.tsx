@@ -101,9 +101,23 @@ export const MedicalLibrary = () => {
       <div className="space-y-4">
         {searchResults.map((article) => (
           <div key={article.id} className="bg-card rounded-lg border border-border/50 p-4 hover:bg-muted/30 transition-colors cursor-pointer">
-            <h3 className="font-medium text-base mb-3 leading-tight">
-              {article.title}
-            </h3>
+            <div className="flex items-start justify-between mb-3">
+              <h3 className="font-medium text-base leading-tight flex-1">
+                {article.title}
+              </h3>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="ml-2 p-1"
+                onClick={() => {
+                  const articleText = `${article.title} by ${article.author}, ${article.category} category. ${article.views} views, ${article.comments} comments. ${article.readTime}.`;
+                  speak(articleText);
+                }}
+                aria-label="Read this article summary aloud"
+              >
+                <Volume2 className="w-3 h-3" />
+              </Button>
+            </div>
             
             <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
               <div className="flex items-center gap-1">

@@ -86,9 +86,23 @@ export const LiveAlertsFeed = () => {
                     <span className="font-medium text-sm">{item.source}</span>
                     <span className="text-muted-foreground text-xs">{item.time}</span>
                   </div>
-                  <Button variant="ghost" size="sm" className="hover-glow">
-                    <MoreHorizontal className="w-4 h-4" />
-                  </Button>
+                  <div className="flex items-center space-x-1">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="hover-glow p-1"
+                      onClick={() => {
+                        const newsText = `${item.isBreaking ? 'Breaking news: ' : ''}${item.title} from ${item.source}, ${item.time}. ${item.likes} likes, ${item.comments} comments.`;
+                        speak(newsText);
+                      }}
+                      aria-label="Read this news item aloud"
+                    >
+                      <Volume2 className="w-3 h-3" />
+                    </Button>
+                    <Button variant="ghost" size="sm" className="hover-glow">
+                      <MoreHorizontal className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
                 
                 {item.isBreaking && (
