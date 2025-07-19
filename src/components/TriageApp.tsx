@@ -10,7 +10,7 @@ import { SymptomChecker } from './SymptomChecker';
 import { OfflineSymptomChecker } from './OfflineSymptomChecker';
 import { TalkToDoctor } from './TalkToDoctor';
 import { EnhancedOfflineLibrary } from './EnhancedOfflineLibrary';
-import { TextToSpeech } from './TextToSpeech';
+
 // Temporarily comment out to fix React initialization issue
 // import { useTextToSpeech } from '@/hooks/useTextToSpeech';
 // import { useOfflineAssessment } from '@/hooks/useOfflineAssessment';
@@ -367,9 +367,7 @@ export function TriageApp() {
               alt="Hope Logo" 
               className="w-24 h-24"
             />
-            <div className="flex-1 flex justify-end">
-              <TextToSpeech text={getPageText()} />
-            </div>
+            <div className="flex-1"></div>
           </div>
           <h1 className="text-3xl font-bold mb-2">Hope Triage</h1>
           <p className="text-muted-foreground">
