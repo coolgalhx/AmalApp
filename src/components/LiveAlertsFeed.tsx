@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Heart, MessageCircle, Share, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TextToSpeech } from "@/components/TextToSpeech";
+import { useTranslation } from "@/contexts/TranslationContext";
 
 interface NewsItem {
   id: string;
@@ -39,18 +40,19 @@ const mockNews: NewsItem[] = [
 ];
 
 export const LiveAlertsFeed = () => {
+  const { translate } = useTranslation();
+  
   const getPageText = () => {
     const newsText = mockNews.map(item => 
-      `${item.isBreaking ? 'Breaking news: ' : ''}${item.title} from ${item.source}, ${item.time}. ${item.likes} likes, ${item.comments} comments.`
+      `${item.isBreaking ? translate('Breaking news') : translate('News')}: ${translate(item.title)} ${translate('from')} ${item.source}, ${item.time}. ${item.likes} ${translate('likes')}, ${item.comments} ${translate('comments')}.`
     ).join(' ');
-    
-    return `Live Alerts Feed. ${newsText}`;
+    return `${translate('Live Alerts')} ${translate('feed')}. ${newsText}`;
   };
 
   return (
     <div className="space-y-4 p-4 bg-gradient-medical min-h-screen animate-fade-in">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Live Alerts Feed</h1>
+        <h1 className="text-2xl font-bold text-foreground">{translate("Live Alerts")}</h1>
         <TextToSpeech text={getPageText()} />
       </div>
       
@@ -82,7 +84,7 @@ export const LiveAlertsFeed = () => {
                 
                 {item.isBreaking && (
                   <Badge className="bg-gradient-primary medical-badge text-white shadow-colored animate-scale-in">
-                    LIVE BREAKING NEWS
+                    {translate("LIVE BREAKING NEWS")}
                   </Badge>
                 )}
                 
@@ -103,12 +105,12 @@ export const LiveAlertsFeed = () => {
                 <div className="flex items-center space-x-4 pt-2">
                   <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-muted-foreground hover-glow">
                     <Heart className="w-4 h-4" />
-                    <span className="text-xs">{item.likes} likes</span>
+                    <span className="text-xs">{item.likes} {translate("likes")}</span>
                   </Button>
                   
                   <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-muted-foreground hover-glow">
                     <MessageCircle className="w-4 h-4" />
-                    <span className="text-xs">{item.comments} comments</span>
+                    <span className="text-xs">{item.comments} {translate("comments")}</span>
                   </Button>
                   
                   <Button variant="ghost" size="sm" className="text-muted-foreground hover-glow">

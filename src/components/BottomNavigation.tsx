@@ -1,6 +1,7 @@
 import React from "react";
 import { Home, Search, MessageCircle, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/contexts/TranslationContext";
 
 interface NavigationProps {
   activeTab: string;
@@ -8,11 +9,13 @@ interface NavigationProps {
 }
 
 export const BottomNavigation = ({ activeTab, onTabChange }: NavigationProps) => {
+  const { translate } = useTranslation();
+  
   const navItems = [
-    { id: "alerts", icon: Home, label: "Alerts" },
-    { id: "library", icon: Search, label: "Library" }, 
-    { id: "chat", icon: MessageCircle, label: "Chat" },
-    { id: "profile", icon: User, label: "Profile" }
+    { id: "alerts", icon: Home, label: translate("Home") },
+    { id: "library", icon: Search, label: translate("Library") }, 
+    { id: "chat", icon: MessageCircle, label: translate("Chat") },
+    { id: "profile", icon: User, label: translate("Profile") }
   ];
 
   return (

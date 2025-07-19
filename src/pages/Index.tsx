@@ -6,6 +6,7 @@ import { SignIn } from "@/components/SignIn";
 import { MedicalArticle } from "@/components/MedicalArticle";
 import { MedicalSearch } from "@/components/MedicalSearch";
 import { BottomNavigation } from "@/components/BottomNavigation";
+import { LanguageToggle } from "@/components/LanguageToggle";
 
 const Index = () => {
   const [activeTab, setActiveTab] = React.useState("alerts");
@@ -54,7 +55,12 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-medical-bg pb-16">
+    <div className="min-h-screen bg-medical-bg pb-16 relative">
+      {/* Language Toggle - Fixed position */}
+      <div className="fixed top-4 right-4 z-50">
+        <LanguageToggle />
+      </div>
+      
       {renderMainContent()}
       <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
     </div>
