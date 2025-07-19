@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
+
 import { AlertTriangle, CheckCircle } from 'lucide-react';
 import { PrimaryCause, Severity } from './TriageApp';
 
@@ -139,7 +139,12 @@ export function SymptomChecker({ primaryCause, onComplete, onBack }: SymptomChec
       </div>
 
       <div className="space-y-2">
-        <Progress value={progress} className="h-2" />
+        <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-primary transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
         <p className="text-sm text-muted-foreground text-center">
           {Math.round(progress)}% Complete
         </p>
