@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React from 'react';
 
 interface TranslationContextType {
   isArabic: boolean;
@@ -6,7 +6,7 @@ interface TranslationContextType {
   translate: (text: string) => string;
 }
 
-const TranslationContext = createContext<TranslationContextType | undefined>(undefined);
+const TranslationContext = React.createContext<TranslationContextType | undefined>(undefined);
 
 // Basic translation dictionary for common medical terms and UI elements
 const translations: Record<string, string> = {
@@ -158,7 +158,7 @@ const translations: Record<string, string> = {
 };
 
 export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isArabic, setIsArabic] = useState(false);
+  const [isArabic, setIsArabic] = React.useState(false);
 
   const toggleLanguage = () => {
     setIsArabic(!isArabic);
@@ -194,7 +194,7 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
 };
 
 export const useTranslation = (): TranslationContextType => {
-  const context = useContext(TranslationContext);
+  const context = React.useContext(TranslationContext);
   if (context === undefined) {
     throw new Error('useTranslation must be used within a TranslationProvider');
   }
