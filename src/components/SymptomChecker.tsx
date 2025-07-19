@@ -1,4 +1,4 @@
-import React, { useState, useMemo, memo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -20,7 +20,7 @@ interface SymptomCheckerProps {
   onBack: () => void;
 }
 
-const SymptomChecker = memo(({ primaryCause, onComplete, onBack }: SymptomCheckerProps) => {
+export function SymptomChecker({ primaryCause, onComplete, onBack }: SymptomCheckerProps) {
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -253,8 +253,4 @@ const SymptomChecker = memo(({ primaryCause, onComplete, onBack }: SymptomChecke
       </div>
     </div>
   );
-});
-
-SymptomChecker.displayName = 'SymptomChecker';
-
-export { SymptomChecker };
+}
