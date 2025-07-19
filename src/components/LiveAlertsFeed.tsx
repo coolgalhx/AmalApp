@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -58,7 +57,6 @@ export const LiveAlertsFeed = () => {
         <Card key={item.id} className="medical-card animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
           <CardContent className="p-4">
             <div className="flex items-start space-x-3">
-              {/* Temporarily remove Avatar component to fix React initialization issue */}
               <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-xs font-medium">
                 {item.source.split(' ').map(word => word[0]).join('').slice(0, 2)}
               </div>
