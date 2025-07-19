@@ -12,7 +12,7 @@ import { TalkToDoctor } from './TalkToDoctor';
 import { EnhancedOfflineLibrary } from './EnhancedOfflineLibrary';
 // Temporarily comment out to fix React initialization issue
 // import { useTextToSpeech } from '@/hooks/useTextToSpeech';
-import { useOfflineAssessment } from '@/hooks/useOfflineAssessment';
+// import { useOfflineAssessment } from '@/hooks/useOfflineAssessment';
 // import { useDoubleClick } from '@/hooks/useDoubleClick';
 
 export type TriageStep = 'chat-intro' | 'primary-cause' | 'image-upload' | 'lightweight-chat' | 'symptoms' | 'recommendations' | 'doctor' | 'library';
@@ -37,8 +37,7 @@ export function TriageApp() {
   });
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   // Temporarily comment out to fix React initialization issue
-  // const { speak, stop, isSpeaking } = useTextToSpeech();
-  const { isOffline: hookIsOffline } = useOfflineAssessment();
+  // const { isOffline: hookIsOffline } = useOfflineAssessment();
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
