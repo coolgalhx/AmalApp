@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -16,9 +16,9 @@ interface OfflineSymptomCheckerProps {
 
 export function OfflineSymptomChecker({ primaryCause, onComplete, onBack }: OfflineSymptomCheckerProps) {
   const { isOffline, getSymptomsForCause, assessSeverity, saveAssessment } = useOfflineAssessment();
-  const [selectedSymptoms, setSelectedSymptoms] = React.useState<string[]>([]);
-  const [additionalNotes, setAdditionalNotes] = React.useState('');
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
+  const [additionalNotes, setAdditionalNotes] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Fallback data for offline functionality
   const availableSymptoms = ['pain', 'swelling', 'bleeding', 'bruising', 'difficulty moving'];

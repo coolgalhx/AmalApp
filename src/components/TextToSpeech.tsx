@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Volume2, VolumeX } from 'lucide-react';
 
@@ -8,9 +8,9 @@ interface TextToSpeechProps {
 }
 
 export const TextToSpeech: React.FC<TextToSpeechProps> = ({ text, className = '' }) => {
-  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  const speak = React.useCallback(() => {
+  const speak = useCallback(() => {
     if (!('speechSynthesis' in window)) {
       alert('Text-to-speech is not supported in your browser.');
       return;
