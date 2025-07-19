@@ -3,8 +3,9 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useTextToSpeech } from "@/hooks/useTextToSpeech";
-import { useDoubleClick } from "@/hooks/useDoubleClick";
+// Temporarily comment out to fix React initialization issue
+// import { useTextToSpeech } from "@/hooks/useTextToSpeech";
+// import { useDoubleClick } from "@/hooks/useDoubleClick";
 
 interface Article {
   id: string;
@@ -51,27 +52,29 @@ const searchResults: Article[] = [
 ];
 
 export const MedicalLibrary = () => {
-  const { speak, stop, isSpeaking } = useTextToSpeech();
+  // Temporarily comment out to fix React initialization issue
+  // const { speak, stop, isSpeaking } = useTextToSpeech();
 
-  const getPageText = () => {
-    const articlesText = searchResults.map(article => 
-      `${article.title} by ${article.author}, ${article.category} category. ${article.views} views, ${article.comments} comments. ${article.readTime}.`
-    ).join(' ');
-    
-    return `Medical Library. Results for Treat Wounds. ${articlesText}`;
-  };
+  // const getPageText = () => {
+  //   const articlesText = searchResults.map(article => 
+  //     `${article.title} by ${article.author}, ${article.category} category. ${article.views} views, ${article.comments} comments. ${article.readTime}.`
+  //   ).join(' ');
+  //   
+  //   return `Medical Library. Results for Treat Wounds. ${articlesText}`;
+  // };
 
-  const handleDoubleClick = useDoubleClick(
-    () => speak(getPageText()),
-    () => stop()
-  );
+  // const handleDoubleClick = useDoubleClick(
+  //   () => speak(getPageText()),
+  //   () => stop()
+  // );
 
   return (
     <div className="p-4 bg-background min-h-screen">
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-lg font-semibold">Results for: Treat Wounds</h1>
-        <Button
+        {/* Temporarily remove text-to-speech to fix React initialization issue */}
+        {/* <Button
           variant="ghost"
           size="icon"
           onClick={handleDoubleClick}
@@ -80,7 +83,7 @@ export const MedicalLibrary = () => {
           title={isSpeaking ? "Double-click to stop" : "Click to read aloud, double-click to stop"}
         >
           <Volume2 className={`h-5 w-5 ${isSpeaking ? 'animate-pulse' : ''}`} />
-        </Button>
+        </Button> */}
       </div>
 
       {/* Search Bar */}
@@ -105,7 +108,8 @@ export const MedicalLibrary = () => {
               <h3 className="font-medium text-base leading-tight flex-1">
                 {article.title}
               </h3>
-              <Button 
+              {/* Temporarily remove text-to-speech to fix React initialization issue */}
+              {/* <Button 
                 variant="ghost" 
                 size="sm" 
                 className="ml-2 p-1"
@@ -116,7 +120,7 @@ export const MedicalLibrary = () => {
                 aria-label="Read this article summary aloud"
               >
                 <Volume2 className="w-3 h-3" />
-              </Button>
+              </Button> */}
             </div>
             
             <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
