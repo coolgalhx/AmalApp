@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Phone, Video, MessageSquare, Clock, MapPin, AlertTriangle, ArrowLeft } from 'lucide-react';
+import { Phone, Video, MessageSquare, Clock, MapPin, AlertTriangle, ArrowLeft, Users } from 'lucide-react';
 import { PrimaryCause, Severity } from './TriageApp';
 
 interface TalkToDoctorProps {
@@ -33,6 +33,48 @@ export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorPro
       default: return '30-60 min';
     }
   };
+
+  const escalationOptions = [
+    {
+      id: 'internal-call',
+      title: 'Internal Phone Call',
+      description: 'Direct call to local on-call doctor (Partner Network)',
+      descriptionAr: 'اتصال مباشر بطبيب محلي (شبكة الشركاء)',
+      icon: Phone,
+      waitTime: 'Immediate',
+      cost: 'Free',
+      availability: '24/7 Available',
+      recommended: severity === 'emergency' || severity === 'high',
+      phoneNumber: '+1-555-DOCTOR', // Replace with actual number
+      action: 'call'
+    },
+    {
+      id: 'whatsapp-global',
+      title: 'WhatsApp Global Doctor',
+      description: 'Chat with remote doctor via WhatsApp',
+      descriptionAr: 'محادثة مع طبيب عن بُعد عبر واتساب',
+      icon: MessageSquare,
+      waitTime: '5-15 min',
+      cost: 'Low cost',
+      availability: 'International coverage',
+      recommended: severity === 'medium' || severity === 'low',
+      whatsappNumber: '+1234567890', // Replace with actual WhatsApp number
+      action: 'whatsapp'
+    },
+    {
+      id: 'group-doctors',
+      title: 'Ask Group of Doctors',
+      description: 'Get multiple opinions from our medical community',
+      descriptionAr: 'احصل على آراء متعددة من مجتمعنا الطبي',
+      icon: Users,
+      waitTime: '10-30 min',
+      cost: 'Community rate',
+      availability: 'Active community',
+      recommended: severity === 'medium',
+      groupLink: 'https://chat.whatsapp.com/medical-group', // Replace with actual group
+      action: 'group'
+    }
+  ];
 
   const consultationOptions = [
     {
@@ -76,6 +118,25 @@ export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorPro
       recommended: severity === 'low'
     }
   ];
+
+  const handleEscalationSelect = (option: any) => {
+    setSelectedOption(option.id);
+    
+    switch (option.action) {
+      case 'call':
+        // Open native phone dialer
+        window.location.href = `tel:${option.phoneNumber}`;
+        break;
+      case 'whatsapp':
+        // Open WhatsApp chat
+        window.open(`https://wa.me/${option.whatsappNumber.replace(/[^0-9]/g, '')}?text=Hello,%20I%20need%20medical%20assistance%20regarding%20${primaryCause}`, '_blank');
+        break;
+      case 'group':
+        // Open group chat
+        window.open(option.groupLink, '_blank');
+        break;
+    }
+  };
 
   const handleOptionSelect = (optionId: string) => {
     setSelectedOption(optionId);
@@ -136,6 +197,72 @@ export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorPro
           </CardContent>
         </Card>
       )}
+
+      {/* Doctor Escalation Options */}
+      <Card className="border-primary/20 bg-primary/5">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Phone className="h-5 w-5 text-primary" />
+            Talk to a Doctor
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Get immediate professional medical support through multiple channels
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {escalationOptions.map((option) => {
+            const Icon = option.icon;
+            return (
+              <Card 
+                key={option.id}
+                className={`cursor-pointer transition-all border-2 hover:border-primary/50 ${
+                  option.recommended ? 'border-primary bg-primary/5' : 'border-border'
+                } ${selectedOption === option.id ? 'ring-2 ring-primary' : ''}`}
+                onClick={() => handleEscalationSelect(option)}
+              >
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-full bg-primary/10">
+                        <Icon className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold">{option.title}</h4>
+                        <p className="text-sm text-muted-foreground">{option.description}</p>
+                      </div>
+                    </div>
+                    {option.recommended && (
+                      <Badge variant="default" className="text-xs">
+                        Recommended
+                      </Badge>
+                    )}
+                  </div>
+                  
+                  <div className="grid grid-cols-3 gap-4 text-xs">
+                    <div>
+                      <div className="flex items-center gap-1 mb-1">
+                        <Clock className="h-3 w-3" />
+                        <span className="font-medium">Response</span>
+                      </div>
+                      <p className="text-muted-foreground">{option.waitTime}</p>
+                    </div>
+                    
+                    <div>
+                      <div className="font-medium mb-1">Cost</div>
+                      <p className="text-muted-foreground">{option.cost}</p>
+                    </div>
+                    
+                    <div>
+                      <div className="font-medium mb-1">Coverage</div>
+                      <p className="text-muted-foreground">{option.availability}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </CardContent>
+      </Card>
 
       <div className="space-y-4">
         {consultationOptions
