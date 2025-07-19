@@ -10,9 +10,10 @@ import { SymptomChecker } from './SymptomChecker';
 import { OfflineSymptomChecker } from './OfflineSymptomChecker';
 import { TalkToDoctor } from './TalkToDoctor';
 import { EnhancedOfflineLibrary } from './EnhancedOfflineLibrary';
-import { useTextToSpeech } from '@/hooks/useTextToSpeech';
+// Temporarily comment out to fix React initialization issue
+// import { useTextToSpeech } from '@/hooks/useTextToSpeech';
 import { useOfflineAssessment } from '@/hooks/useOfflineAssessment';
-import { useDoubleClick } from '@/hooks/useDoubleClick';
+// import { useDoubleClick } from '@/hooks/useDoubleClick';
 
 export type TriageStep = 'chat-intro' | 'primary-cause' | 'image-upload' | 'lightweight-chat' | 'symptoms' | 'recommendations' | 'doctor' | 'library';
 export type PrimaryCause = 'injury' | 'burn' | 'trauma' | 'infection';
@@ -35,7 +36,8 @@ export function TriageApp() {
     progress: 0
   });
   const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const { speak, stop, isSpeaking } = useTextToSpeech();
+  // Temporarily comment out to fix React initialization issue
+  // const { speak, stop, isSpeaking } = useTextToSpeech();
   const { isOffline: hookIsOffline } = useOfflineAssessment();
 
   useEffect(() => {
@@ -75,10 +77,11 @@ export function TriageApp() {
     }
   };
 
-  const handleDoubleClick = useDoubleClick(
-    () => speak(getPageText()),
-    () => stop()
-  );
+  // Temporarily comment out to fix React initialization issue
+  // const handleDoubleClick = useDoubleClick(
+  //   () => speak(getPageText()),
+  //   () => stop()
+  // );
 
   const startAITriage = () => {
     setState({ ...state, step: 'primary-cause', progress: 10, useAI: true });
@@ -365,7 +368,8 @@ export function TriageApp() {
               className="w-24 h-24"
             />
             <div className="flex-1 flex justify-end">
-              <Button
+              {/* Temporarily remove text-to-speech to fix React initialization issue */}
+              {/* <Button
                 variant="ghost"
                 size="icon"
                 onClick={handleDoubleClick}
@@ -374,7 +378,7 @@ export function TriageApp() {
                 title={isSpeaking ? "Double-click to stop" : "Click to read aloud, double-click to stop"}
               >
                 <Volume2 className={`h-5 w-5 ${isSpeaking ? 'animate-pulse' : ''}`} />
-              </Button>
+              </Button> */}
             </div>
           </div>
           <h1 className="text-3xl font-bold mb-2">Hope Triage</h1>
