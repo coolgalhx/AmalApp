@@ -27,9 +27,7 @@ export const SignIn = () => {
               alt="Hope Logo" 
               className="w-20 h-20"
             />
-            <div className="flex-1 flex justify-end">
-              <TextToSpeech text={pageText} />
-            </div>
+            <div className="flex-1"></div>
           </div>
           <CardTitle className="text-2xl font-bold">
             {translate("Hope")}
