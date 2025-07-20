@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
 
 export interface OfflineAssessmentData {
   id?: number;
@@ -20,11 +20,11 @@ export interface OfflineMedicalData {
 }
 
 export function useOfflineAssessment() {
-  const [isOffline, setIsOffline] = useState(!navigator.onLine);
-  const [offlineData, setOfflineData] = useState<OfflineMedicalData | null>(null);
-  const [assessments, setAssessments] = useState<OfflineAssessmentData[]>([]);
+  const [isOffline, setIsOffline] = React.useState(!navigator.onLine);
+  const [offlineData, setOfflineData] = React.useState<OfflineMedicalData | null>(null);
+  const [assessments, setAssessments] = React.useState<OfflineAssessmentData[]>([]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleOnline = () => {
       setIsOffline(false);
       // Trigger sync when coming back online

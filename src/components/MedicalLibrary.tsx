@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import * as React from "react";
 import { Search, Eye, MessageCircle, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -54,7 +54,7 @@ const searchResults: Article[] = [
 export const MedicalLibrary = () => {
   const { translate } = useTranslation();
   
-  const getPageText = useMemo(() => {
+  const getPageText = React.useMemo(() => {
     const articlesText = searchResults.map(article => 
       `${article.title} by ${article.author}, ${article.category} category. ${article.views} views, ${article.comments} comments. ${article.readTime}.`
     ).join(' ');

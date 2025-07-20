@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import * as React from "react";
 import { useTranslation } from "@/contexts/TranslationContext";
 
 declare global {
@@ -17,7 +17,7 @@ const TextToSpeechButton: React.FC<TextToSpeechButtonProps> = ({ text }) => {
   const voice = isArabic ? "Arabic Female" : "UK English Female";
 
   // Optional: Load responsiveVoice if not already loaded (for SPA environments)
-  useEffect(() => {
+  React.useEffect(() => {
     if (!window.responsiveVoice) {
       const script = document.createElement("script");
       script.src = "https://code.responsivevoice.org/responsivevoice.js?key=undefined";
