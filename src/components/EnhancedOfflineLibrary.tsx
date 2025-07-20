@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Search, Book, AlertTriangle, Heart, Thermometer, Pill } from 'lucide-react';
 import { PrimaryCause } from './TriageApp';
 import SpeakableText from "./SpeakableText";
@@ -25,6 +25,7 @@ interface EnhancedOfflineLibraryProps {
 export function EnhancedOfflineLibrary({ primaryCause, onBack }: EnhancedOfflineLibraryProps) {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [selectedItem, setSelectedItem] = React.useState<LibraryItem | null>(null);
+  const [activeTab, setActiveTab] = React.useState(primaryCause || 'all');
 
   const libraryContent: LibraryItem[] = [
     // Injury Content
@@ -374,67 +375,84 @@ export function EnhancedOfflineLibrary({ primaryCause, onBack }: EnhancedOffline
         />
       </div>
 
-      <Tabs defaultValue={primaryCause || 'all'} className="w-full">
-        <TabsList className="grid grid-cols-4 w-full">
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="injury">Injury</TabsTrigger>
-          <TabsTrigger value="burn">Burns</TabsTrigger>
-          <TabsTrigger value="trauma">Trauma</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="all" className="space-y-4">
-          {filteredContent.map((item) => (
-            <Card key={item.id} className="cursor-pointer hover:bg-muted/50 transition-colors" onClick={() => setSelectedItem(item)}>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-semibold">{item.title}</h3>
-                  {item.severity && (
-                    <Badge className={`${getSeverityColor(item.severity)} text-background text-xs`}>
-                      {item.severity.toUpperCase()}
-                    </Badge>
-                  )}
-                </div>
-                <p className="text-sm text-muted-foreground mb-2">
-                  Category: {item.category}
-                </p>
-                <div className="flex flex-wrap gap-1">
-                  {item.keywords.slice(0, 3).map((keyword) => (
-                    <Badge key={keyword} variant="outline" className="text-xs">
-                      {keyword}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </TabsContent>
-
-        {['injury', 'burn', 'trauma'].map((category) => (
-          <TabsContent key={category} value={category} className="space-y-4">
-            {getContentByCategory(category).map((item) => (
-              <Card key={item.id} className="cursor-pointer hover:bg-muted/50 transition-colors" onClick={() => setSelectedItem(item)}>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-semibold">{item.title}</h3>
-                    {item.severity && (
-                      <Badge className={`${getSeverityColor(item.severity)} text-background text-xs`}>
-                        {item.severity.toUpperCase()}
-                      </Badge>
-                    )}
-                  </div>
-                  <div className="flex flex-wrap gap-1">
-                    {item.keywords.slice(0, 3).map((keyword) => (
-                      <Badge key={keyword} variant="outline" className="text-xs">
-                        {keyword}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+      {/* Custom Tab Navigation */}
+      <div className="w-full">
+        <div className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground w-full">
+          <div className="grid grid-cols-4 w-full">
+            {['all', 'injury', 'burn', 'trauma'].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
+                  activeTab === tab ? 'bg-background text-foreground shadow-sm' : ''
+                }`}
+              >
+                {tab === 'all' ? 'All' : tab === 'injury' ? 'Injury' : tab === 'burn' ? 'Burns' : 'Trauma'}
+              </button>
             ))}
-          </TabsContent>
-        ))}
-      </Tabs>
+          </div>
+        </div>
+
+        {/* Tab Content */}
+        <div className="mt-2">
+          {activeTab === 'all' && (
+            <div className="space-y-4">
+              {filteredContent.map((item) => (
+                <Card key={item.id} className="cursor-pointer hover:bg-muted/50 transition-colors" onClick={() => setSelectedItem(item)}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="font-semibold">{item.title}</h3>
+                      {item.severity && (
+                        <Badge className={`${getSeverityColor(item.severity)} text-background text-xs`}>
+                          {item.severity.toUpperCase()}
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      Category: {item.category}
+                    </p>
+                    <div className="flex flex-wrap gap-1">
+                      {item.keywords.slice(0, 3).map((keyword) => (
+                        <Badge key={keyword} variant="outline" className="text-xs">
+                          {keyword}
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+
+          {['injury', 'burn', 'trauma'].map((category) => (
+            activeTab === category && (
+              <div key={category} className="space-y-4">
+                {getContentByCategory(category).map((item) => (
+                  <Card key={item.id} className="cursor-pointer hover:bg-muted/50 transition-colors" onClick={() => setSelectedItem(item)}>
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-semibold">{item.title}</h3>
+                        {item.severity && (
+                          <Badge className={`${getSeverityColor(item.severity)} text-background text-xs`}>
+                            {item.severity.toUpperCase()}
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="flex flex-wrap gap-1">
+                        {item.keywords.slice(0, 3).map((keyword) => (
+                          <Badge key={keyword} variant="outline" className="text-xs">
+                            {keyword}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )
+          ))}
+        </div>
+      </div>
 
       <div className="bg-muted p-4 rounded-lg">
         <div className="flex items-center gap-2 mb-2">
