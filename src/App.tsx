@@ -7,11 +7,14 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { EmergencyAlert } from './components/EmergencyAlert';
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <EmergencyAlert />
+
     <ThemeProvider
       attribute="class"
       defaultTheme="system"
