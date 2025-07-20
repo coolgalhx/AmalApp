@@ -46,7 +46,7 @@ const Index = () => {
       case "alerts":
         return <LiveAlertsFeed />;
       case "library":
-        return <MedicalLibrary />;
+        return <TriageApp />;
       case "chat":
         return <TriageApp />;
       default:

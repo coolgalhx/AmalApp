@@ -35,7 +35,7 @@ export function TriageApp() {
     symptoms: [],
     progress: 0
   });
-  const [isOnline, setIsOnline] = React.useState(navigator.onLine);
+  const [isOnline, setIsOnline] = React.useState(false); // Default to offline mode
 
   React.useEffect(() => {
     const handleOnline = () => setIsOnline(true);
