@@ -251,7 +251,7 @@ export function LightweightChat({ primaryCause, onTriageComplete, onBack }: Ligh
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             className="flex-1"
           />
-          <SpeechToTextInput onResult={setInputValue} />
+          {/* <SpeechToTextInput onResult={setInputValue} /> */}
           <Button onClick={handleSendMessage} disabled={!inputValue.trim()}>
             <Send className="h-4 w-4" />
           </Button>

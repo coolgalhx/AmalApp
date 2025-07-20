@@ -35,7 +35,12 @@ const TextToSpeechButton: React.FC<TextToSpeechButtonProps> = ({ text }) => {
   };
 
   return (
-    <button className='text-sm m-2 mt-0 mb-0 p-0' onClick={speak} aria-label="Read text aloud">
+    <button 
+      className='text-sm m-2 mt-0 mb-0 p-1 hover:bg-gray-100 rounded-sm transition-colors' 
+      onClick={speak} 
+      aria-label="Read text aloud"
+      style={{ minWidth: '24px', minHeight: '24px' }}
+    >
       🔊
     </button>
   );
