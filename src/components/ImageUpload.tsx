@@ -6,7 +6,7 @@ import { PrimaryCause } from './TriageApp';
 
 interface ImageUploadProps {
   primaryCause: PrimaryCause;
-  onImageCapture: (image: File, analysis?: string) => void;
+  onImageCapture: (image: File) => void;
   onBack: () => void;
 }
 
@@ -84,10 +84,8 @@ export function ImageUpload({ primaryCause, onImageCapture, onBack }: ImageUploa
     // Simulate AI analysis
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    const mockAnalysis = `Preliminary analysis shows signs consistent with ${primaryCause}. Proceeding to chat assessment for detailed evaluation.`;
-    
     setIsAnalyzing(false);
-    onImageCapture(capturedImage, mockAnalysis);
+    onImageCapture(capturedImage);
   };
 
   const getCauseSpecificInstructions = () => {
