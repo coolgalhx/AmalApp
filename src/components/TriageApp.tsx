@@ -1,20 +1,16 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-// import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, Heart, Phone, FileText, ArrowLeft, Bot, Wifi, WifiOff, Volume2 } from 'lucide-react';
 import { ImageUpload } from './ImageUpload';
 import { LightweightChat } from './LightweightChat';
 import { SymptomChecker } from './SymptomChecker';
-
 import { TalkToDoctor } from './TalkToDoctor';
 import { EnhancedOfflineLibrary } from './EnhancedOfflineLibrary';
-
-// Temporarily comment out to fix React initialization issue
-// import { useTextToSpeech } from '@/hooks/useTextToSpeech';
-// import { useOfflineAssessment } from '@/hooks/useOfflineAssessment';
-// import { useDoubleClick } from '@/hooks/useDoubleClick';
+import { TranslatedText } from './TranslatedText';
+import { useTranslation } from '@/contexts/TranslationContext';
 
 export type TriageStep = 'chat-intro' | 'primary-cause' | 'image-upload' | 'lightweight-chat' | 'symptoms' | 'recommendations' | 'doctor' | 'library';
 export type PrimaryCause = 'injury' | 'burn' | 'trauma' | 'infection';
@@ -31,14 +27,13 @@ interface TriageState {
 }
 
 export function TriageApp() {
+  const { isArabic, translate } = useTranslation();
   const [state, setState] = useState<TriageState>({
     step: 'chat-intro',
     symptoms: [],
     progress: 0
   });
   const [isOnline, setIsOnline] = useState(navigator.onLine);
-  // Temporarily comment out to fix React initialization issue
-  // const { isOffline: hookIsOffline } = useOfflineAssessment();
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -63,25 +58,6 @@ export function TriageApp() {
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
-
-  const getPageText = () => {
-    switch (state.step) {
-      case 'chat-intro':
-        return 'Welcome to Hope AI Triage. Choose how you would like to get medical guidance. AI-Powered Assessment with image analysis and AI chat, or Manual Assessment with step-by-step triage and offline medical library.';
-      case 'primary-cause':
-        return `${state.useAI ? 'AI Assessment' : 'Manual Assessment'}. What is the primary cause? Select the main reason for seeking help. Options are: Injury, Burn, Trauma, or Infection.`;
-      case 'recommendations':
-        return `Assessment Complete. ${state.severity} priority condition. Based on your symptoms, here are our recommendations. You can talk to a doctor or access the medical library.`;
-      default:
-        return 'Hope Triage application. Use the interface to navigate through your medical assessment.';
-    }
-  };
-
-  // Temporarily comment out to fix React initialization issue
-  // const handleDoubleClick = useDoubleClick(
-  //   () => speak(getPageText()),
-  //   () => stop()
-  // );
 
   const startAITriage = () => {
     setState({ ...state, step: 'primary-cause', progress: 10, useAI: true });
@@ -192,38 +168,51 @@ export function TriageApp() {
     switch (state.step) {
       case 'chat-intro':
         return (
-          <div className="space-y-6">
-             <div className="text-center">
+          <div className={`space-y-6 ${isArabic ? 'rtl:text-right' : ''}`}>
+             <div className={`text-center ${isArabic ? 'rtl:text-right' : ''}`}>
               <img 
                 src="/lovable-uploads/956ef608-57d9-4264-a562-d9fd9f259607.png" 
                 alt="Hope Logo" 
                 className="w-20 h-20 mx-auto mb-4"
               />
-              <h2 className="text-2xl font-bold mb-2">Welcome to Hope AI Triage</h2>
+              <h2 className="text-2xl font-bold mb-2">
+                <TranslatedText>Welcome to Hope AI Triage</TranslatedText>
+              </h2>
               <p className="text-muted-foreground mb-6">
-                Choose how you'd like to get medical guidance
+                <TranslatedText>Choose how you would like to get medical guidance</TranslatedText>
               </p>
             </div>
             
             <div className="space-y-4">
-
-              <Card>
+              <Card className={isArabic ? 'card-rtl' : ''}>
                 <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
+                  <div className={`flex items-start gap-4 ${isArabic ? 'rtl:flex-row-reverse' : ''}`}>
                     <div className="p-2 bg-secondary/10 rounded-lg">
                       <FileText className="h-6 w-6 text-secondary" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold mb-2">Manual Assessment</h3>
+                      <h3 className="font-semibold mb-2">
+                        <TranslatedText>Manual Assessment</TranslatedText>
+                      </h3>
                       <p className="text-sm text-muted-foreground mb-4">
-                        Step-by-step triage with offline medical library
+                        <TranslatedText>Step-by-step triage with offline medical library</TranslatedText>
                       </p>
-                      <Badge variant="outline" className="mr-2">Step by Step</Badge>
-                      <Badge variant="outline">Offline Ready</Badge>
+                      <div className={`flex gap-2 ${isArabic ? 'rtl:flex-row-reverse rtl:justify-end' : ''}`}>
+                        <Badge variant="outline">
+                          <TranslatedText>Step by Step</TranslatedText>
+                        </Badge>
+                        <Badge variant="outline">
+                          <TranslatedText>Offline Ready</TranslatedText>
+                        </Badge>
+                      </div>
                     </div>
                   </div>
-                  <Button variant="outline" onClick={startManualTriage} className="w-full mt-4">
-                    Start Manual Assessment
+                  <Button 
+                    variant="outline" 
+                    onClick={startManualTriage} 
+                    className={`w-full mt-4 ${isArabic ? 'rtl:btn-reverse' : ''}`}
+                  >
+                    <TranslatedText>Start Manual Assessment</TranslatedText>
                   </Button>
                 </CardContent>
               </Card>
@@ -233,25 +222,29 @@ export function TriageApp() {
 
       case 'primary-cause':
         return (
-          <div className="space-y-6">
-            <div className="text-center">
+          <div className={`space-y-6 ${isArabic ? 'rtl:text-right' : ''}`}>
+            <div className={`text-center ${isArabic ? 'rtl:text-right' : ''}`}>
               <Badge variant="outline" className="mb-4">
-                {state.useAI ? 'AI Assessment' : 'Manual Assessment'}
+                <TranslatedText>{state.useAI ? 'AI Assessment' : 'Manual Assessment'}</TranslatedText>
               </Badge>
-              <h2 className="text-2xl font-bold mb-2">What is the primary cause?</h2>
-              <p className="text-muted-foreground">Select the main reason for seeking help</p>
+              <h2 className="text-2xl font-bold mb-2">
+                <TranslatedText>What is the primary cause?</TranslatedText>
+              </h2>
+              <p className="text-muted-foreground">
+                <TranslatedText>Select the main reason for seeking help</TranslatedText>
+              </p>
             </div>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className={`triage-buttons ${isArabic ? 'rtl:grid-flow-col-dense' : ''}`}>
               {primaryCauses.map(({ id, label, icon: Icon }) => (
                 <Button
                   key={id}
                   variant="outline"
-                  className="h-24 flex-col gap-2 text-base font-medium"
+                  className={`triage-button h-24 flex-col gap-2 text-base font-medium ${isArabic ? 'rtl:btn-reverse' : ''}`}
                   onClick={() => handlePrimaryCauseSelect(id)}
                 >
                   <Icon className="h-6 w-6" />
-                  {label}
+                  <TranslatedText>{label}</TranslatedText>
                 </Button>
               ))}
             </div>
@@ -287,42 +280,50 @@ export function TriageApp() {
 
       case 'recommendations':
         return (
-          <div className="space-y-6">
-            <div className="text-center">
+          <div className={`space-y-6 ${isArabic ? 'rtl:text-right' : ''}`}>
+            <div className={`text-center ${isArabic ? 'rtl:text-right' : ''}`}>
               <Badge className={`${getSeverityColor(state.severity)} text-background mb-4`}>
-                {state.severity?.toUpperCase()} PRIORITY
+                <TranslatedText>{state.severity?.toUpperCase()} PRIORITY</TranslatedText>
               </Badge>
-              <h2 className="text-2xl font-bold mb-2">Assessment Complete</h2>
-              <p className="text-muted-foreground">Based on your symptoms, here are our recommendations</p>
+              <h2 className="text-2xl font-bold mb-2">
+                <TranslatedText>Assessment Complete</TranslatedText>
+              </h2>
+              <p className="text-muted-foreground">
+                <TranslatedText>Based on your symptoms, here are our recommendations</TranslatedText>
+              </p>
             </div>
 
-            <Card>
+            <Card className={isArabic ? 'card-rtl' : ''}>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className={`flex items-center gap-2 ${isArabic ? 'rtl:flex-row-reverse' : ''}`}>
                   <Heart className="h-5 w-5 text-primary" />
-                  Recommended Actions
+                  <TranslatedText>Recommended Actions</TranslatedText>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {state.severity === 'emergency' && (
                   <div className="p-4 bg-destructive/10 border border-destructive rounded-lg">
-                    <p className="font-semibold text-destructive">🚨 EMERGENCY: Seek immediate medical attention</p>
+                    <p className="font-semibold text-destructive">
+                      🚨 <TranslatedText>EMERGENCY: Seek immediate medical attention</TranslatedText>
+                    </p>
                   </div>
                 )}
                 
                 {state.severity === 'high' && (
                   <div className="p-4 bg-warning/10 border border-warning rounded-lg">
-                    <p className="font-semibold text-warning">⚠️ HIGH PRIORITY: Medical attention needed within 2 hours</p>
+                    <p className="font-semibold text-warning">
+                      ⚠️ <TranslatedText>HIGH PRIORITY: Medical attention needed within 2 hours</TranslatedText>
+                    </p>
                   </div>
                 )}
 
                 <div className="space-y-2">
-                  <p>• Monitor symptoms closely</p>
-                  <p>• Apply basic first aid if trained</p>
-                  <p>• Keep patient comfortable and hydrated</p>
-                  {state.primaryCause === 'burn' && <p>• Cool the burn area with clean water</p>}
-                  {state.primaryCause === 'trauma' && <p>• Do not move patient unless necessary</p>}
-                  {state.primaryCause === 'infection' && <p>• Keep affected area clean and dry</p>}
+                  <p>• <TranslatedText>Monitor symptoms closely</TranslatedText></p>
+                  <p>• <TranslatedText>Apply basic first aid if trained</TranslatedText></p>
+                  <p>• <TranslatedText>Keep patient comfortable and hydrated</TranslatedText></p>
+                  {state.primaryCause === 'burn' && <p>• <TranslatedText>Cool the burn area with clean water</TranslatedText></p>}
+                  {state.primaryCause === 'trauma' && <p>• <TranslatedText>Do not move patient unless necessary</TranslatedText></p>}
+                  {state.primaryCause === 'infection' && <p>• <TranslatedText>Keep affected area clean and dry</TranslatedText></p>}
                 </div>
               </CardContent>
             </Card>
@@ -330,19 +331,19 @@ export function TriageApp() {
             <div className="grid grid-cols-1 gap-4">
               <Button
                 onClick={navigateToDoctor}
-                className="w-full"
+                className={`w-full ${isArabic ? 'rtl:btn-reverse' : ''}`}
               >
-                <Phone className="h-5 w-5 mr-2" />
-                Talk to a Doctor
+                <Phone className={`h-5 w-5 ${isArabic ? 'rtl:ml-2 rtl:mr-0' : 'mr-2'}`} />
+                <TranslatedText>Talk to a Doctor</TranslatedText>
               </Button>
               
               <Button
                 variant="outline"
                 onClick={navigateToLibrary}
-                className="w-full"
+                className={`w-full ${isArabic ? 'rtl:btn-reverse' : ''}`}
               >
-                <FileText className="h-5 w-5 mr-2" />
-                Access Medical Library
+                <FileText className={`h-5 w-5 ${isArabic ? 'rtl:ml-2 rtl:mr-0' : 'mr-2'}`} />
+                <TranslatedText>Access Medical Library</TranslatedText>
               </Button>
             </div>
           </div>
@@ -359,7 +360,7 @@ export function TriageApp() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-6 max-w-md">
-        <div className="text-center mb-6">
+        <div className={`text-center mb-6 ${isArabic ? 'rtl:text-right' : ''}`}>
           <div className="flex justify-between items-start mb-4">
             <div className="flex-1"></div>
             <img 
@@ -369,22 +370,23 @@ export function TriageApp() {
             />
             <div className="flex-1"></div>
           </div>
-          <h1 className="text-3xl font-bold mb-2">Hope Triage</h1>
+          <h1 className="text-3xl font-bold mb-2">
+            <TranslatedText>Hope Triage</TranslatedText>
+          </h1>
           <p className="text-muted-foreground">
-            Answer the questions below to assess your condition
+            <TranslatedText>Answer the questions below to assess your condition</TranslatedText>
           </p>
         </div>
 
-        <div className="mb-6">
-          {/* Temporarily replace Progress component to fix React initialization issue */}
-          <div className="w-full bg-muted rounded-full h-2">
+        <div className="mb-6 progress-container">
+          <div className="w-full bg-muted rounded-full h-2 progress-bar">
             <div 
               className="bg-primary h-2 rounded-full transition-all duration-300" 
               style={{ width: `${state.progress}%` }}
             />
           </div>
-          <p className="text-sm text-muted-foreground text-center mt-2">
-            Progress: {state.progress}%
+          <p className={`text-sm text-muted-foreground text-center mt-2 ${isArabic ? 'rtl:text-right' : ''}`}>
+            <TranslatedText>Progress</TranslatedText>: {state.progress}%
           </p>
         </div>
 
@@ -392,10 +394,10 @@ export function TriageApp() {
           <Button
             variant="ghost"
             onClick={goBack}
-            className="mb-4"
+            className={`mb-4 ${isArabic ? 'rtl:btn-reverse rtl:ml-auto rtl:mr-0' : ''}`}
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            <ArrowLeft className={`h-4 w-4 ${isArabic ? 'rtl:ml-2 rtl:mr-0 rtl:rotate-180' : 'mr-2'}`} />
+            <TranslatedText>Back</TranslatedText>
           </Button>
         )}
 
@@ -403,22 +405,24 @@ export function TriageApp() {
           {renderContent()}
         </div>
 
-        <div className="mt-8 p-4 bg-muted rounded-lg">
-          <div className="flex items-center gap-2 mb-2">
+        <div className={`mt-8 p-4 bg-muted rounded-lg ${isArabic ? 'card-rtl' : ''}`}>
+          <div className={`flex items-center gap-2 mb-2 ${isArabic ? 'rtl:flex-row-reverse' : ''}`}>
             {isOnline ? (
               <Wifi className="h-4 w-4 text-green-600" />
             ) : (
               <WifiOff className="h-4 w-4 text-orange-600" />
             )}
             <span className="text-sm font-medium">
-              {isOnline ? 'Online' : 'Offline'} Mode
+              <TranslatedText>{isOnline ? 'Online Mode' : 'Offline Mode'}</TranslatedText>
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            {isOnline 
-              ? 'AI assessment, image analysis, and chat support available'
-              : 'Manual assessment and offline medical library available'
-            }
+            <TranslatedText>
+              {isOnline 
+                ? 'AI assessment, image analysis, and chat support available'
+                : 'Manual assessment and offline medical library available'
+              }
+            </TranslatedText>
           </p>
         </div>
       </div>

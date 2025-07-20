@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useTranslation } from '@/contexts/TranslationContext';
 
@@ -12,10 +13,16 @@ export const TranslatedText: React.FC<TranslatedTextProps> = ({
   className = '', 
   as: Component = 'span' 
 }) => {
-  const { translate } = useTranslation();
+  const { translate, isArabic } = useTranslation();
 
   return (
-    <Component className={className}>
+    <Component 
+      className={`
+        ${className} 
+        ${isArabic ? 'rtl:text-right' : 'rtl:text-left'}
+      `}
+      dir={isArabic ? 'rtl' : 'ltr'}
+    >
       {translate(children)}
     </Component>
   );

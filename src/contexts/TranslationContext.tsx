@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState } from 'react';
 
 interface TranslationContextType {
@@ -8,7 +9,7 @@ interface TranslationContextType {
 
 const TranslationContext = createContext<TranslationContextType | undefined>(undefined);
 
-// Basic translation dictionary for common medical terms and UI elements
+// Enhanced translation dictionary with additional UI elements and medical terms
 const translations: Record<string, string> = {
   // Navigation
   'Home': 'الرئيسية',
@@ -26,6 +27,40 @@ const translations: Record<string, string> = {
   'Save': 'حفظ',
   'Edit': 'تعديل',
   'Delete': 'حذف',
+  'Settings': 'الإعدادات',
+  'Menu': 'القائمة',
+  'Options': 'الخيارات',
+  'Select': 'اختيار',
+  'Choose': 'اختر',
+  'Done': 'تم',
+  'Finish': 'انتهاء',
+  'Complete': 'إكمال',
+  'Start': 'بدء',
+  'Stop': 'توقف',
+  'Pause': 'إيقاف مؤقت',
+  'Resume': 'استئناف',
+  'Reset': 'إعادة تعيين',
+  'Clear': 'مسح',
+  'Add': 'إضافة',
+  'Remove': 'إزالة',
+  'Update': 'تحديث',
+  'Refresh': 'تحديث',
+  'Load': 'تحميل',
+  'Loading': 'جاري التحميل',
+  'Please wait': 'يرجى الانتظار',
+  'Try again': 'حاول مرة أخرى',
+  'Retry': 'إعادة المحاولة',
+  'Error': 'خطأ',
+  'Success': 'نجح',
+  'Warning': 'تحذير',
+  'Info': 'معلومات',
+  'Notice': 'إشعار',
+  'Alert': 'تنبيه',
+  'Confirm': 'تأكيد',
+  'Yes': 'نعم',
+  'No': 'لا',
+  'OK': 'موافق',
+  'Apply': 'تطبيق',
   
   // Medical terms
   'Emergency': 'طوارئ',
@@ -48,6 +83,42 @@ const translations: Record<string, string> = {
   'Medication': 'دواء',
   'Diagnosis': 'تشخيص',
   'Appointment': 'موعد',
+  'Severe': 'شديد',
+  'Mild': 'خفيف',
+  'Moderate': 'متوسط',
+  'Chronic': 'مزمن',
+  'Acute': 'حاد',
+  'Recovery': 'شفاء',
+  'Rehabilitation': 'إعادة تأهيل',
+  'Surgery': 'جراحة',
+  'Prescription': 'وصفة طبية',
+  'Dosage': 'الجرعة',
+  'Side effects': 'الآثار الجانبية',
+  'Follow-up': 'متابعة',
+  'Consultation': 'استشارة',
+  'Examination': 'فحص',
+  'Test': 'اختبار',
+  'Results': 'النتائج',
+  'Report': 'تقرير',
+  'Medical history': 'التاريخ الطبي',
+  'Family history': 'التاريخ العائلي',
+  'Allergies': 'الحساسية',
+  'Medications': 'الأدوية',
+  'Current medications': 'الأدوية الحالية',
+  'Blood pressure': 'ضغط الدم',
+  'Heart rate': 'معدل ضربات القلب',
+  'Temperature': 'درجة الحرارة',
+  'Weight': 'الوزن',
+  'Height': 'الطول',
+  'Age': 'العمر',
+  'Gender': 'الجنس',
+  'Male': 'ذكر',
+  'Female': 'أنثى',
+  'Date of birth': 'تاريخ الميلاد',
+  'Contact information': 'معلومات الاتصال',
+  'Phone number': 'رقم الهاتف',
+  'Address': 'العنوان',
+  'Insurance': 'التأمين',
   
   // Common phrases
   'How are you feeling?': 'كيف تشعر؟',
@@ -58,12 +129,28 @@ const translations: Record<string, string> = {
   'Seek immediate help': 'اطلب المساعدة فورا',
   'Schedule appointment': 'حدد موعد',
   'Talk to doctor': 'تحدث مع طبيب',
-  'Medical history': 'التاريخ الطبي',
-  'Current medications': 'الأدوية الحالية',
-  'Allergies': 'الحساسية',
-  'Blood pressure': 'ضغط الدم',
-  'Heart rate': 'معدل ضربات القلب',
-  'Temperature': 'درجة الحرارة',
+  'How long have you had this?': 'منذ متى وأنت تعاني من هذا؟',
+  'Does it hurt when you touch it?': 'هل يؤلم عند لمسه؟',
+  'Have you taken any medication?': 'هل تناولت أي دواء؟',
+  'Do you have any allergies?': 'هل لديك أي حساسية؟',
+  'Please describe your pain': 'يرجى وصف الألم',
+  'On a scale of 1 to 10': 'على مقياس من ١ إلى ١٠',
+  'Is this getting worse?': 'هل هذا يزداد سوءا؟',
+  'Is this getting better?': 'هل هذا يتحسن؟',
+  'Have you experienced this before?': 'هل عانيت من هذا من قبل؟',
+  'Are you taking any medications?': 'هل تتناول أي أدوية؟',
+  'Please provide more details': 'يرجى تقديم المزيد من التفاصيل',
+  'Thank you for the information': 'شكرا لك على المعلومات',
+  'We recommend that you': 'نوصي بأن',
+  'Please follow these steps': 'يرجى اتباع هذه الخطوات',
+  'If symptoms worsen': 'إذا ازدادت الأعراض سوءا',
+  'Contact your doctor': 'اتصل بطبيبك',
+  'Go to emergency room': 'اذهب إلى غرفة الطوارئ',
+  'Monitor your condition': 'راقب حالتك',
+  'Rest and hydrate': 'راحة وشرب السوائل',
+  'Apply ice or heat': 'ضع ثلج أو حرارة',
+  'Take over-the-counter pain relief': 'تناول مسكن للألم بدون وصفة',
+  'Avoid strenuous activity': 'تجنب النشاط المجهد',
   
   // App specific
   'Live Alerts': 'التنبيهات المباشرة',
@@ -80,6 +167,28 @@ const translations: Record<string, string> = {
   'Create Account': 'إنشاء حساب',
   'Welcome': 'مرحبا',
   'Get Started': 'ابدأ',
+  'Hope Triage': 'فرز الأمل',
+  'Welcome to Hope AI Triage': 'مرحبا بك في فرز الأمل بالذكاء الاصطناعي',
+  'Choose how you would like to get medical guidance': 'اختر كيف تريد الحصول على الإرشاد الطبي',
+  'AI-Powered Assessment': 'تقييم بالذكاء الاصطناعي',
+  'Manual Assessment': 'تقييم يدوي',
+  'Step-by-step triage': 'فرز خطوة بخطوة',
+  'Offline Ready': 'جاهز للعمل بدون إنترنت',
+  'Start AI Assessment': 'بدء التقييم بالذكاء الاصطناعي',
+  'Start Manual Assessment': 'بدء التقييم اليدوي',
+  'What is the primary cause?': 'ما هو السبب الرئيسي؟',
+  'Select the main reason for seeking help': 'اختر السبب الرئيسي لطلب المساعدة',
+  'Assessment Complete': 'اكتمل التقييم',
+  'Based on your symptoms, here are our recommendations': 'بناء على أعراضك، إليك توصياتنا',
+  'Recommended Actions': 'الإجراءات الموصى بها',
+  'Talk to a Doctor': 'تحدث مع طبيب',
+  'Access Medical Library': 'الوصول إلى المكتبة الطبية',
+  'Answer the questions below to assess your condition': 'أجب على الأسئلة أدناه لتقييم حالتك',
+  'Progress': 'التقدم',
+  'Online Mode': 'وضع الاتصال',
+  'Offline Mode': 'وضع عدم الاتصال',
+  'AI assessment, image analysis, and chat support available': 'التقييم بالذكاء الاصطناعي وتحليل الصور ودعم الدردشة متاح',
+  'Manual assessment and offline medical library available': 'التقييم اليدوي والمكتبة الطبية بدون إنترنت متاحة',
   
   // Time and dates
   'Today': 'اليوم',
@@ -88,10 +197,22 @@ const translations: Record<string, string> = {
   'This week': 'هذا الأسبوع',
   'Last week': 'الأسبوع الماضي',
   'This month': 'هذا الشهر',
+  'Last month': 'الشهر الماضي',
+  'This year': 'هذا العام',
+  'Last year': 'العام الماضي',
   'Morning': 'صباح',
   'Afternoon': 'بعد الظهر',
   'Evening': 'مساء',
   'Night': 'ليل',
+  'Now': 'الآن',
+  'Later': 'لاحقا',
+  'Soon': 'قريبا',
+  'Recently': 'مؤخرا',
+  'Always': 'دائما',
+  'Never': 'أبدا',
+  'Sometimes': 'أحيانا',
+  'Often': 'غالبا',
+  'Rarely': 'نادرا',
   
   // Status and severity
   'Low': 'منخفض',
@@ -103,6 +224,18 @@ const translations: Record<string, string> = {
   'Worsening': 'يزداد سوءا',
   'Normal': 'طبيعي',
   'Abnormal': 'غير طبيعي',
+  'Good': 'جيد',
+  'Fair': 'مقبول',
+  'Poor': 'ضعيف',
+  'Excellent': 'ممتاز',
+  'Satisfactory': 'مرضي',
+  'Unsatisfactory': 'غير مرضي',
+  
+  // Priority levels
+  'LOW PRIORITY': 'أولوية منخفضة',
+  'MEDIUM PRIORITY': 'أولوية متوسطة', 
+  'HIGH PRIORITY': 'أولوية عالية',
+  'EMERGENCY PRIORITY': 'أولوية طوارئ',
   
   // Actions
   'Call Now': 'اتصل الآن',
@@ -118,6 +251,18 @@ const translations: Record<string, string> = {
   'FAQ': 'الأسئلة الشائعة',
   'Privacy Policy': 'سياسة الخصوصية',
   'Terms of Service': 'شروط الخدمة',
+  'Send': 'إرسال',
+  'Receive': 'استقبال',
+  'Download': 'تحميل',
+  'Upload': 'رفع',
+  'Import': 'استيراد',
+  'Export': 'تصدير',
+  'Print': 'طباعة',
+  'Copy': 'نسخ',
+  'Paste': 'لصق',
+  'Cut': 'قص',
+  'Undo': 'تراجع',
+  'Redo': 'إعادة',
   
   // Additional translations
   'Hope': 'الأمل',
@@ -130,7 +275,6 @@ const translations: Record<string, string> = {
   'Google': 'جوجل',
   'Apple': 'آبل',
   'Enter your email to sign up for this app as a Patient': 'أدخل بريدك الإلكتروني للتسجيل في هذا التطبيق كمريض',
-  'Welcome to Hope. Create an account. Enter your email to sign up for this app as a Patient. Email input field. Continue button. Continue with Google button. Continue with Apple button. By clicking continue, you agree to our Terms of Service and Privacy Policy.': 'مرحبا بك في الأمل. أنشئ حساب. أدخل بريدك الإلكتروني للتسجيل في هذا التطبيق كمريض. حقل البريد الإلكتروني. زر المتابعة. زر المتابعة مع جوجل. زر المتابعة مع آبل. بالنقر على متابعة، فإنك توافق على شروط الخدمة وسياسة الخصوصية.',
   
   // More medical and UI terms
   'Breaking': 'عاجل',
@@ -155,6 +299,12 @@ const translations: Record<string, string> = {
   'likes': 'إعجابات',
   'comments': 'تعليقات',
   'LIVE BREAKING NEWS': 'أخبار عاجلة مباشرة',
+  
+  // Switch language text
+  'Switch to English': 'التبديل إلى الإنجليزية',
+  'Switch to Arabic': 'تبديل إلى العربية',
+  'Language': 'اللغة',
+  'Change Language': 'تغيير اللغة',
 };
 
 export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -165,6 +315,13 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
     // Update document direction for RTL support
     document.documentElement.dir = !isArabic ? 'rtl' : 'ltr';
     document.documentElement.lang = !isArabic ? 'ar' : 'en';
+    
+    // Add/remove RTL class for better styling control
+    if (!isArabic) {
+      document.documentElement.classList.add('rtl');
+    } else {
+      document.documentElement.classList.remove('rtl');
+    }
   };
 
   const translate = (text: string): string => {
