@@ -81,8 +81,8 @@ export function TriageApp() {
       setState({
         ...state,
         primaryCause: cause,
-        step: 'image-upload',
-        progress: 30
+        step: 'botpress-chat',
+        progress: 50
       });
     } else {
       setState({
@@ -143,14 +143,8 @@ export function TriageApp() {
 
   const goBack = () => {
     switch (state.step) {
-      case 'image-upload':
-        setState({ ...state, step: 'primary-cause', progress: 10 });
-        break;
-      case 'lightweight-chat':
-        setState({ ...state, step: state.useAI ? 'image-upload' : 'primary-cause', progress: state.useAI ? 30 : 10 });
-        break;
       case 'botpress-chat':
-        setState({ ...state, step: 'image-upload', progress: 30 });
+        setState({ ...state, step: 'primary-cause', progress: 10 });
         break;
       case 'symptoms':
         setState({ ...state, step: 'primary-cause', progress: 10 });
@@ -298,23 +292,6 @@ export function TriageApp() {
           </div>
         );
 
-      case 'image-upload':
-        return (
-          <ImageUpload
-            primaryCause={state.primaryCause!}
-            onImageCapture={handleImageCapture}
-            onBack={goBack}
-          />
-        );
-
-      case 'lightweight-chat':
-        return (
-          <LightweightChat
-            primaryCause={state.primaryCause!}
-            onTriageComplete={handleChatComplete}
-            onBack={goBack}
-          />
-        );
 
       case 'botpress-chat':
         return (
@@ -325,10 +302,10 @@ export function TriageApp() {
                 <SpeakableText text="AI Chat Assessment" as="span" />
               </Badge>
               <h2 className="text-2xl font-bold mb-2">
-                <SpeakableText text="Chat with AI Assistant" as="span" />
+                <SpeakableText text={`Chat Assessment - ${state.primaryCause}`} as="span" />
               </h2>
               <p className="text-muted-foreground mb-6">
-                <SpeakableText text="Describe your symptoms to our AI assistant for personalized guidance" as="span" />
+                <SpeakableText text="Chat with our AI assistant about your symptoms for personalized medical guidance" as="span" />
               </p>
             </div>
             
