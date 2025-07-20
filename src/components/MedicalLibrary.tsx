@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/contexts/TranslationContext";
+import SpeakableText from "./SpeakableText";
 
 interface Article {
   id: string;
@@ -88,31 +89,31 @@ export const MedicalLibrary = () => {
           <div key={article.id} className="bg-card rounded-lg border border-border/50 p-4 hover:bg-muted/30 transition-colors cursor-pointer">
             <div className="flex items-start justify-between mb-3">
               <h3 className="font-medium text-base leading-tight flex-1">
-                {article.title}
+                <SpeakableText text={article.title} as="h3" />
               </h3>
             </div>
             
             <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
               <div className="flex items-center gap-1">
                 <Eye className="w-3 h-3" />
-                <span>{article.views}</span>
+                <span><SpeakableText text={article.views} as="span" /></span>
               </div>
               <div className="flex items-center gap-1">
                 <MessageCircle className="w-3 h-3" />
-                <span>{article.comments} Comments</span>
+                <span><SpeakableText text={`${article.comments} Comments`} as="span" /></span>
               </div>
               <Badge variant="secondary" className="text-xs px-2 py-0.5">
-                {article.category}
+                <SpeakableText text={article.category} as="span" />
               </Badge>
             </div>
             
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <User className="w-3 h-3" />
-              <span>{article.author}</span>
+              <span><SpeakableText text={article.author} as="span" /></span>
               <span>•</span>
-              <span>{article.date}</span>
+              <span><SpeakableText text={article.date} as="span" /></span>
               <span>•</span>
-              <span>{article.readTime}</span>
+              <span><SpeakableText text={article.readTime} as="span" /></span>
             </div>
           </div>
         ))}

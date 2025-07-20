@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Heart, MessageCircle, Share, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/contexts/TranslationContext";
+import SpeakableText from "./SpeakableText";
 
 interface NewsItem {
   id: string;
@@ -50,7 +51,7 @@ export const LiveAlertsFeed = () => {
   return (
     <div className="space-y-4 p-4 bg-gradient-medical min-h-screen animate-fade-in">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-foreground">{translate("Live Alerts")}</h1>
+        <SpeakableText text={translate("Live Alerts") || "Live Alerts"} as="h1" />
       </div>
       
       {mockNews.map((item, index) => (
@@ -64,8 +65,12 @@ export const LiveAlertsFeed = () => {
               <div className="flex-1 space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <span className="font-medium text-sm">{item.source}</span>
-                    <span className="text-muted-foreground text-xs">{item.time}</span>
+                    <span className="font-medium text-sm">
+                      <SpeakableText text={item.source} as="span" />
+                    </span>
+                    <span className="text-muted-foreground text-xs">
+                      <SpeakableText text={item.time} as="span" />
+                    </span>
                   </div>
                   <div className="flex items-center space-x-1">
                     <Button variant="ghost" size="sm" className="hover-glow">
@@ -76,22 +81,14 @@ export const LiveAlertsFeed = () => {
                 
                 {item.isBreaking && (
                   <Badge className="bg-gradient-primary medical-badge text-white shadow-colored animate-scale-in">
-                    {translate("LIVE BREAKING NEWS")}
+                    <SpeakableText text={translate("LIVE BREAKING NEWS") || "LIVE BREAKING NEWS"} as="span" />
                   </Badge>
                 )}
                 
-                <p className="text-sm font-medium leading-relaxed">
-                  {item.title}
-                </p>
+                <SpeakableText text={item.title} as="p" />
                 
                 {item.image && (
-                  <div className="mt-3">
-                    <img 
-                      src={item.image} 
-                      alt="News" 
-                      className="w-full rounded-lg max-h-48 object-cover shadow-medium hover-lift"
-                    />
-                  </div>
+                  <img src={item.image} alt={item.title} className="rounded-lg w-full h-32 object-cover mt-2" />
                 )}
                 
                 <div className="flex items-center space-x-4 pt-2">

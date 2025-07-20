@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Bot, User, Send, AlertTriangle, Clock } from 'lucide-react';
 import { PrimaryCause, Severity } from './TriageApp';
+import SpeakableText from "./SpeakableText";
 
 interface Message {
   id: string;
@@ -213,7 +214,7 @@ export function LightweightChat({ primaryCause, onTriageComplete, onBack }: Ligh
                   ) : (
                     <User className="h-4 w-4 mt-0.5 flex-shrink-0" />
                   )}
-                  <p className="text-sm">{message.content}</p>
+                  <SpeakableText text={message.content} as="p" />
                 </div>
                 <p className="text-xs opacity-70 mt-1">
                   {message.timestamp.toLocaleTimeString()}
@@ -250,6 +251,7 @@ export function LightweightChat({ primaryCause, onTriageComplete, onBack }: Ligh
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             className="flex-1"
           />
+          <SpeechToTextInput onResult={setInputValue} />
           <Button onClick={handleSendMessage} disabled={!inputValue.trim()}>
             <Send className="h-4 w-4" />
           </Button>
@@ -261,9 +263,7 @@ export function LightweightChat({ primaryCause, onTriageComplete, onBack }: Ligh
           <AlertTriangle className="h-4 w-4 text-warning" />
           <span className="font-medium text-sm">Emergency Notice</span>
         </div>
-        <p className="text-sm text-muted-foreground">
-          If this is a life-threatening emergency, please call emergency services immediately.
-        </p>
+        <SpeakableText text="If this is a life-threatening emergency, please call emergency services immediately." as="p" />
       </div>
     </div>
   );

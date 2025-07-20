@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { TextToSpeech } from "@/components/TextToSpeech";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useTranslation } from "@/contexts/TranslationContext";
+import SpeakableText from "./SpeakableText";
 
 export const SignIn = () => {
   const { translate } = useTranslation();

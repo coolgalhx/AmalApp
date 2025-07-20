@@ -11,6 +11,8 @@ import { TalkToDoctor } from './TalkToDoctor';
 import { EnhancedOfflineLibrary } from './EnhancedOfflineLibrary';
 import { TranslatedText } from './TranslatedText';
 import { useTranslation } from '@/contexts/TranslationContext';
+import TextToSpeechButton from "./TextToSpeechButton";
+import SpeakableText from "./SpeakableText";
 
 export type TriageStep = 'chat-intro' | 'primary-cause' | 'image-upload' | 'lightweight-chat' | 'symptoms' | 'recommendations' | 'doctor' | 'library';
 export type PrimaryCause = 'injury' | 'burn' | 'trauma' | 'infection';
@@ -176,10 +178,10 @@ export function TriageApp() {
                 className="w-20 h-20 mx-auto mb-4"
               />
               <h2 className="text-2xl font-bold mb-2">
-                <TranslatedText>Welcome to Hope AI Triage</TranslatedText>
+                <SpeakableText text="Welcome to Hope AI Triage" as="span" />
               </h2>
               <p className="text-muted-foreground mb-6">
-                <TranslatedText>Choose how you would like to get medical guidance</TranslatedText>
+                <SpeakableText text="Choose how you would like to get medical guidance" as="span" />
               </p>
             </div>
             
@@ -192,17 +194,17 @@ export function TriageApp() {
                     </div>
                     <div className="flex-1">
                       <h3 className="font-semibold mb-2">
-                        <TranslatedText>Manual Assessment</TranslatedText>
+                        <SpeakableText text="Manual Assessment" as="span" />
                       </h3>
                       <p className="text-sm text-muted-foreground mb-4">
-                        <TranslatedText>Step-by-step triage with offline medical library</TranslatedText>
+                        <SpeakableText text="Step-by-step triage with offline medical library" as="span" />
                       </p>
                       <div className={`flex gap-2 ${isArabic ? 'rtl:flex-row-reverse rtl:justify-end' : ''}`}>
                         <Badge variant="outline">
-                          <TranslatedText>Step by Step</TranslatedText>
+                          <SpeakableText text="Step by Step" as="span" />
                         </Badge>
                         <Badge variant="outline">
-                          <TranslatedText>Offline Ready</TranslatedText>
+                          <SpeakableText text="Offline Ready" as="span" />
                         </Badge>
                       </div>
                     </div>
@@ -212,7 +214,7 @@ export function TriageApp() {
                     onClick={startManualTriage} 
                     className={`w-full mt-4 ${isArabic ? 'rtl:btn-reverse' : ''}`}
                   >
-                    <TranslatedText>Start Manual Assessment</TranslatedText>
+                    <SpeakableText text="Start Manual Assessment" as="span" />
                   </Button>
                 </CardContent>
               </Card>
@@ -225,13 +227,13 @@ export function TriageApp() {
           <div className={`space-y-6 ${isArabic ? 'rtl:text-right' : ''}`}>
             <div className={`text-center ${isArabic ? 'rtl:text-right' : ''}`}>
               <Badge variant="outline" className="mb-4">
-                <TranslatedText>{state.useAI ? 'AI Assessment' : 'Manual Assessment'}</TranslatedText>
+                <SpeakableText text={state.useAI ? 'AI Assessment' : 'Manual Assessment'} as="span" />
               </Badge>
               <h2 className="text-2xl font-bold mb-2">
-                <TranslatedText>What is the primary cause?</TranslatedText>
+                <SpeakableText text="What is the primary cause?" as="span" />
               </h2>
               <p className="text-muted-foreground">
-                <TranslatedText>Select the main reason for seeking help</TranslatedText>
+                <SpeakableText text="Select the main reason for seeking help" as="span" />
               </p>
             </div>
             
@@ -244,7 +246,7 @@ export function TriageApp() {
                   onClick={() => handlePrimaryCauseSelect(id)}
                 >
                   <Icon className="h-6 w-6" />
-                  <TranslatedText>{label}</TranslatedText>
+                  <SpeakableText text={label} as="span" />
                 </Button>
               ))}
             </div>
@@ -283,13 +285,13 @@ export function TriageApp() {
           <div className={`space-y-6 ${isArabic ? 'rtl:text-right' : ''}`}>
             <div className={`text-center ${isArabic ? 'rtl:text-right' : ''}`}>
               <Badge className={`${getSeverityColor(state.severity)} text-background mb-4`}>
-                <TranslatedText>{state.severity?.toUpperCase()} PRIORITY</TranslatedText>
+                <SpeakableText text={state.severity?.toUpperCase() + ' PRIORITY'} as="span" />
               </Badge>
               <h2 className="text-2xl font-bold mb-2">
-                <TranslatedText>Assessment Complete</TranslatedText>
+                <SpeakableText text="Assessment Complete" as="span" />
               </h2>
               <p className="text-muted-foreground">
-                <TranslatedText>Based on your symptoms, here are our recommendations</TranslatedText>
+                <SpeakableText text="Based on your symptoms, here are our recommendations" as="span" />
               </p>
             </div>
 
@@ -297,14 +299,14 @@ export function TriageApp() {
               <CardHeader>
                 <CardTitle className={`flex items-center gap-2 ${isArabic ? 'rtl:flex-row-reverse' : ''}`}>
                   <Heart className="h-5 w-5 text-primary" />
-                  <TranslatedText>Recommended Actions</TranslatedText>
+                  <SpeakableText text="Recommended Actions" as="span" />
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {state.severity === 'emergency' && (
                   <div className="p-4 bg-destructive/10 border border-destructive rounded-lg">
                     <p className="font-semibold text-destructive">
-                      🚨 <TranslatedText>EMERGENCY: Seek immediate medical attention</TranslatedText>
+                      🚨 <SpeakableText text="EMERGENCY: Seek immediate medical attention" as="span" />
                     </p>
                   </div>
                 )}
@@ -312,18 +314,18 @@ export function TriageApp() {
                 {state.severity === 'high' && (
                   <div className="p-4 bg-warning/10 border border-warning rounded-lg">
                     <p className="font-semibold text-warning">
-                      ⚠️ <TranslatedText>HIGH PRIORITY: Medical attention needed within 2 hours</TranslatedText>
+                      ⚠️ <SpeakableText text="HIGH PRIORITY: Medical attention needed within 2 hours" as="span" />
                     </p>
                   </div>
                 )}
 
                 <div className="space-y-2">
-                  <p>• <TranslatedText>Monitor symptoms closely</TranslatedText></p>
-                  <p>• <TranslatedText>Apply basic first aid if trained</TranslatedText></p>
-                  <p>• <TranslatedText>Keep patient comfortable and hydrated</TranslatedText></p>
-                  {state.primaryCause === 'burn' && <p>• <TranslatedText>Cool the burn area with clean water</TranslatedText></p>}
-                  {state.primaryCause === 'trauma' && <p>• <TranslatedText>Do not move patient unless necessary</TranslatedText></p>}
-                  {state.primaryCause === 'infection' && <p>• <TranslatedText>Keep affected area clean and dry</TranslatedText></p>}
+                  <p>• <SpeakableText text="Monitor symptoms closely" as="span" /></p>
+                  <p>• <SpeakableText text="Apply basic first aid if trained" as="span" /></p>
+                  <p>• <SpeakableText text="Keep patient comfortable and hydrated" as="span" /></p>
+                  {state.primaryCause === 'burn' && <p>• <SpeakableText text="Cool the burn area with clean water" as="span" /></p>}
+                  {state.primaryCause === 'trauma' && <p>• <SpeakableText text="Do not move patient unless necessary" as="span" /></p>}
+                  {state.primaryCause === 'infection' && <p>• <SpeakableText text="Keep affected area clean and dry" as="span" /></p>}
                 </div>
               </CardContent>
             </Card>
@@ -334,7 +336,7 @@ export function TriageApp() {
                 className={`w-full ${isArabic ? 'rtl:btn-reverse' : ''}`}
               >
                 <Phone className={`h-5 w-5 ${isArabic ? 'rtl:ml-2 rtl:mr-0' : 'mr-2'}`} />
-                <TranslatedText>Talk to a Doctor</TranslatedText>
+                <SpeakableText text="Talk to a Doctor" as="span" />
               </Button>
               
               <Button
@@ -343,7 +345,7 @@ export function TriageApp() {
                 className={`w-full ${isArabic ? 'rtl:btn-reverse' : ''}`}
               >
                 <FileText className={`h-5 w-5 ${isArabic ? 'rtl:ml-2 rtl:mr-0' : 'mr-2'}`} />
-                <TranslatedText>Access Medical Library</TranslatedText>
+                <SpeakableText text="Access Medical Library" as="span" />
               </Button>
             </div>
           </div>
@@ -371,10 +373,10 @@ export function TriageApp() {
             <div className="flex-1"></div>
           </div>
           <h1 className="text-3xl font-bold mb-2">
-            <TranslatedText>Hope Triage</TranslatedText>
+            <SpeakableText text="Hope Triage" as="span" />
           </h1>
           <p className="text-muted-foreground">
-            <TranslatedText>Answer the questions below to assess your condition</TranslatedText>
+            <SpeakableText text="Answer the questions below to assess your condition" as="span" />
           </p>
         </div>
 
@@ -386,7 +388,7 @@ export function TriageApp() {
             />
           </div>
           <p className={`text-sm text-muted-foreground text-center mt-2 ${isArabic ? 'rtl:text-right' : ''}`}>
-            <TranslatedText>Progress</TranslatedText>: {state.progress}%
+            <SpeakableText text="Progress" as="span" />: {state.progress}%
           </p>
         </div>
 
@@ -397,7 +399,7 @@ export function TriageApp() {
             className={`mb-4 ${isArabic ? 'rtl:btn-reverse rtl:ml-auto rtl:mr-0' : ''}`}
           >
             <ArrowLeft className={`h-4 w-4 ${isArabic ? 'rtl:ml-2 rtl:mr-0 rtl:rotate-180' : 'mr-2'}`} />
-            <TranslatedText>Back</TranslatedText>
+            <SpeakableText text="Back" as="span" />
           </Button>
         )}
 
@@ -413,16 +415,14 @@ export function TriageApp() {
               <WifiOff className="h-4 w-4 text-orange-600" />
             )}
             <span className="text-sm font-medium">
-              <TranslatedText>{isOnline ? 'Online Mode' : 'Offline Mode'}</TranslatedText>
+              <SpeakableText text={isOnline ? 'Online Mode' : 'Offline Mode'} as="span" />
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            <TranslatedText>
-              {isOnline 
+            <SpeakableText text={isOnline 
                 ? 'AI assessment, image analysis, and chat support available'
                 : 'Manual assessment and offline medical library available'
-              }
-            </TranslatedText>
+              } as="span" />
           </p>
         </div>
       </div>

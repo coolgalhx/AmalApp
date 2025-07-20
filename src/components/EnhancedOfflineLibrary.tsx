@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Search, Book, AlertTriangle, Heart, Thermometer, Pill } from 'lucide-react';
 import { PrimaryCause } from './TriageApp';
+import SpeakableText from "./SpeakableText";
 
 interface LibraryItem {
   id: string;
@@ -300,27 +301,19 @@ export function EnhancedOfflineLibrary({ primaryCause, onBack }: EnhancedOffline
     return content.split('\n').map((line, index) => {
       if (line.startsWith('**') && line.endsWith(':**')) {
         return (
-          <h3 key={index} className="font-bold text-lg mt-4 mb-2 text-primary">
-            {line.replace(/\*\*/g, '')}
-          </h3>
+          <SpeakableText text={line.replace(/\*\*/g, '')} as="h3" key={index} />
         );
       } else if (line.startsWith('**') && line.endsWith('**')) {
         return (
-          <h4 key={index} className="font-semibold mt-3 mb-1">
-            {line.replace(/\*\*/g, '')}
-          </h4>
+          <SpeakableText text={line.replace(/\*\*/g, '')} as="h4" key={index} />
         );
       } else if (line.startsWith('- ')) {
         return (
-          <li key={index} className="ml-4 mb-1">
-            {line.substring(2)}
-          </li>
+          <SpeakableText text={line.substring(2)} as="li" key={index} />
         );
       } else if (line.trim() !== '') {
         return (
-          <p key={index} className="mb-2">
-            {line}
-          </p>
+          <SpeakableText text={line} as="p" key={index} />
         );
       }
       return <br key={index} />;
