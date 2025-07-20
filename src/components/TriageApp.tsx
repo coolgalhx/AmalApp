@@ -283,7 +283,7 @@ export function TriageApp() {
           <div className={`space-y-6 ${isArabic ? 'rtl:text-right' : ''}`}>
             <div className={`text-center ${isArabic ? 'rtl:text-right' : ''}`}>
               <Badge className={`${getSeverityColor(state.severity)} text-background mb-4`}>
-                <TranslatedText>{state.severity?.toUpperCase()} PRIORITY</TranslatedText>
+                <TranslatedText>{`${state.severity?.toUpperCase()} PRIORITY`}</TranslatedText>
               </Badge>
               <h2 className="text-2xl font-bold mb-2">
                 <TranslatedText>Assessment Complete</TranslatedText>
