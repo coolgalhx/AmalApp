@@ -1,5 +1,5 @@
 
-import React from 'react';
+import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Languages, Globe } from 'lucide-react';
 import { useTranslation } from '@/contexts/TranslationContext';

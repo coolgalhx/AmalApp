@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { ArrowLeft, Share2, Eye, MessageCircle, Facebook, Twitter, Linkedin, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import * as React from 'react';
 import { useTranslation } from '@/contexts/TranslationContext';
 
 interface TranslatedTextProps {
