@@ -1,5 +1,6 @@
 import * as React from "react";
 import { LiveAlertsFeed } from "@/components/LiveAlertsFeed";
+import { EnhancedOfflineLibrary } from "@/components/EnhancedOfflineLibrary";
 import { MedicalLibrary } from "@/components/MedicalLibrary";
 import { TriageApp } from "@/components/TriageApp";
 import { SignIn } from "@/components/SignIn";
@@ -46,7 +47,7 @@ const Index = () => {
       case "alerts":
         return <LiveAlertsFeed />;
       case "library":
-        return <TriageApp />;
+        return <EnhancedOfflineLibrary primaryCause="injury" onBack={() => {}} />;
       case "chat":
         return <TriageApp />;
       default:
