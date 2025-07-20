@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Home, Search, MessageCircle, User } from "lucide-react";
+import { Home, Search, MessageCircle, User, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/contexts/TranslationContext";
 
@@ -15,6 +15,7 @@ export const BottomNavigation = ({ activeTab, onTabChange }: NavigationProps) =>
     { id: "alerts", icon: Home, label: translate("Home") },
     { id: "library", icon: Search, label: translate("Library") }, 
     { id: "chat", icon: MessageCircle, label: translate("Chat") },
+    { id: "botpress", icon: Bot, label: translate("Assistant") },
     { id: "profile", icon: User, label: translate("Profile") }
   ], [translate]);
 

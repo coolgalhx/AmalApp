@@ -3,6 +3,7 @@ import { LiveAlertsFeed } from "@/components/LiveAlertsFeed";
 import { EnhancedOfflineLibrary } from "@/components/EnhancedOfflineLibrary";
 import { MedicalLibrary } from "@/components/MedicalLibrary";
 import { TriageApp } from "@/components/TriageApp";
+import { BotpressChat } from "@/components/BotpressChat";
 import { SignIn } from "@/components/SignIn";
 import { MedicalArticle } from "@/components/MedicalArticle";
 import { MedicalSearch } from "@/components/MedicalSearch";
@@ -50,6 +51,8 @@ const Index = () => {
         return <EnhancedOfflineLibrary primaryCause="injury" onBack={() => {}} />;
       case "chat":
         return <TriageApp />;
+      case "botpress":
+        return <BotpressChat />;
       default:
         return <LiveAlertsFeed />;
     }
