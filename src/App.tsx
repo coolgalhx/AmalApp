@@ -13,8 +13,6 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <EmergencyAlert />
-
     <ThemeProvider
       attribute="class"
       defaultTheme="system"
@@ -22,6 +20,7 @@ const App = () => (
       disableTransitionOnChange
     >
       <TranslationProvider>
+        <EmergencyAlert />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
