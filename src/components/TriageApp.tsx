@@ -14,7 +14,7 @@ import { useTranslation } from '@/contexts/TranslationContext';
 import TextToSpeechButton from "./TextToSpeechButton";
 import SpeakableText from "./SpeakableText";
 
-export type TriageStep = 'chat-intro' | 'primary-cause' | 'image-upload' | 'lightweight-chat' | 'symptoms' | 'recommendations' | 'doctor' | 'library';
+export type TriageStep = 'chat-intro' | 'primary-cause' | 'image-upload' | 'lightweight-chat' | 'botpress-chat' | 'symptoms' | 'recommendations' | 'doctor' | 'library';
 export type PrimaryCause = 'injury' | 'burn' | 'trauma' | 'infection';
 export type Severity = 'low' | 'medium' | 'high' | 'emergency';
 
@@ -98,8 +98,18 @@ export function TriageApp() {
     setState({
       ...state,
       capturedImage: image,
-      step: 'lightweight-chat',
+      step: 'botpress-chat',
       progress: 50
+    });
+  };
+
+  const handleBotpressChatComplete = (symptoms: string[], severity: Severity) => {
+    setState({
+      ...state,
+      symptoms,
+      severity,
+      step: 'recommendations',
+      progress: 80
     });
   };
 
@@ -139,12 +149,15 @@ export function TriageApp() {
       case 'lightweight-chat':
         setState({ ...state, step: state.useAI ? 'image-upload' : 'primary-cause', progress: state.useAI ? 30 : 10 });
         break;
+      case 'botpress-chat':
+        setState({ ...state, step: 'image-upload', progress: 30 });
+        break;
       case 'symptoms':
         setState({ ...state, step: 'primary-cause', progress: 10 });
         break;
       case 'recommendations':
         if (state.useAI) {
-          setState({ ...state, step: 'lightweight-chat', progress: 50 });
+          setState({ ...state, step: 'botpress-chat', progress: 50 });
         } else {
           setState({ ...state, step: 'symptoms', progress: 40 });
         }
@@ -186,6 +199,38 @@ export function TriageApp() {
             </div>
             
             <div className="space-y-4">
+              <Card className={isArabic ? 'card-rtl' : ''}>
+                <CardContent className="p-6">
+                  <div className={`flex items-start gap-4 ${isArabic ? 'rtl:flex-row-reverse' : ''}`}>
+                    <div className="p-2 bg-primary/10 rounded-lg">
+                      <Bot className="h-6 w-6 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold mb-2">
+                        <SpeakableText text="AI Chat Assessment" as="span" />
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        <SpeakableText text="Intelligent chat-based triage with AI support" as="span" />
+                      </p>
+                      <div className={`flex gap-2 ${isArabic ? 'rtl:flex-row-reverse rtl:justify-end' : ''}`}>
+                        <Badge variant="outline">
+                          <SpeakableText text="AI Powered" as="span" />
+                        </Badge>
+                        <Badge variant="outline">
+                          <SpeakableText text="Interactive" as="span" />
+                        </Badge>
+                      </div>
+                    </div>
+                  </div>
+                  <Button 
+                    onClick={startAITriage} 
+                    className={`w-full mt-4 ${isArabic ? 'rtl:btn-reverse' : ''}`}
+                  >
+                    <SpeakableText text="Start AI Assessment" as="span" />
+                  </Button>
+                </CardContent>
+              </Card>
+
               <Card className={isArabic ? 'card-rtl' : ''}>
                 <CardContent className="p-6">
                   <div className={`flex items-start gap-4 ${isArabic ? 'rtl:flex-row-reverse' : ''}`}>
@@ -269,6 +314,54 @@ export function TriageApp() {
             onTriageComplete={handleChatComplete}
             onBack={goBack}
           />
+        );
+
+      case 'botpress-chat':
+        return (
+          <div className={`space-y-6 ${isArabic ? 'rtl:text-right' : ''}`}>
+            <div className={`text-center ${isArabic ? 'rtl:text-right' : ''}`}>
+              <Badge variant="outline" className="mb-4">
+                <Bot className="h-4 w-4 mr-1" />
+                <SpeakableText text="AI Chat Assessment" as="span" />
+              </Badge>
+              <h2 className="text-2xl font-bold mb-2">
+                <SpeakableText text="Chat with AI Assistant" as="span" />
+              </h2>
+              <p className="text-muted-foreground mb-6">
+                <SpeakableText text="Describe your symptoms to our AI assistant for personalized guidance" as="span" />
+              </p>
+            </div>
+            
+            <Card className={isArabic ? 'card-rtl' : ''}>
+              <CardContent className="p-0">
+                <iframe
+                  src="https://cdn.botpress.cloud/webchat/v3.1/shareable.html?configUrl=https://files.bpcontent.cloud/2025/07/16/14/20250716144448-063MB12B.json"
+                  width="100%"
+                  height="600px"
+                  style={{ border: 'none', borderRadius: '12px' }}
+                  title="AI Medical Assistant Chat"
+                />
+              </CardContent>
+            </Card>
+
+            <div className="flex gap-4">
+              <Button
+                variant="outline"
+                onClick={goBack}
+                className={`flex-1 ${isArabic ? 'rtl:btn-reverse' : ''}`}
+              >
+                <ArrowLeft className={`h-4 w-4 ${isArabic ? 'rtl:ml-2 rtl:mr-0 rtl:rotate-180' : 'mr-2'}`} />
+                <SpeakableText text="Back" as="span" />
+              </Button>
+              
+              <Button
+                onClick={() => handleBotpressChatComplete([], 'medium')}
+                className={`flex-1 ${isArabic ? 'rtl:btn-reverse' : ''}`}
+              >
+                <SpeakableText text="Continue to Results" as="span" />
+              </Button>
+            </div>
+          </div>
         );
 
       case 'symptoms':
