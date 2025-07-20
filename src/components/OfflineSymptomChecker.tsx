@@ -16,9 +16,9 @@ interface OfflineSymptomCheckerProps {
 
 export function OfflineSymptomChecker({ primaryCause, onComplete, onBack }: OfflineSymptomCheckerProps) {
   const { isOffline, getSymptomsForCause, assessSeverity, saveAssessment } = useOfflineAssessment();
-  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
-  const [additionalNotes, setAdditionalNotes] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedSymptoms, setSelectedSymptoms] = React.useState<string[]>([]);
+  const [additionalNotes, setAdditionalNotes] = React.useState('');
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   // Fallback data for offline functionality
   const availableSymptoms = ['pain', 'swelling', 'bleeding', 'bruising', 'difficulty moving'];

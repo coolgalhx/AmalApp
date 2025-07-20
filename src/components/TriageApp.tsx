@@ -28,14 +28,14 @@ interface TriageState {
 
 export function TriageApp() {
   const { isArabic, translate } = useTranslation();
-  const [state, setState] = useState<TriageState>({
+  const [state, setState] = React.useState<TriageState>({
     step: 'chat-intro',
     symptoms: [],
     progress: 0
   });
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isOnline, setIsOnline] = React.useState(navigator.onLine);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
     

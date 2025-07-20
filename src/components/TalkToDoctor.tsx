@@ -15,8 +15,8 @@ interface TalkToDoctorProps {
 }
 
 export function TalkToDoctor({ primaryCause, severity, onBack }: TalkToDoctorProps) {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [showDoctorList, setShowDoctorList] = useState(false);
+  const [selectedOption, setSelectedOption] = React.useState<string | null>(null);
+  const [showDoctorList, setShowDoctorList] = React.useState(false);
   const { toast } = useToast();
 
   // Mock doctor data

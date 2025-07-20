@@ -11,13 +11,13 @@ interface ImageUploadProps {
 }
 
 export function ImageUpload({ primaryCause, onImageCapture, onBack }: ImageUploadProps) {
-  const [capturedImage, setCapturedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isCameraActive, setIsCameraActive] = useState(false);
+  const [capturedImage, setCapturedImage] = React.useState<File | null>(null);
+  const [imagePreview, setImagePreview] = React.useState<string | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = React.useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+  const [isCameraActive, setIsCameraActive] = React.useState(false);
 
   const startCamera = async () => {
     try {

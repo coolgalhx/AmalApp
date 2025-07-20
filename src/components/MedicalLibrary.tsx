@@ -53,7 +53,7 @@ const searchResults: Article[] = [
 export const MedicalLibrary = () => {
   const { translate } = useTranslation();
   
-  const getPageText = useMemo(() => {
+  const getPageText = React.useMemo(() => {
     const articlesText = searchResults.map(article => 
       `${article.title} by ${article.author}, ${article.category} category. ${article.views} views, ${article.comments} comments. ${article.readTime}.`
     ).join(' ');

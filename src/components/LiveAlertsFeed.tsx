@@ -40,7 +40,7 @@ const mockNews: NewsItem[] = [
 export const LiveAlertsFeed = () => {
   const { translate } = useTranslation();
   
-  const getPageText = useMemo(() => {
+  const getPageText = React.useMemo(() => {
     const newsText = mockNews.map(item => 
       `${item.isBreaking ? translate('Breaking news') : translate('News')}: ${translate(item.title)} ${translate('from')} ${item.source}, ${item.time}. ${item.likes} ${translate('likes')}, ${item.comments} ${translate('comments')}.`
     ).join(' ');

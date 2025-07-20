@@ -22,8 +22,8 @@ interface EnhancedOfflineLibraryProps {
 }
 
 export function EnhancedOfflineLibrary({ primaryCause, onBack }: EnhancedOfflineLibraryProps) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedItem, setSelectedItem] = useState<LibraryItem | null>(null);
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [selectedItem, setSelectedItem] = React.useState<LibraryItem | null>(null);
 
   const libraryContent: LibraryItem[] = [
     // Injury Content
