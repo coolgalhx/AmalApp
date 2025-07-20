@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -30,14 +30,14 @@ interface TriageState {
 
 export function TriageApp() {
   const { isArabic, translate } = useTranslation();
-  const [state, setState] = useState<TriageState>({
+  const [state, setState] = React.useState<TriageState>({
     step: 'chat-intro',
     symptoms: [],
     progress: 0
   });
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isOnline, setIsOnline] = React.useState(navigator.onLine);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
     
@@ -285,7 +285,7 @@ export function TriageApp() {
           <div className={`space-y-6 ${isArabic ? 'rtl:text-right' : ''}`}>
             <div className={`text-center ${isArabic ? 'rtl:text-right' : ''}`}>
               <Badge className={`${getSeverityColor(state.severity)} text-background mb-4`}>
-                <SpeakableText text={state.severity?.toUpperCase() + ' PRIORITY'} as="span" />
+                <TranslatedText>{state.severity?.toUpperCase()} PRIORITY</TranslatedText>
               </Badge>
               <h2 className="text-2xl font-bold mb-2">
                 <SpeakableText text="Assessment Complete" as="span" />

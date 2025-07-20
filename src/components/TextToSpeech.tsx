@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import * as React from 'react';
 import { useToast } from "@/hooks/use-toast";
 import { Button } from '@/components/ui/button';
 import { Volume2, VolumeX } from 'lucide-react';
@@ -9,10 +9,10 @@ interface TextToSpeechProps {
 }
 
 export const TextToSpeech: React.FC<TextToSpeechProps> = ({ text, className = '' }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = React.useState(false);
   const { toast } = useToast();
 
-  const speak = useCallback(() => {
+  const speak = React.useCallback(() => {
     if (!('speechSynthesis' in window)) {
       toast({
         title: "Text-to-speech not supported",

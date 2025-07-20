@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import * as React from "react";
 import { Home, Search, MessageCircle, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/contexts/TranslationContext";
@@ -11,7 +11,7 @@ interface NavigationProps {
 export const BottomNavigation = ({ activeTab, onTabChange }: NavigationProps) => {
   const { translate } = useTranslation();
   
-  const navItems = useMemo(() => [
+  const navItems = React.useMemo(() => [
     { id: "alerts", icon: Home, label: translate("Home") },
     { id: "library", icon: Search, label: translate("Library") }, 
     { id: "chat", icon: MessageCircle, label: translate("Chat") },

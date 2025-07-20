@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { ArrowLeft, Search, User, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState } from 'react';
+import * as React from 'react';
 
 interface TranslationContextType {
   isArabic: boolean;
@@ -7,7 +7,7 @@ interface TranslationContextType {
   translate: (text: string) => string;
 }
 
-const TranslationContext = createContext<TranslationContextType | undefined>(undefined);
+const TranslationContext = React.createContext<TranslationContextType | undefined>(undefined);
 
 // Enhanced translation dictionary with additional UI elements and medical terms
 const translations: Record<string, string> = {
@@ -244,7 +244,7 @@ const translations: Record<string, string> = {
   'Share': 'مشاركة',
   'Like': 'إعجاب',
   'Comment': 'تعليق',
-  'Report': 'تبليغ',
+  'Report Issue': 'تبليغ عن مشكلة',
   'Help': 'مساعدة',
   'Support': 'دعم',
   'Contact Us': 'اتصل بنا',
@@ -269,12 +269,17 @@ const translations: Record<string, string> = {
   'Email': 'البريد الإلكتروني',
   'Continue with Google': 'متابعة مع جوجل',
   'Continue with Apple': 'متابعة مع آبل',
+  'Continue as Guest': 'متابعة كضيف',
   'By clicking continue, you agree to our': 'بالنقر على متابعة، فإنك توافق على',
   'and': 'و',
   'Or continue with': 'أو تابع مع',
   'Google': 'جوجل',
   'Apple': 'آبل',
   'Enter your email to sign up for this app as a Patient': 'أدخل بريدك الإلكتروني للتسجيل في هذا التطبيق كمريض',
+  'Please enter your email': 'يرجى إدخال بريدك الإلكتروني',
+  'Check your email for the login link!': 'تحقق من بريدك الإلكتروني للحصول على رابط تسجيل الدخول!',
+  'An unexpected error occurred': 'حدث خطأ غير متوقع',
+  'Loading...': 'جاري التحميل...',
   
   // More medical and UI terms
   'Breaking': 'عاجل',
@@ -308,7 +313,7 @@ const translations: Record<string, string> = {
 };
 
 export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isArabic, setIsArabic] = useState(false);
+  const [isArabic, setIsArabic] = React.useState(false);
 
   const toggleLanguage = () => {
     setIsArabic(!isArabic);
@@ -351,7 +356,7 @@ export const TranslationProvider: React.FC<{ children: React.ReactNode }> = ({ c
 };
 
 export const useTranslation = (): TranslationContextType => {
-  const context = useContext(TranslationContext);
+  const context = React.useContext(TranslationContext);
   if (context === undefined) {
     throw new Error('useTranslation must be used within a TranslationProvider');
   }
