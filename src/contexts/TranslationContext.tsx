@@ -276,6 +276,10 @@ const translations: Record<string, string> = {
   'Google': 'جوجل',
   'Apple': 'آبل',
   'Enter your email to sign up for this app as a Patient': 'أدخل بريدك الإلكتروني للتسجيل في هذا التطبيق كمريض',
+  'Please enter your email': 'يرجى إدخال بريدك الإلكتروني',
+  'Check your email for the login link!': 'تحقق من بريدك الإلكتروني للحصول على رابط تسجيل الدخول!',
+  'An unexpected error occurred': 'حدث خطأ غير متوقع',
+  'Loading...': 'جاري التحميل...',
   
   // More medical and UI terms
   'Breaking': 'عاجل',
