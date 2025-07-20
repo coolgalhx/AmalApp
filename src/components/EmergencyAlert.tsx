@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
 import { Button } from './ui/button';
 
@@ -48,9 +48,9 @@ const translations = {
 
 
 export const EmergencyAlert: React.FC = () => {
-  const [open, setOpen] = useState(true);
-  const [lang, setLang] = useState<'en' | 'ar'>('en');
-  const [trapped, setTrapped] = useState(false);
+  const [open, setOpen] = React.useState(true);
+  const [lang, setLang] = React.useState<'en' | 'ar'>('en');
+  const [trapped, setTrapped] = React.useState(false);
 
   const t = translations[lang];
   const redirectToCall = () => {
