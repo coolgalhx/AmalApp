@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import * as React from "react";
 import { LiveAlertsFeed } from "@/components/LiveAlertsFeed";
 import { MedicalLibrary } from "@/components/MedicalLibrary";
 import { TriageApp } from "@/components/TriageApp";

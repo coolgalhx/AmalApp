@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import * as React from "react";
 import { Send, Mic, Camera, Paperclip, AlertTriangle, Clock, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
